@@ -1,0 +1,45 @@
+{
+  "name": "النفائس",
+  "desc": "أسلوب مركّب تجريبي: الباب في خانة برقمه، رقم الصفحة أعلى الطرف الخارجي، صفحة بسملة، إطار وزخرفة جانبية، وخط خاص يأتي مع البطاقة.",
+  "settings": {
+    "headingColors": {
+      "1": "#1F4E5F",
+      "2": "#7A3E1D",
+      "3": "#1F4E5F",
+      "4": "#7A3E1D"
+    },
+    "matnColor": "#7A1E2C",
+    "quranColor": "#1E5631",
+    "ornamentColor": "#B08D3C",
+    "ruleColor": "#B08D3C",
+    "ornament": "❁ ❁ ❁",
+    "sharhEnd": "ornament",
+    "verseSep": "one",
+    "verseSepSymbol": "❁",
+    "page": {
+      "w": 170,
+      "h": 240,
+      "side": 23,
+      "top": 27,
+      "bottom": 17
+    },
+    "tocPosition": "end",
+    "runningHead": true,
+    "headScheme": "style"
+  },
+  "pages": [
+    {
+      "file": "basmala.html",
+      "at": "afterCover",
+      "name": "basmala"
+    }
+  ],
+  "fonts": [
+    {
+      "file": "Katibeh-Regular.woff",
+      "family": "Katibeh",
+      "label": "كاتبة (للعناوين)",
+      "weight": "all"
+    }
+  ]
+}

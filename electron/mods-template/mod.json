@@ -1,0 +1,14 @@
+{
+  "id": "my-mod",
+  "name": "مودي الأول",
+  "version": "0.1.0",
+  "author": "",
+  "description": "قالبٌ يعمل: زرٌّ في الشريط الجانبي يُظهر رسالة، وحاشيةٌ للشريط بلونٍ من إعداداته.",
+  "parts": ["shell"],
+  "js": ["mod.js"],
+  "css": ["mod.css"],
+  "settings": [
+    { "key": "message", "type": "text", "label": "الرسالة", "default": "السلام عليكم من مودي!" },
+    { "key": "color", "type": "color", "label": "لون الحاشية", "default": "#c5a059" }
+  ]
+}

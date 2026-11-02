@@ -1,0 +1,2 @@
+/* مودي الأول: يعمل في «الهيكل». ألوان البرنامج متغيّرات: --paper --vellum --sheet --ink --rubric --gold --gold-d --line --muted --btn */
+.side { border-inline-end: 3px solid var(--my-mod-color, var(--line)); }

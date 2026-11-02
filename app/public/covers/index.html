@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>تصاميم الأغلفة — ورّاق</title>
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/api/fonts.css">
+  <link rel="stylesheet" href="/covers/ui.css">
+  <link rel="stylesheet" href="/covers/user.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+</head>
+<body>
+  <div class="preview-banner hidden" id="previewBanner">معاينة المالك — هذا التصميم قد يكون غير منشور بعد</div>
+
+  <!-- المعرض -->
+  <section id="galleryView" class="gallery-view">
+    <header class="g-head">
+      <div>
+        <p class="eyebrow">الغلاف الخارجي</p>
+        <h1>اختر تصميم غلافك</h1>
+        <p class="muted">كل تصميم يمكن تخصيص ألوانه ونصوصه بعد اختياره.</p>
+      </div>
+      <div class="seg" role="radiogroup" aria-label="طريقة العرض">
+        <button role="radio" data-view="strip" aria-checked="false">شريط</button>
+        <button role="radio" data-view="grid" aria-checked="true">شبكة</button>
+      </div>
+    </header>
+    <div class="g-body">
+      <button class="g-arrow next" aria-label="التالي" data-dir="1"></button>
+      <div class="gallery grid" id="gallery" tabindex="0" aria-label="التصاميم"></div>
+      <button class="g-arrow prev" aria-label="السابق" data-dir="-1"></button>
+    </div>
+  </section>
+
+  <!-- التخصيص -->
+  <section id="customizeView" class="customize-view hidden">
+    <div class="c-top">
+      <button class="btn ghost" id="backToGallery"></button>
+      <h2 id="cName"></h2>
+      <div class="mini-strip" id="miniStrip" aria-label="تبديل التصميم"></div>
+    </div>
+    <div class="c-grid">
+      <div class="c-preview">
+        <div class="cv-frame">
+          <canvas id="ucv" dir="rtl"></canvas>
+          <div class="cv-loading" id="cvLoading"><span></span></div>
+        </div>
+        <p class="muted small center" id="moveHint"></p>
+      </div>
+      <div class="c-controls" id="controls"></div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/shared/cover-core.js"></script>
+  <script src="/covers/icons.js"></script>
+  <script src="/covers/render.js"></script>
+  <script src="/covers/user.js"></script>
+  <script src="/js/feedback.js" defer></script>
+</body>
+</html>

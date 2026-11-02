@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>دار ابن فقيه — ورّاق</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/api/fonts.css" id="siteFontsCss">
+  <link rel="stylesheet" href="/admin/admin.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="brand" href="/" title="واجهة ورّاق">
+        <svg viewBox="0 0 40 72" width="27" height="48" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg>
+        <span class="brand-text"><b>دار ابن فقيه</b><small>لوحة مالك ورّاق</small></span>
+      </a>
+      <button id="logoutBtn" class="btn ghost-light site-only" type="button" hidden>تسجيل الخروج</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- الدخول / الإعداد الأول -->
+    <section class="card auth" id="authCard" hidden>
+      <div class="step-h"><span class="step-n">🔒</span><h2 id="authTitle">تسجيل الدخول</h2></div>
+      <p class="hint" id="authHint"></p>
+      <form id="authForm" autocomplete="on">
+        <label class="field">كلمة السر<input id="pw" type="password" autocomplete="current-password" required minlength="8"></label>
+        <label class="field" id="pw2Wrap" hidden>تأكيد كلمة السر<input id="pw2" type="password" autocomplete="new-password" minlength="8"></label>
+        <div class="actions"><button class="btn primary big" type="submit" id="authBtn">دخول</button></div>
+        <p class="status err" id="authErr" hidden></p>
+      </form>
+    </section>
+
+    <!-- اللوحة -->
+    <section id="panel" hidden>
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="ai" aria-selected="true">✨ الذكاء الاصطناعي</button>
+        <button role="tab" data-tab="sources">📚 مصادر المعرفة</button>
+        <button role="tab" data-tab="fonts">🔤 الخطوط</button>
+        <button role="tab" data-tab="downloads" class="site-only">⬇️ التنزيل</button>
+        <button role="tab" data-tab="feedback" class="site-only">✉️ الشكاوى والملاحظات <span class="count" id="fbCount" hidden></span></button>
+        <button role="tab" data-tab="look">🎨 المظهر</button>
+        <button role="tab" data-tab="account" class="site-only">⚙️ الحساب</button>
+        <span class="tab-links"><a class="tab-link" href="/studio/">📖 استوديو الأساليب ↗</a><a class="tab-link" href="/studio/#/print">🖨️ إعدادات الطباعة ↗</a><a class="tab-link" href="/admin/covers/">🎨 استوديو الأغلفة ↗</a></span>
+      </nav>
+
+      <!-- ١) الذكاء الاصطناعي: أي مزوّد، سلسلة احتياطية -->
+      <section class="card tab" id="tab-ai">
+        <!-- ثلاثة أقسام، لكلٍّ سلسلة مفاتيحه (والمفتاح يُستعمل في غير قسمه دون نسخه) -->
+        <nav class="ai-scopes" id="aiScopes" role="tablist" aria-label="أقسام الذكاء الاصطناعي">
+          <button type="button" role="tab" data-scope="typeset" aria-selected="true"><i class="sc-ic" aria-hidden="true">◆</i><span><b>التنضيد</b><small>بيانات الكتاب: اسمه ومؤلفه ونوعه</small></span><em class="sc-n"></em></button>
+          <button type="button" role="tab" data-scope="editor" aria-selected="false"><i class="sc-ic" aria-hidden="true">✦</i><span><b>المحرِّر</b><small>مساعد المراجعة والتدقيق</small></span><em class="sc-n"></em></button>
+          <button type="button" role="tab" data-scope="rahl" aria-selected="false"><i class="sc-ic" aria-hidden="true">◇</i><span><b>الرَّحل</b><small>مساعد القراءة والدرس</small></span><em class="sc-n"></em></button>
+        </nav>
+        <div class="ai-hero">
+          <div>
+            <h2 id="aiTitle">الذكاء الاصطناعي</h2>
+            <p class="hint" id="aiHint">يعمل مع أي مزوّد وأي مفتاح. أضف مفتاحاً أو أكثر فتصير سلسلة احتياطية: يُجرَّب الأول، فإن تعذّر فالتالي، ثم الخوارزمية الثابتة. المستخدم لا يرى أي خطأ في كل الأحوال.</p>
+          </div>
+          <label class="switch big" title="تفعيل / إيقاف هذا القسم"><input type="checkbox" id="aiEnabled"><span></span></label>
+        </div>
+        <div class="ai-sum" id="aiSum"></div>
+
+        <!-- إضافة مفتاح -->
+        <!-- استعمال مفتاحٍ من قسمٍ آخر -->
+        <div class="panel reuse" id="reuseBox" hidden></div>
+
+        <div class="panel addkey">
+          <h4 class="sec" id="addTitle">إضافة مفتاح</h4>
+          <div class="keybox">
+            <input id="newKey" type="password" placeholder="الصق أي مفتاح API هنا…" autocomplete="off" spellcheck="false" dir="ltr">
+            <button class="btn small" type="button" id="showKey" aria-label="إظهار المفتاح">إظهار</button>
+          </div>
+          <div class="detect" id="detect" hidden></div>
+          <details id="adv">
+            <summary>خيارات متقدمة: المزوّد، النموذج، عنوان الخدمة، الاسم</summary>
+            <div class="grid2">
+              <label class="field">المزوّد<select id="newKind"><option value="">تلقائي من المفتاح</option></select></label>
+              <label class="field">النموذج<input id="newModel" list="newModels" dir="ltr" spellcheck="false" placeholder="الافتراضي للمزوّد"><datalist id="newModels"></datalist></label>
+              <label class="field">عنوان الخدمة (Base URL)<input id="newBase" dir="ltr" spellcheck="false" placeholder="اتركه فارغاً للعنوان الرسمي"></label>
+              <label class="field">اسم للتمييز (اختياري)<input id="newLabel" maxlength="60" placeholder="مثل: مفتاحي المجاني"></label>
+            </div>
+            <p class="hint">لأي خدمة متوافقة مع صيغة OpenAI (ومنها الخوادم المحلية مثل Ollama وLM Studio) اختر «عنوان مخصص» وضع عنوانها، والمفتاح فيها اختياري.</p>
+          </details>
+          <div class="row">
+            <button class="btn" type="button" id="probeKey">🔍 تعرّف وجلب النماذج</button>
+            <button class="btn" type="button" id="testNew">🧪 اختبار</button>
+            <span class="spacer"></span>
+            <button class="btn primary" type="button" id="addKey">＋ إضافة إلى السلسلة</button>
+          </div>
+          <div class="result" id="newMsg" hidden></div>
+        </div>
+
+        <!-- السلسلة -->
+        <div class="panel">
+          <div class="row between">
+            <h4 class="sec">سلسلة المزوّدين <small class="muted">— الترتيب هو الأولوية</small></h4>
+            <span><button class="btn small" type="button" id="resetAi" title="رفع الإيقاف المؤقت عن كل المزوّدين">رفع الإيقاف المؤقت</button> <button class="btn small" type="button" id="refreshAi">تحديث</button></span>
+          </div>
+          <div class="plist" id="provList"></div>
+        </div>
+
+        <!-- مساعد المحرِّر: توجيهه العام، وتوجيهاته الجاهزة (تُعدَّل ويُضاف إليها) -->
+        <div class="panel ed-note" id="edNotePanel" hidden>
+          <h4 class="sec">التوجيه العام للمساعد <small class="muted">— يُرسل مع كل طلب</small></h4>
+          <p class="hint" id="edNoteHint"></p>
+          <textarea id="edNote" rows="3" maxlength="2000" placeholder="اختياري…"></textarea>
+          <div class="row"><span class="spacer"></span><button class="btn small primary" type="button" id="edNoteSave">حفظ التوجيه</button></div>
+        </div>
+        <div class="panel ed-presets" id="edPresetsPanel" hidden>
+          <div class="row between">
+            <h4 class="sec">التوجيهات الجاهزة <small class="muted">— تظهر في نافذة المساعد بهذا الترتيب</small></h4>
+            <span><button class="btn small" type="button" id="edAdd">＋ توجيهٌ خاص</button> <button class="btn small" type="button" id="edResetAll" title="إرجاع الجاهزة إلى أصلها (تبقى توجيهاتك الخاصة)">استعادة الأصل</button></span>
+          </div>
+          <div class="ep-filter" id="edFilter" role="group" aria-label="تصفية"></div>
+          <div class="ep-list" id="edList"></div>
+        </div>
+
+        <!-- التفريغ المباشر في «مجلس الدرس» (البرنامج وحده): الخدمة ومفتاحها، ومفردات الدرس -->
+        <div class="panel stt" id="sttPanel" hidden>
+          <h4 class="sec">التفريغ المباشر <small class="muted">— في «مجلس الدرس»: صوت الدرس نفسه يُكتب وهو يُقال</small></h4>
+          <p class="hint">يُبثّ صوت المقطع الذي يُشغَّل (لا المايكروفون) إلى خدمة تفريغٍ لحظي بمفتاحك، فيظهر الكلام بعد لحظاتٍ من قوله، والآيات بنص المصحف ومعها سورتها وآيتها. اختر الخدمة وضع مفتاحها:</p>
+          <div class="stt-engines" id="sttEngines" role="radiogroup" aria-label="خدمة التفريغ"></div>
+          <div class="stt-key" id="sttKeyBox"></div>
+          <div class="grid2 stt-opts">
+            <label class="field">مفردات تُعين التفريغ <small class="muted">أسماء الأعلام والكتب والمصطلحات، كلٌّ في سطر</small><textarea id="sttWords" rows="3" maxlength="2000" placeholder="ابن قدامة&#10;زاد المستقنع&#10;المغني"></textarea></label>
+            <div class="stt-checks">
+              <label class="chk"><input type="checkbox" id="sttQuran"> الآيات بنص المصحف ومعها سورتها وآيتها</label>
+              <label class="chk"><input type="checkbox" id="sttSave"> يُحفظ التفريغ مع الدرس (فيعود حين تفتحه)</label>
+              <label class="field" id="sttDelayRow">سرعة الظهور (OpenAI)<select id="sttDelay"><option value="minimal">أسرع ما يكون</option><option value="low">سريع (المقترح)</option><option value="medium">متوسط وأدق</option><option value="high">أبطأ وأدق</option></select></label>
+            </div>
+          </div>
+          <div class="row"><button class="btn" type="button" id="sttTest">🧪 جرّب الاتصال</button><span class="spacer"></span><button class="btn primary" type="button" id="sttSaveBtn">حفظ</button></div>
+          <div class="result" id="sttMsg" hidden></div>
+        </div>
+
+        <!-- المختبر -->
+        <div class="panel" id="aiLab">
+          <h4 class="sec">مختبر الاستخراج</h4>
+          <p class="hint">جرّب السلسلة على كتاب حقيقي من تراث (رقمه أو رابطه) وشاهد من أجاب، وكم استغرق، وما استُخرج.</p>
+          <div class="row">
+            <input id="tryBook" class="grow" placeholder="رقم الكتاب أو رابطه، مثل: 1681" dir="ltr">
+            <select id="tryOnly"><option value="">كل السلسلة</option></select>
+            <button class="btn primary" type="button" id="tryRun">تشغيل</button>
+          </div>
+          <div id="tryOut"></div>
+        </div>
+
+        <!-- السجل -->
+        <div class="panel">
+          <h4 class="sec">آخر الاستدعاءات</h4>
+          <div class="logwrap"><table class="log" id="aiLog"></table></div>
+        </div>
+      </section>
+
+      <!-- ٢) الخطوط -->
+      <section class="card tab" id="tab-fonts" hidden>
+        <div class="step-h"><h2>الخطوط</h2></div>
+        <p class="hint">الخط الذي تضيفه هنا يدخل في <b>ورّاق كله</b>: خط الكتاب، وأساليب دور النشر، واستوديو الأغلفة. للخط الواحد أكثر من ملف: ملف للطبيعي وملف للعريض (Bold)، أو ملف واحد لكل الأوزان.</p>
+        <div class="drop" id="drop" tabindex="0" role="button">
+          <b>اسحب ملفات الخط إلى هنا أو اضغط للاختيار</b>
+          <small>TTF · OTF · WOFF · WOFF2 — حتى ٢٠ ميغابايت للملف. ثم تختار: طبيعي، أو عريض، أو الكل</small>
+          <input type="file" id="fileInput" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" multiple hidden>
+        </div>
+        <datalist id="famList"></datalist>
+        <div id="pending" class="pending"></div>
+        <p class="status" id="upMsg" hidden></p>
+        <div class="fgrid" id="fontGrid"></div>
+        <details class="builtin-fonts">
+          <summary>الخطوط المضمّنة في ورّاق</summary>
+          <div id="builtinFonts" class="ffiles"></div>
+        </details>
+
+        <!-- فُرَش الرسم: أشكالٌ لأقلام الرَّحل -->
+        <div class="br-sec" id="brushSec">
+          <div class="step-h"><h2>فُرَش الرسم</h2></div>
+          <p class="hint">أشكالٌ لأقلام <b>الرَّحل</b>: يختار القارئ لكل قلمٍ شكله (حتى ثمانية أقلام) فيكتب ويرسم ويظلّل بها على كتابه ودفتره. أضف ملفات الفُرَش من أي برنامج رسم:</p>
+          <ul class="br-formats">
+            <li><b>فوتوشوب</b> <span dir="ltr">.abr</span></li>
+            <li><b>Procreate</b> <span dir="ltr">.brush · .brushset</span></li>
+            <li><b>Krita</b> <span dir="ltr">.kpp · .bundle</span></li>
+            <li><b>GIMP</b> <span dir="ltr">.gbr · .gih · .vbr</span></li>
+            <li><b>MyPaint</b> <span dir="ltr">.myb</span></li>
+            <li><b>صور</b> <span dir="ltr">PNG · JPG · WebP · SVG</span></li>
+            <li><b>حزم مضغوطة</b> <span dir="ltr">.zip</span></li>
+          </ul>
+          <div class="drop" id="brushDrop" tabindex="0" role="button">
+            <b>اسحب ملفات الفُرَش إلى هنا أو اضغط للاختيار</b>
+            <small>يُقرأ الملف في جهازك، ويُحفظ منه شكل كل فرشاة واسمها والمسافة بين طبعاتها</small>
+            <input type="file" id="brushFile" multiple hidden>
+          </div>
+          <div class="result" id="brushMsg" hidden></div>
+          <p class="br-legal"><b>عن الحقوق:</b> قراءة صيغ هذه الملفات لتعمل في برنامجٍ آخر جائزةٌ عموماً (وكذلك تفعل GIMP وKrita وغيرهما)، أما الفرشاة نفسها فلصانعها وبرخصته: الفُرَش المجانية والتي اشتريتها لاستعمالك تُضاف بلا حرج، وبعض الفُرَش المرفقة ببرنامجٍ ما (كفُرَش Kyle T. Webster في فوتوشوب) رخصتها لذلك البرنامج وحده — فاقرأ رخصة الفرشاة قبل إضافتها. وورّاق لا يرفع شيئاً منها إلى أي مكان.</p>
+          <div class="br-sets" id="brushSets"></div>
+        </div>
+      </section>
+
+      <!-- مصادر المعرفة: مصادر الكتب (من أين تُجلب)، ومصادر الترجمة، ومصادر العلم (ما يستعين به المساعد) -->
+      <section class="card tab" id="tab-sources" hidden>
+        <nav class="ai-scopes kn-scopes" id="knScopes" role="tablist" aria-label="مصادر المعرفة">
+          <button type="button" role="tab" data-kn="books" aria-selected="true"><i class="sc-ic" aria-hidden="true">❖</i><span><b>مصادر الكتب</b><small>من أين تُجلب الكتب</small></span><em class="sc-n"></em></button>
+          <button type="button" role="tab" data-kn="trans" aria-selected="false"><i class="sc-ic" aria-hidden="true">⇄</i><span><b>مصادر الترجمة</b><small>محركات الترجمة والمعاجم</small></span><em class="sc-n" id="knTransN"></em></button>
+          <button type="button" role="tab" data-kn="sci" aria-selected="false"><i class="sc-ic" aria-hidden="true">✦</i><span><b>مصادر العلم</b><small>ما يستعين به المساعد</small></span><em class="sc-n" id="knSciN"></em></button>
+        </nav>
+        <!-- ١) مصادر الكتب: API الجلب (تراث افتراضياً)، وأي API بصيغته، ومجلد كتب Word على الجهاز -->
+        <div class="kn-pane" id="kn-books">
+        <div class="step-h"><h2>مصادر الكتب</h2></div>
+        <p class="hint">من أين يجلب ورّاق الكتب. الأصل «تراث»، ولك أن تغيّر عنوانه، وتضيف مصادر أخرى، وتحذف ما تشاء. كل نتيجة بحث تذكر للمستخدم مصدرها.</p>
+        <div class="src-groups-help">
+          <b>المجموعات</b>
+          <p class="hint">كأسماء الخطوط: اكتب في خانة <b>«المجموعة»</b> الاسم نفسه لأكثر من مصدر فتصير <b>مصدراً واحداً</b> عند المستخدم بذلك الاسم (يُبحث فيها معاً، وعلى كل نتيجة اسم مصدرها). واترك الخانة فارغة ليبقى المصدر <b>وحده</b> باسمه. وإن تعدد ما يراه المستخدم اختار بينها فوق خانة البحث.</p>
+          <div class="src-units" id="srcUnits" aria-live="polite"></div>
+        </div>
+        <datalist id="srcGroups"></datalist>
+        <div class="src-list" id="srcList"></div>
+        <div class="row" id="srcRestoreRow" hidden><button class="btn small" type="button" id="srcRestore">↺ استعادة «تراث»</button><small class="muted">حذفت المصدر الأصلي؛ يعود بعنوانه الأول.</small></div>
+        <div class="src-add">
+          <form class="src-form" id="srcAddApi" autocomplete="off">
+            <h3>🌐 إضافة API</h3>
+            <p class="hint">أي خادم يتكلم <b>صيغة «تراث»</b> نفسها (المسارات <code>/search</code> و<code>/book</code> و<code>/page</code>): نسخة أخرى منه، أو خادمك الخاص. API بصيغة مختلفة لا يعمل.</p>
+            <label class="field">الاسم (يراه المستخدم)<input name="name" maxlength="40" required placeholder="مثل: مكتبتي"></label>
+            <label class="field">المجموعة (اختياري)<input name="group" list="srcGroups" maxlength="40" placeholder="فارغة: المصدر وحده"></label>
+            <label class="field">عنوان الـAPI<input name="api" type="url" dir="ltr" required placeholder="https://api.example.org"></label>
+            <label class="field">ملف بيانات الفهرس (اختياري)<input name="data" type="url" dir="ltr" placeholder="https://…/data-v3.json"></label>
+            <label class="field">رابط صفحة الكتاب (اختياري، يُلحق به رقمه)<input name="link" type="url" dir="ltr" placeholder="https://example.org/book/"></label>
+            <div class="row"><button class="btn primary" type="submit">إضافة</button><button class="btn small" type="button" data-test>اختبار قبل الإضافة</button></div>
+            <p class="status" hidden></p>
+          </form>
+          <form class="src-form" id="srcAddFolder" autocomplete="off">
+            <h3>💻 إضافة مجلد كتب Word</h3>
+            <p class="hint">مسار مجلد <b>على الجهاز الذي يعمل عليه ورّاق</b> (جهازك إن كان ورّاق برنامجاً عندك). كل ملف <code>.docx</code> فيه، وفي ما تحته، كتاب يُبحث باسمه ثم يُعامل كالمجلوب من «تراث». سمِّ الملف «اسم الكتاب - المؤلف» ليظهر المؤلف.</p>
+            <label class="field">الاسم (يراه المستخدم)<input name="name" maxlength="40" required placeholder="مثل: كتبي"></label>
+            <label class="field">المجموعة (اختياري)<input name="group" list="srcGroups" maxlength="40" placeholder="فارغة: المصدر وحده"></label>
+            <label class="field">مسار المجلد<input name="path" dir="ltr" maxlength="500" required placeholder="C:\Users\me\Books  أو  /home/me/books"></label>
+            <div class="row"><button class="btn primary" type="submit">إضافة</button><button class="btn small" type="button" data-test>اختبار قبل الإضافة</button></div>
+            <p class="status" hidden></p>
+          </form>
+          <form class="src-form" id="srcAddShamela" autocomplete="off">
+            <h3>📚 إضافة المكتبة الشاملة</h3>
+            <p class="hint">مجلد <b>المكتبة الشاملة</b> (الإصدار الرابع) على الجهاز الذي يعمل عليه ورّاق: مجلدها <code>database</code> الذي فيه <code>master.db</code>، أو مجلد الشاملة نفسه. تُقرأ كتبها منه مباشرةً بلا نسخ ولا إنترنت، ويُعامل كل كتاب كالمجلوب من «تراث».</p>
+            <label class="field">الاسم (يراه المستخدم)<input name="name" maxlength="40" required value="الشاملة"></label>
+            <label class="field">المجموعة (اختياري)<input name="group" list="srcGroups" maxlength="40" placeholder="فارغة: المصدر وحده"></label>
+            <label class="field">مجلد الشاملة<input name="path" dir="ltr" maxlength="500" required placeholder="G:\shamela4\database"></label>
+            <div class="row"><button class="btn primary" type="submit">إضافة</button><button class="btn small" type="button" data-test>اختبار قبل الإضافة</button></div>
+            <p class="status" hidden></p>
+          </form>
+        </div>
+        </div>
+        <!-- ٢) مصادر الترجمة، و٣) مصادر العلم: تملؤهما knowledge-admin.js -->
+        <div class="kn-pane" id="kn-trans" hidden></div>
+        <div class="kn-pane" id="kn-sci" hidden></div>
+      </section>
+
+      <!-- التنزيل: ملفات نسختي البرنامج -->
+      <section class="card tab" id="tab-downloads" hidden>
+        <div class="step-h"><h2>تنزيل البرنامج</h2></div>
+        <p class="hint">ما ترفعه هنا يظهر للمستخدمين في <a href="/download/" target="_blank" rel="noopener">صفحة التنزيل ↗</a>. لكل نسخة أحدث إصدار هو الذي يُنزَّل بالضغط عليها، والأقدم يبقى تحت «إصدارات سابقة» حتى تحذفه. <span id="dlMax"></span></p>
+        <div class="dl-admin" id="dlAdmin"></div>
+      </section>
+
+      <!-- ٣) الشكاوى والملاحظات -->
+      <section class="card tab" id="tab-feedback" hidden>
+        <div class="step-h"><h2>صندوق الشكاوى والملاحظات</h2></div>
+        <div class="row">
+          <label class="inline">الحالة <select id="fbStatus"><option value="">الكل</option></select></label>
+          <label class="inline">النوع <select id="fbType"><option value="">الكل</option></select></label>
+          <span class="spacer"></span>
+          <label class="chk"><input type="checkbox" id="fbAll"> تحديد الكل</label>
+          <button class="btn small danger" type="button" id="fbDelete" disabled>حذف المحدد</button>
+          <button class="btn small" type="button" id="fbDeleteDone">حذف ما تمت معالجته</button>
+        </div>
+        <div id="fbList" class="fblist"></div>
+      </section>
+
+      <!-- ٤) الحساب -->
+      <!-- مظهر الموقع: ألوانه كله بضغطة، وحركة النقطة عند الضغط -->
+      <section class="card tab" id="tab-look" hidden>
+        <div class="step-h"><h2>المظهر</h2></div>
+        <p class="hint">ألوان ورّاق كله: صفحاته ولوحتك هذه. اضغط مظهراً فيُطبَّق في الحال<span class="site-only"> على كل من يفتح الموقع</span>، وارجع إلى غيره متى شئت. (وضع السِّراج الليلي عند المستخدم يبقى بألوانه.)</p>
+        <h4 class="sec">الألوان <small>اضغط المظهر لتجربته</small></h4>
+        <div class="look-themes" id="lookThemes" role="radiogroup" aria-label="المظهر"></div>
+        <div class="panel look-custom">
+          <h4 class="sec">ألوان من عندك <small>خمسة ألوان، والباقي يُشتق منها. تُحفظ مظهراً باسمه، وتحذفه متى شئت</small></h4>
+          <div class="look-colors" id="lookColors"></div>
+          <div class="row"><input id="lookName" class="short" maxlength="40" placeholder="اسم المظهر (مثل: ألواني)" aria-label="اسم المظهر"><button class="btn primary" type="button" id="lookApply">احفظه وطبّقه</button><span class="muted" id="lookCustomNote"></span></div>
+        </div>
+        <h4 class="sec">الحركة</h4>
+        <div class="toggle-row">
+          <div><b>نقطة الضغط</b><p class="hint">نقطة معيَّنة تظهر لحظةً في موضع الضغط على الأزرار في صفحات المستخدم. أوقفها إن لم تعجبك.</p></div>
+          <label class="switch" title="تشغيل / إيقاف نقطة الضغط"><input type="checkbox" id="lookDot"><span></span></label>
+        </div>
+        <p class="status" id="lookMsg" hidden></p>
+        <p class="hint"><span class="site-only"><a href="/" target="_blank" rel="noopener">افتح الصفحة الرئيسية ↗</a> · </span><a href="/app/" target="_blank" rel="noopener">واجهة الإخراج ↗</a></p>
+      </section>
+
+      <section class="card tab" id="tab-account" hidden>
+        <div class="step-h"><h2>كلمة السر</h2></div>
+        <div class="toggle-row">
+          <div><b>حماية اللوحة بكلمة سر</b><p class="hint" id="pwOnHint">مفعّلة: من يدخل من الباب الخفي يُسأل عن كلمة السر. وإن أوقفتها دخل اللوحة كل من عرف الباب (الكتاب ومجلداته وقالبه) بلا سؤال.</p></div>
+          <label class="switch" title="تشغيل / إيقاف كلمة السر"><input type="checkbox" id="pwOn" checked><span></span></label>
+        </div>
+        <form id="pwOnForm" class="narrow" hidden>
+          <label class="field">كلمة السر الجديدة (٨ أحرف فأكثر)<input id="pwOnNew" type="password" autocomplete="new-password" minlength="8" required></label>
+          <div class="actions"><button class="btn primary" type="submit">فعّل كلمة السر</button></div>
+        </form>
+        <p class="status" id="pwOnMsg" hidden></p>
+        <form id="pwForm" class="narrow">
+          <h4 class="sec">تغيير كلمة السر</h4>
+          <label class="field">كلمة السر الحالية<input id="pwCur" type="password" autocomplete="current-password" required></label>
+          <label class="field">كلمة السر الجديدة (٨ أحرف فأكثر)<input id="pwNew" type="password" autocomplete="new-password" minlength="8" required></label>
+          <div class="actions"><button class="btn primary" type="submit">حفظ</button></div>
+          <p class="status" id="pwMsg" hidden></p>
+        </form>
+
+        <!-- الباب الخفي: الكتاب الوهمي الذي يُفتح منه، واسم اللوحة، والتركيبة -->
+        <div class="step-h door-h"><h2>الباب الخفي</h2></div>
+        <p class="hint">اللوحة لا تظهر إلا من كتاب وهمي يُبحث عنه في الموقع كأي كتاب. يفتح الباب من اختار <b>المجلدات التي تحددها هنا وحدها</b> و<b>القالب الذي تحدده</b> ثم ضغط «ابدأ الجلب والتنضيد». احفظ التركيبة في ذهنك: لا تُعرض إلا هنا.</p>
+        <form id="doorForm" autocomplete="off">
+          <div class="grid2 door-grid">
+            <label class="field">اسم الكتاب الوهمي<input id="doorTitle" maxlength="120" required></label>
+            <label class="field">المؤلف<input id="doorAuthor" maxlength="120"></label>
+            <label class="field">المحقق<input id="doorEditor" maxlength="120" placeholder="بلا محقق"></label>
+            <label class="field">الناشر<input id="doorPublisher" maxlength="120"></label>
+            <label class="field">اسم الدار <small>اسم هذه اللوحة في عنوانها وترويستها</small><input id="doorPanel" maxlength="60" required></label>
+            <label class="field">عدد المجلدات<input id="doorVols" type="number" min="1" step="1" inputmode="numeric" required></label>
+          </div>
+          <p class="status err" id="doorVolsMsg" hidden></p>
+          <h4 class="sec">القالب الأساسي الذي يفتح الباب</h4>
+          <div class="seg" id="doorTpl" role="group" aria-label="القالب الذي يفتح الباب"></div>
+          <h4 class="sec">المجلدات التي تفتح الباب <small>اضغط كعب المجلد ليدخل في المفتاح أو يخرج منه</small></h4>
+          <div class="shelves" id="doorShelf" role="group" aria-label="المجلدات التي تفتح الباب"></div>
+          <p class="hint" id="doorKeyNote"></p>
+          <div class="actions door-acts"><button class="btn primary" type="submit">حفظ الباب</button><button class="btn" type="button" id="doorDefault">الأصل</button></div>
+          <p class="status" id="doorMsg" hidden></p>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/admin/panel-name.js" defer></script>
+  <script type="module" src="/admin/admin.js"></script>
+  <script type="module" src="/admin/brushes-admin.js"></script>
+  <script type="module" src="/admin/knowledge-admin.js"></script>
+</body>
+</html>

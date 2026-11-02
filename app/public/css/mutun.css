@@ -1,0 +1,267 @@
+/* لوحات «المتون» (المنضدة والمحرِّر): هوية ورّاق — كاغدٌ ومداد وحُمرة وذهب، والنقطة المعيَّنة، والزوايا حادّة.
+   أولها «اللوح»: صفحتا الكتاب مفتوحتين، تُرسمان بما اختير؛ وما بعده هادئ: مجموعاتٌ تُطوى، ورسومٌ صغيرة بخط القلم. */
+.mu-panel { --mu-ink: var(--ink, #2A1D14); --mu-red: var(--rubric, #6B1D2F); --mu-gold: var(--gold, #C5A059); --mu-line: var(--line, #E4DCCB);
+  --mu-paper: var(--sheet, #FFFDF8); --mu-vel: var(--vellum, #F3EFE6); --mu-mut: var(--muted, #6C5949);
+  font: 13px/1.6 var(--ui, Tajawal, sans-serif); color: var(--mu-ink); display: grid; gap: 4px; min-width: 0; }
+.mu-panel * { box-sizing: border-box; }
+.mu-panel > *, .mu-gb > *, .mu-row > *, .mu-hero > * { min-width: 0; }
+.mu-panel button { font: inherit; color: inherit; }
+
+/* ---------- اللوح ---------- */
+.mu-hero { display: grid; gap: 6px; margin-bottom: 6px; }
+.mu-book { position: relative; padding: 10px 8px 6px; background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--mu-vel) 70%, transparent), transparent 70%),
+    repeating-linear-gradient(90deg, transparent 0 7px, color-mix(in srgb, var(--mu-line) 22%, transparent) 7px 8px);
+  border: 1px solid var(--mu-line); }
+.mu-book[data-swap] { cursor: pointer; }
+.mu-spread { display: block; width: 100%; height: auto; max-height: 240px; margin: 0 auto; overflow: visible; }
+.mu-spread .lh-paper { fill: #FFFEFA; stroke: color-mix(in srgb, var(--mu-ink) 18%, transparent); stroke-width: .6; filter: drop-shadow(0 2px 3px rgba(42, 29, 20, .14)); }
+.mu-spread .lh-fold { fill: url(#muFold); }
+.mu-spread .lh-pg { transition: transform .35s var(--pen, ease); transform-origin: center; }
+.mu-book[data-swap] .lh-pg:hover .lh-paper { stroke: var(--mu-gold); stroke-width: 1.1; }
+.mu-spread .lh-t { stroke: #3a2a20; stroke-width: 2.1; stroke-linecap: round; opacity: .78; }
+.mu-spread .lh-h { stroke: #6B1D2F; stroke-width: 2.6; stroke-linecap: round; opacity: .85; }
+.mu-spread .lh-n { fill: none; stroke: #8A6727; stroke-width: .7; }
+.mu-spread .lh-n.b { stroke: #b9a78a; }
+.mu-spread .lh-sep { stroke: #C5A059; stroke-width: .9; }
+.mu-spread .lh-l { font: 700 8.6px var(--display, serif); }
+.mu-cap { margin: 0; font-size: 12.5px; color: var(--mu-mut); text-align: center; }
+.mu-cap span { color: color-mix(in srgb, var(--mu-mut) 75%, transparent); }
+
+/* ---------- المجموعات ---------- */
+.mu-g { border-top: 1px solid var(--mu-line); }
+.mu-g:last-child { border-bottom: 1px solid var(--mu-line); }
+.mu-g > summary { list-style: none; display: flex; align-items: baseline; gap: 9px; padding: 9px 2px; cursor: pointer; user-select: none; }
+.mu-g > summary::-webkit-details-marker { display: none; }
+.mu-g > summary b { font-size: 13.5px; flex: none; }
+.mu-g > summary small { flex: 1; min-width: 0; color: var(--mu-mut); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-g > summary::after { content: ''; width: 6px; height: 6px; border-right: 1.5px solid var(--mu-mut); border-bottom: 1.5px solid var(--mu-mut); transform: translateY(-3px) rotate(45deg); transition: transform .2s; flex: none; margin-inline-end: 4px; }
+.mu-g[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.mu-g > summary:hover b { color: var(--mu-red); }
+.mu-d { width: 7px; height: 7px; flex: none; transform: rotate(45deg) translateY(-1px); border: 1.3px solid var(--mu-gold); display: inline-block; }
+.mu-g[open] > summary .mu-d { background: var(--mu-red); border-color: var(--mu-red); }
+.mu-gb { display: grid; gap: 10px; padding: 2px 2px 14px; }
+
+/* ---------- الصفوف ---------- */
+.mu-row { display: grid; grid-template-columns: 6.8em minmax(0, 1fr); gap: 8px; align-items: center; }
+.mu-row.two { grid-template-columns: 1fr auto; }
+.mu-l { font-size: 12.5px; color: var(--mu-mut); }
+.mu-inl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; }
+.mu-note { margin: 0; font-size: 12px; color: var(--mu-mut); line-height: 1.6; }
+.mu-est { margin: 0; font-size: 12.5px; color: var(--mu-mut); }
+.mu-est b { color: var(--mu-ink); }
+.mu-est .mu-d { background: var(--mu-gold); margin-inline-end: 7px; }
+.mu-est.loading { opacity: .8; }
+.mu-sub { display: flex; align-items: baseline; gap: 9px; margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--mu-line); }
+.mu-sub b { font-size: 13.5px; }
+
+/* ---------- البلاطات: رسمٌ واسمٌ وشرحٌ قصير ---------- */
+.mu-tiles { display: grid; gap: 6px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
+.mu-tiles.t2 { --n: 2; } .mu-tiles.t3 { --n: 3; } .mu-tiles.t4 { --n: 4; }
+.mu-tile { position: relative; display: grid; justify-items: center; align-content: start; gap: 2px; padding: 8px 4px 7px; min-width: 0;
+  border: 1px solid var(--mu-line); background: var(--mu-paper); cursor: pointer; text-align: center; transition: border-color .15s, background-color .15s; }
+.mu-tile b { font-size: 12.5px; line-height: 1.35; }
+.mu-tile small { font-size: 10.8px; line-height: 1.35; color: var(--mu-mut); }
+.mu-tile:hover:not(:disabled) { border-color: color-mix(in srgb, var(--mu-gold) 70%, var(--mu-line)); }
+.mu-tile[aria-pressed="true"] { border-color: var(--mu-red); background: color-mix(in srgb, var(--mu-vel) 65%, var(--mu-paper)); box-shadow: inset 0 -2px 0 var(--mu-red); }
+.mu-tile[aria-pressed="true"]::before { content: ''; position: absolute; top: 5px; inset-inline-start: 5px; width: 6px; height: 6px; background: var(--mu-red); transform: rotate(45deg); }
+.mu-tile:disabled { opacity: .45; cursor: default; }
+.mu-tiles.sm .mu-tile { padding: 6px 3px 5px; }
+.mu-tiles.sm .mu-tile small { display: none; }
+.mu-ic { display: block; }
+.mu-ic .pg { fill: #fff; stroke: color-mix(in srgb, var(--mu-ink) 45%, transparent); stroke-width: .8; }
+.mu-ic .tx { stroke: var(--mu-ink); stroke-width: 1.5; stroke-linecap: round; opacity: .72; }
+.mu-ic .hd { stroke: var(--mu-red); stroke-width: 2.2; stroke-linecap: round; }
+.mu-ic .ru { stroke: var(--mu-gold); stroke-width: .9; }
+.mu-ic .dt { stroke: var(--mu-gold-d, #8A6727); stroke-width: 1.3; stroke-dasharray: .1 2.2; stroke-linecap: round; }
+.mu-ic .sep { stroke: var(--mu-red); stroke-width: 1; }
+.mu-ic .mk { stroke: var(--mu-red); stroke-width: 1.2; stroke-dasharray: 1.5 1.5; }
+.mu-ic .st { fill: color-mix(in srgb, var(--mu-gold) 55%, transparent); stroke: var(--mu-gold-d, #8A6727); stroke-width: .8; }
+.mu-tile[aria-pressed="true"] .mu-ic .pg { stroke: var(--mu-red); }
+
+/* ---------- المقطع ---------- */
+.mu-seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--mu-line); background: var(--mu-paper); max-width: 100%; }
+.mu-seg > button { border: 0; border-inline-start: 1px solid var(--mu-line); background: none; padding: 4px 10px; font-size: 12.3px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.mu-seg > button:first-child { border-inline-start: 0; }
+.mu-seg > button:hover:not(:disabled) { background: var(--mu-vel); }
+.mu-seg > button[aria-pressed="true"] { background: var(--mu-red); color: #fff; }
+.mu-seg > button:disabled { opacity: .45; cursor: not-allowed; }
+.mu-seg.icons > button { padding: 2px 8px 2px 10px; }
+.mu-seg.icons .mu-ic { width: 26px; height: 20px; }
+.mu-seg.icons > button[aria-pressed="true"] .tx { stroke: #fff; opacity: 1; }
+
+/* ---------- العدّاد: رقمٌ كبير بخط الكتاب ---------- */
+.mu-count { display: inline-flex; align-items: stretch; border: 1px solid var(--mu-line); background: var(--mu-paper); height: 32px; }
+.mu-count > button { width: 28px; border: 0; background: none; cursor: pointer; font-size: 17px; line-height: 1; color: var(--mu-mut); }
+.mu-count > button:hover { background: var(--mu-vel); color: var(--mu-red); }
+.mu-count > input { width: 3.4em; border: 0; border-inline: 1px solid var(--mu-line); text-align: center; font: 700 18px/1 var(--display, serif); color: var(--mu-red); background: none; padding: 0; }
+.mu-count > input:focus { outline: none; background: color-mix(in srgb, var(--mu-gold) 10%, transparent); }
+.mu-count > em { font-style: normal; align-self: center; padding: 0 8px; font-size: 12.5px; color: var(--mu-mut); border-inline-start: 1px solid var(--mu-line); }
+.mu-big { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 8px 10px; background: color-mix(in srgb, var(--mu-vel) 55%, transparent); border-inline-start: 2px solid var(--mu-gold); }
+.mu-big .mu-count { height: 38px; }
+.mu-big .mu-count > input { font-size: 22px; width: 3em; }
+
+/* ---------- المفتاح ---------- */
+.mu-sw { display: inline-flex; align-items: flex-start; gap: 9px; cursor: pointer; min-width: 0; }
+.mu-sw > input { position: absolute; opacity: 0; pointer-events: none; }
+.mu-sw > i { flex: none; width: 32px; height: 18px; margin-top: 1px; border: 1px solid color-mix(in srgb, var(--mu-ink) 30%, transparent); background: var(--mu-vel); position: relative; transition: background-color .2s, border-color .2s; }
+.mu-sw > i::after { content: ''; position: absolute; top: 3px; inset-inline-start: 3px; width: 10px; height: 10px; background: var(--mu-mut); transform: rotate(45deg); transition: inset-inline-start .2s var(--pen, ease), background-color .2s; }
+.mu-sw > input:checked + i { background: var(--mu-red); border-color: var(--mu-red); }
+.mu-sw > input:checked + i::after { inset-inline-start: 18px; background: #fff; }
+.mu-sw > input:focus-visible + i { outline: 2px solid var(--mu-gold); outline-offset: 2px; }
+.mu-sw > span { display: grid; line-height: 1.45; }
+.mu-sw b { font-size: 12.8px; }
+.mu-sw small { font-size: 11.3px; color: var(--mu-mut); }
+
+/* ---------- المنزلق ---------- */
+.mu-range { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.mu-range input[type="range"] { flex: 1; min-width: 0; accent-color: var(--mu-red); }
+.mu-range output { min-width: 4.4em; font: 700 13px var(--ui); color: var(--mu-red); text-align: center; }
+.mu-leadpv { display: grid; gap: calc((var(--lh) - 1) * 9px); padding: 10px 14px; border: 1px dashed var(--mu-line); background: #fff; }
+.mu-leadpv i { height: 3px; background: color-mix(in srgb, var(--mu-ink) 60%, transparent); border-radius: 2px; }
+.mu-leadpv i.s { width: 58%; }
+
+/* ---------- العنوان وزينته ---------- */
+.mu-lbl input { width: 100%; padding: 5px 9px; border: 1px solid var(--mu-line); background: var(--mu-paper); font: 700 15px var(--display, serif); color: var(--mu-red); }
+.mu-lbl input:focus { outline: 2px solid color-mix(in srgb, var(--mu-gold) 60%, transparent); outline-offset: 0; }
+.mu-chips { display: flex; flex-wrap: wrap; gap: 5px; padding-inline-start: calc(6.8em + 8px); }
+.mu-chips > button { border: 1px solid var(--mu-line); background: none; padding: 1px 9px; font-size: 12px; cursor: pointer; font-family: var(--display, serif); }
+.mu-chips > button.none { font-family: var(--ui); color: var(--mu-mut); }
+.mu-chips > button:hover { border-color: var(--mu-gold); }
+.mu-chips > button[aria-pressed="true"] { border-color: var(--mu-red); color: var(--mu-red); background: var(--mu-vel); }
+.mu-decos { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
+.mu-decos > button { border: 1px solid var(--mu-line); background: #fff; padding: 7px 2px 4px; cursor: pointer; display: grid; justify-items: center; gap: 3px; min-width: 0; }
+.mu-decos > button small { font-size: 10.5px; color: var(--mu-mut); }
+.mu-decos > button[aria-pressed="true"] { border-color: var(--mu-red); box-shadow: inset 0 -2px 0 var(--mu-red); }
+.mu-decos .dl { font: 700 11px/1.4 var(--display, serif); color: var(--mu-red); white-space: nowrap; max-width: 100%; overflow: hidden; }
+.mu-decos .d-rule { border-bottom: 1px solid currentColor; }
+.mu-decos .d-frame { border: 1px solid currentColor; padding: 0 5px; }
+.mu-decos .d-band { background: color-mix(in srgb, currentColor 12%, #fff); border-inline-start: 2px solid currentColor; padding: 0 5px; }
+.mu-decos .d-orn::before, .mu-decos .d-orn::after { content: '❁'; color: var(--mu-gold); font-size: .75em; margin: 0 2px; }
+.mu-panel select { max-width: 13em; padding: 4px 6px; border: 1px solid var(--mu-line); background: var(--mu-paper); font: 13px var(--ui); }
+
+/* ---------- الألوان ---------- */
+.mu-sws { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.mu-swc { width: 24px; height: 24px; border: 1px solid var(--mu-line); background: #fff; padding: 3px; cursor: pointer; position: relative; display: inline-grid; }
+.mu-swc > i { display: block; width: 100%; height: 100%; }
+.mu-swc.none > i { background: linear-gradient(135deg, var(--mu-red) 50%, var(--mu-gold) 50%); }
+.mu-swc.custom > i { background: conic-gradient(#c44, #cc4, #4c4, #4cc, #44c, #c4c, #c44); }
+.mu-swc.custom > input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.mu-swc.on { border-color: var(--mu-red); box-shadow: 0 0 0 1px var(--mu-red); }
+
+/* ---------- أرقام الأبيات ---------- */
+.mu-vs { display: grid; grid-template-columns: auto auto minmax(0, 1fr) 2.6em minmax(0, 1fr); align-items: center; gap: 0 8px; padding: 10px 10px; background: #fff; border: 1px solid var(--mu-line);
+  font: 14px/1.8 var(--display, serif); color: #2A1D14; }
+.mu-vs .n { width: 2.1em; text-align: center; font: 700 12px var(--display, serif); color: #8A6727; border-inline-end: 1px solid #e3d9c6; }
+.mu-vs .n.b { color: #a99577; font-weight: 400; }
+.mu-vs .n + .h { grid-column: 3; }
+.mu-vs .h { text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-vs .h:first-of-type { grid-column: 3; }
+.mu-vs .c { grid-column: 4; text-align: center; font: 700 12px var(--display, serif); color: #8A6727; }
+.mu-vs .c + .h { grid-column: 5; }
+.mu-nc { display: grid; gap: 8px; padding: 9px 10px; border: 1px solid var(--mu-line); background: var(--mu-paper); }
+.mu-nc.on { border-color: color-mix(in srgb, var(--mu-red) 40%, var(--mu-line)); }
+
+/* ---------- «المجلد»: نوع المتن وما يُخرج ---------- */
+.mu-kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mu-kind { position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center; text-align: start; padding: 10px 12px; border: 1px solid var(--mu-line); background: var(--mu-paper); cursor: pointer; }
+.mu-kind .mu-ic { grid-row: 1 / 3; width: 44px; height: 33px; }
+.mu-kind b { font: 700 17px/1.2 var(--display, serif); }
+.mu-kind small { font-size: 11.5px; color: var(--mu-mut); }
+.mu-kind em { position: absolute; top: -9px; inset-inline-end: 8px; font: 700 10.5px var(--ui); font-style: normal; background: var(--mu-gold); color: #2A1D14; padding: 0 7px; }
+.mu-kind[aria-pressed="true"] { border-color: var(--mu-red); background: color-mix(in srgb, var(--mu-vel) 65%, var(--mu-paper)); box-shadow: inset 0 -2px 0 var(--mu-red); }
+.mu-kind[aria-pressed="true"] b { color: var(--mu-red); }
+.mu-link { border: 0; background: none; padding: 0; color: var(--mu-red); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 12px; }
+.mu-fromto { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mu-fromto > label, .mu-pick { display: grid; gap: 5px; align-content: start; min-width: 0; }
+.mu-fromto select { max-width: 100%; width: 100%; }
+.mu-pick q { display: block; font: 13px/1.6 var(--display, serif); color: var(--mu-ink); quotes: '«' '»'; padding: 3px 7px; background: color-mix(in srgb, var(--mu-vel) 60%, transparent); border-inline-start: 2px solid var(--mu-gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-end { display: inline-flex; align-items: center; height: 32px; padding: 0 10px; border: 1px dashed var(--mu-line); font-size: 12.5px; color: var(--mu-mut); }
+
+/* السِّراج */
+.night .mu-spread .lh-paper { fill: #f6f0e2; }
+.night .mu-tile, .night .mu-seg, .night .mu-count, .night .mu-kind, .night .mu-nc { background: var(--sheet); }
+@media (prefers-reduced-motion: reduce) { .mu-panel * { transition: none !important; } }
+
+/* الإصدار ١٠: الترتيب الثابت، وترقيم الملف، وما قبل المتن */
+.mu-keep, .mu-strip { padding: 10px 11px; border: 1px solid var(--mu-line); background: var(--mu-paper); margin-bottom: 10px; position: relative; }
+.mu-keep.on, .mu-strip.on { border-color: color-mix(in srgb, var(--mu-red) 40%, var(--mu-line)); }
+.mu-keep.on::before { content: ''; position: absolute; inset-block: -1px; inset-inline-start: -1px; width: 3px; background: var(--mu-red); }
+.mu-strip { margin: 10px 0 12px; }
+.mu-spread .lh-in { stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 4.5 1.6; opacity: .85; }
+.mu-decos .dl.in { font-size: 10.5px; }
+.night .mu-keep, .night .mu-strip { background: var(--sheet); }
+
+/* المنضدة (الإصدار ١١): لون الورق، و«كما في الملف حرفياً» */
+.paper-row { display: flex; align-items: center; gap: 14px; margin: 14px 0 6px; flex-wrap: wrap; }
+.paper-l { font-weight: 700; font-size: 13px; color: var(--ink, #2A1D14); }
+.paper-seg { display: inline-flex; gap: 8px; }
+.paper-seg > button { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 10px; border: 1px solid var(--line, #E4DCCB); background: transparent; color: var(--ink, #2A1D14); cursor: pointer; font: inherit; }
+.paper-seg > button > i { width: 22px; height: 28px; border: 1px solid color-mix(in srgb, var(--ink, #2A1D14) 22%, transparent); box-shadow: 1px 1px 0 color-mix(in srgb, var(--ink, #2A1D14) 10%, transparent); }
+.paper-seg > button > i.pw { background: #fff; }
+.paper-seg > button > i.py { background: #F3E7C4; }
+.paper-seg > button > b { font-size: 12.5px; }
+.paper-seg > button > small { font-size: 11px; color: color-mix(in srgb, var(--ink, #2A1D14) 60%, transparent); }
+.paper-seg > button[aria-pressed="true"] { border-color: var(--rubric, #6B1D2F); box-shadow: inset 0 -2px 0 var(--rubric, #6B1D2F); }
+.paper-seg > button:focus-visible { outline: 2px solid var(--gold, #C5A059); outline-offset: 2px; }
+/* الهامش الخارجي: صفحةٌ صغيرة فيها منطقة النص (والواسع: طرفها الخارجي أوسع) */
+.paper-seg > button > i.om-pg { position: relative; background: #fff; }
+.om-pg > s { position: absolute; top: 4px; bottom: 4px; left: 4px; right: 4px; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--ink, #2A1D14) 45%, transparent) 0 1px, transparent 1px 3px); text-decoration: none; }
+.om-pg.wide > s { left: 9px; right: 3px; }
+.om-pg.wide::before { content: ''; position: absolute; left: 2px; top: 6px; width: 5px; height: 6px; border: 1px solid color-mix(in srgb, var(--rubric, #6B1D2F) 70%, transparent); }
+.om-odd { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12.5px; }
+.om-odd[hidden] { display: none; }
+.om-odd .om-l { color: color-mix(in srgb, var(--ink, #2A1D14) 70%, transparent); }
+.om-odd > button { padding: 4px 10px; border: 1px solid var(--line, #E4DCCB); background: transparent; color: var(--ink, #2A1D14); cursor: pointer; font: inherit; }
+.om-odd > button > small { font-size: 11px; color: color-mix(in srgb, var(--ink, #2A1D14) 60%, transparent); }
+.om-odd > button[aria-pressed="true"] { border-color: var(--rubric, #6B1D2F); box-shadow: inset 0 -2px 0 var(--rubric, #6B1D2F); }
+.om-odd > button:focus-visible { outline: 2px solid var(--gold, #C5A059); outline-offset: 2px; }
+.asis { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; margin: 10px 0 12px; border: 1px solid var(--line, #E4DCCB); cursor: pointer; position: relative; }
+.asis > input { position: absolute; opacity: 0; pointer-events: none; }
+.asis > i { flex: none; width: 32px; height: 18px; margin-top: 2px; border: 1px solid color-mix(in srgb, var(--ink, #2A1D14) 30%, transparent); position: relative; transition: background-color .2s; }
+.asis > i::after { content: ''; position: absolute; top: 3px; inset-inline-start: 3px; width: 10px; height: 10px; background: color-mix(in srgb, var(--ink, #2A1D14) 45%, transparent); transform: rotate(45deg); transition: inset-inline-start .2s; }
+.asis > input:checked + i { background: var(--rubric, #6B1D2F); border-color: var(--rubric, #6B1D2F); }
+.asis > input:checked + i::after { inset-inline-start: 18px; background: #fff; }
+.asis > input:focus-visible + i { outline: 2px solid var(--gold, #C5A059); outline-offset: 2px; }
+.asis:has(input:checked) { border-color: color-mix(in srgb, var(--rubric, #6B1D2F) 45%, var(--line, #E4DCCB)); box-shadow: inset 3px 0 0 var(--rubric, #6B1D2F); }
+.asis > span { display: grid; gap: 2px; line-height: 1.5; }
+.asis b { font-size: 13px; }
+.asis small { font-size: 11.5px; color: color-mix(in srgb, var(--ink, #2A1D14) 62%, transparent); }
+.word-sum li.mu-read { color: var(--rubric, #6B1D2F); }
+
+/* خلفيات الصفحات (التنضيد): أربع خانات بصورها المصغّرة، وصورة واحدة لها كلها */
+.bgs-row { display: flex; align-items: center; gap: 10px 14px; margin: 8px 0 6px; flex-wrap: wrap; }
+.bgs { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+.bg-slot { position: relative; display: inline-grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 8px; align-items: center; padding: 6px 12px 6px 10px; border: 1px solid var(--line, #E4DCCB); background: transparent; color: var(--ink, #2A1D14); cursor: pointer; font: inherit; text-align: start; }
+.bg-slot > .bg-th { grid-row: 1 / 3; width: 22px; height: 30px; border: 1px dashed color-mix(in srgb, var(--ink, #2A1D14) 30%, transparent); background: #fff center / 100% 100% no-repeat; }
+.bg-slot.on > .bg-th { border-style: solid; box-shadow: 1px 1px 0 color-mix(in srgb, var(--ink, #2A1D14) 12%, transparent); }
+.bg-slot > b { font-size: 12.5px; }
+.bg-slot > small { font-size: 11px; color: color-mix(in srgb, var(--ink, #2A1D14) 60%, transparent); }
+.bg-slot.on { border-color: var(--rubric, #6B1D2F); box-shadow: inset 0 -2px 0 var(--rubric, #6B1D2F); }
+.bg-slot.inh > .bg-th { opacity: .45; border-style: dotted; }
+.bg-x { position: absolute; top: -7px; inset-inline-start: -7px; width: 17px; height: 17px; border-radius: 50%; background: var(--rubric, #6B1D2F); color: #fff; font-size: 10px; line-height: 17px; text-align: center; }
+.bg-x[hidden] { display: none; }
+.bg-acts { display: inline-flex; gap: 6px; }
+.bg-hint { flex-basis: 100%; margin: 0; font-size: 11.5px; }
+
+/* ---------- الغلاف الداخلي: خانات صاحب النسخة ---------- */
+.mu-own { display: grid; gap: 6px; }
+.mu-of { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 6px; }
+.mu-of input { width: 100%; min-width: 0; padding: 4px 8px; border: 1px solid var(--mu-line); background: var(--mu-paper); font: 700 13.5px var(--ui, Tajawal, sans-serif); color: var(--mu-ink); }
+.mu-of input:focus { outline: 2px solid color-mix(in srgb, var(--mu-gold) 60%, transparent); outline-offset: 0; }
+.mu-of .mu-seg.sm > button { padding: 3px 8px; font-size: 11.8px; }
+.mu-of-acts { display: inline-flex; gap: 2px; }
+.mu-ico { width: 24px; height: 24px; border: 1px solid var(--mu-line); background: var(--mu-paper); cursor: pointer; font-size: 12px; line-height: 1; padding: 0; }
+.mu-ico:hover:not(:disabled) { border-color: var(--mu-gold); }
+.mu-ico.x:hover { color: var(--err, #a3322b); border-color: currentColor; }
+.mu-ico:disabled { opacity: .35; cursor: default; }
+.mu-of.add { grid-template-columns: minmax(0, 1fr) auto; }
+.mu-of.add input { font-weight: 400; border-style: dashed; }
+.mu-btn { border: 1px solid var(--mu-red); background: var(--mu-paper); color: var(--mu-red); font-weight: 700; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+.mu-btn:hover { background: var(--mu-red); color: #fff; }
+/* هكذا تظهر أسفل الغلاف */
+.mu-ownpv { display: grid; grid-template-columns: max-content 1fr; gap: 7px 6px; align-items: baseline; padding: 12px 18px 10px; background: #FFFEFA; border: 1px solid var(--mu-line); box-shadow: 0 2px 4px -2px rgba(42, 29, 20, .2); font: 700 13px/1.4 var(--display, serif); color: #3D2314; }
+.mu-ownpv > div { display: contents; }
+.mu-ownpv i { height: 1em; }
+.mu-ownpv i.f-line { border-bottom: 1px solid #6c5949; }
+.mu-ownpv i.f-dots { background: radial-gradient(circle, #6c5949 0 .9px, transparent 1.2px) left bottom / 5px 3px repeat-x; }

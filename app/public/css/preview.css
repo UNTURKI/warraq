@@ -1,0 +1,62 @@
+/* المعاينة الحية (صفحة المستخدم ومحرر الأساليب) */
+.pvw [hidden] { display: none !important; }
+.pvw { --pv-accent: var(--primary, var(--accent, #6B1D2F)); --pv-line: var(--line, #e4dccb); --pv-muted: var(--muted, #7a6656); display: grid; gap: 8px; min-width: 0; }
+.pvw-head { display: flex; align-items: center; gap: 10px; }
+.pvw-title { font-size: 16px; color: var(--pv-accent); }
+.pvw-status { font-size: 12.5px; color: var(--pv-muted); margin-inline-end: auto; }
+.pvw-status.busy::before { content: ''; display: inline-block; width: 10px; height: 10px; border: 2px solid var(--pv-accent); border-top-color: transparent; border-radius: 50%; animation: pvw-spin .8s linear infinite; vertical-align: -1px; margin-inline-end: 5px; }
+.pvw-status.err { color: #9b2a2a; }
+@keyframes pvw-spin { to { transform: rotate(360deg); } }
+.pvw-zoom { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--pv-line); background: #fff; color: inherit; border-radius: 3px; padding: 3px 10px; cursor: pointer; }
+.pvw-zoom:hover { border-color: var(--pv-accent); color: var(--pv-accent); }
+.pvw-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.pvw-tabs button { display: flex; align-items: center; gap: 6px; font: inherit; font-size: 12.5px; font-weight: 600; line-height: 1.35; text-align: start; border: 1px solid var(--pv-line); background: #fff; color: inherit; border-radius: 3px; padding: 5px 7px; cursor: pointer; min-width: 0; }
+.pvw-tabs button i { font-style: normal; flex: none; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: #efe9dc; font-size: 12px; }
+.pvw-tabs button:hover { border-color: var(--pv-accent); }
+.pvw-tabs button[aria-selected="true"] { border-color: var(--pv-accent); background: var(--pv-accent); color: #fff; }
+.pvw-tabs button[aria-selected="true"] i { background: rgba(255, 255, 255, .25); }
+.pvw-stage { display: grid; place-items: center; background: radial-gradient(circle at 50% 35%, #efece5, #ddd8cc); border: 1px solid var(--pv-line); border-radius: 3px; padding: 12px 0; min-height: 200px; overflow: hidden; }
+.pvw-paper { position: relative; direction: ltr; background: #fff; box-shadow: 0 10px 30px rgba(40, 30, 20, .28), 0 0 0 1px rgba(0, 0, 0, .06); overflow: hidden; }
+.pvw-frame { position: absolute; top: 0; left: 0; border: 0; background: #fff; transform: scale(var(--k, 1)); transform-origin: 0 0; pointer-events: none; }
+.pvw-frame.loading { visibility: hidden; }
+.pvw-off { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; text-align: center; padding: 24px; direction: rtl; background: #fbfaf6; color: var(--pv-muted); font-size: 14px; }
+.pvw-foot { display: grid; gap: 4px; justify-items: center; }
+.pvw-pager { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+.pvw-pager button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--pv-line); background: #fff; cursor: pointer; font-size: 18px; line-height: 1; color: inherit; }
+.pvw-pager button:disabled { opacity: .35; cursor: default; }
+.pvw-hint { margin: 0; font-size: 12.5px; color: var(--pv-muted); text-align: center; min-height: 1.6em; }
+
+/* التكبير: المعاينة تملأ الشاشة */
+.pvw-raise { z-index: 90 !important; }
+.pvw.pvw-full { position: fixed; inset: 0; z-index: 90; background: rgba(28, 22, 16, .97); padding: 14px 18px; grid-template-rows: auto auto 1fr auto; color: #fff; }
+.pvw.pvw-full .pvw-title, .pvw.pvw-full .pvw-status, .pvw.pvw-full .pvw-hint { color: #f3ead8; }
+.pvw.pvw-full .pvw-tabs { grid-template-columns: repeat(6, 1fr); max-width: 1100px; width: 100%; margin: 0 auto; color: #2a2118; }
+.pvw.pvw-full .pvw-stage { background: transparent; border: 0; min-height: 0; padding: 0; }
+.pvw.pvw-full .pvw-zoom { color: #2a2118; }
+.pvw.pvw-full .pvw-pager button { color: #2a2118; }
+html.pvw-lock { overflow: hidden; }
+@media (max-width: 520px) { .pvw-tabs { grid-template-columns: repeat(2, 1fr); } .pvw.pvw-full .pvw-tabs { grid-template-columns: repeat(3, 1fr); } }
+
+/* شريط المعاينة الواحد (o.bar: المنضدة والأساليب في البرنامج): صفحتان أو صفحة، واللوحات، والصفحات، وملء النافذة */
+.pvw.pvw-barred { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 0; }
+.pvw-barred .pvw-bar { display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 7px 14px; border-bottom: 1px solid var(--pv-line); background: var(--paper, var(--bg, #fff)); font-size: 12.5px; color: var(--pv-muted); white-space: nowrap; min-width: 0; }
+.pvw-barred .pvw-mode { display: flex; gap: 6px; flex: none; }
+.pvw-barred .pvw-mode button { font: 700 12.5px/1.5 var(--ui, inherit); padding: 3px 10px; border: 1px solid var(--pv-line); border-radius: 6px; background: var(--sheet, var(--card, #fff)); color: var(--ink, inherit); cursor: pointer; }
+.pvw-barred .pvw-mode button[aria-pressed="true"] { border-color: var(--gold, #C5A059); color: var(--pv-accent); }
+.pvw-barred .pvw-bar .pvw-tabs { display: flex; flex-wrap: nowrap; gap: 2px; flex: 0 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; border: 0; padding-inline-start: 10px; margin-inline-start: 4px; border-inline-start: 1px solid var(--pv-line); }
+.pvw-barred .pvw-bar .pvw-tabs button { flex: none; display: block; padding: 3px 9px; margin: 0; border: 0; border-radius: 6px; background: none; color: var(--pv-muted); font: 700 12.5px/1.5 var(--ui, inherit); white-space: nowrap; }
+.pvw-barred .pvw-bar .pvw-tabs button i { display: none; }
+.pvw-barred .pvw-bar .pvw-tabs button:hover { background: color-mix(in srgb, var(--pv-line) 45%, transparent); color: var(--ink, inherit); }
+.pvw-barred .pvw-bar .pvw-tabs button[aria-selected="true"] { background: color-mix(in srgb, var(--pv-line) 60%, transparent); color: var(--pv-accent); }
+.pvw-barred .pvw-bar .pvw-status { font-size: 12px; flex: none; }
+.pvw-barred .pvw-bar .pvw-status:empty { display: none; }
+.pvw-barred .pvw-bar .pvw-pager { margin-inline-start: auto; gap: 6px; font-size: 12.5px; font-weight: 400; flex: none; }
+.pvw-barred .pvw-bar .pvw-pager button { width: 24px; height: 24px; font-size: 15px; border-radius: 6px; }
+.pvw-barred .pvw-bar .pvw-pager[hidden] + .pvw-zoom { margin-inline-start: auto; }
+.pvw-barred .pvw-bar .pvw-zoom { flex: none; width: 28px; height: 28px; padding: 0; display: grid; place-items: center; border-radius: 6px; font-size: 14px; }
+.pvw-barred .pvw-stage { background: none; border: 0; border-radius: 0; padding: 26px 30px; min-height: 0; }
+.pvw-barred .pvw-paper { box-shadow: 0 8px 22px -8px rgba(42, 29, 20, .38), 0 0 0 1px rgba(42, 29, 20, .05); border-radius: 1px; }
+.pvw-paper.pvw-two::after { content: ""; position: absolute; z-index: 3; top: 0; bottom: 0; left: 50%; width: 36px; margin-left: -18px; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(42, 29, 20, .07) 42%, rgba(42, 29, 20, .16) 50%, rgba(42, 29, 20, .07) 58%, transparent); }
+.pvw-barred .pvw-hint { padding: 0 20px 12px; font-size: 12px; text-align: center; }
+.pvw.pvw-barred.pvw-full { padding: 0; }
+.pvw.pvw-barred.pvw-full .pvw-bar { background: #1c160f; border-color: rgba(255, 255, 255, .12); color: #d8ccb4; }

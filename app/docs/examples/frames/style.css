@@ -1,0 +1,42 @@
+/* ١) خلفية منقوشة، وفوقها لوح أبيض مبروز */
+.page.content, .page.toc { background: asset(pattern) center / 100% 100% no-repeat; }
+.panel { position: absolute; inset: 9mm; background: #fff; border: .8pt solid var(--c-rule); }
+
+/* ٢) الترويسة في مستطيل: اسم الكتاب يميناً، الباب يساراً، وبينهما خط */
+.hd { position: absolute; top: 14mm; left: calc(var(--t-l) - 10mm); right: calc(var(--t-r) - 10mm); height: 11mm; border: .8pt solid var(--c-rule); background: #fff;
+  display: flex; align-items: center; gap: 4mm; padding: 0 5mm; font-family: var(--f-heading); font-size: 14pt; font-weight: 700; color: var(--c-h1); white-space: nowrap; overflow: hidden; }
+.hd b, .hd span { flex: none; max-width: 46%; overflow: hidden; text-overflow: ellipsis; }
+.hd i { flex: 1; border-top: .8pt solid var(--c-rule); }
+.hd span:empty { display: none; }
+
+/* ٣) النص في مستطيل (بحدود النص: يتبع الهامش الخارجي الواسع إن اختير)، ونصوص الهامش خارجه لا عليه */
+.tbox { position: absolute; top: 29mm; bottom: 20mm; left: calc(var(--t-l) - 10mm); right: calc(var(--t-r) - 10mm); border: 1pt solid var(--c-rule); background: #fff; }
+.page.content, .page.toc { --mside-clear: 11.5mm; }
+
+/* ٤) رقم الصفحة في خانة ملتصقة بأسفل المستطيل */
+.folio { bottom: 11.2mm; font-size: 13pt; line-height: 1; }
+.fo { display: inline-block; min-width: 17mm; padding: 2.2mm 4mm 2.4mm; border: 1pt solid var(--c-rule); border-top: 0; background: #fff; color: var(--c-h1); }
+
+/* ٥) العناوين */
+.h1 { margin: 1mm 0 5mm; padding: 1.5mm 0; border-top: .8pt solid var(--c-rule); border-bottom: .8pt solid var(--c-rule); background: #fdf3f7; }
+.h1::after { display: none; }
+
+/* ٦) المتن في خانة، والشرح في خانة (في كتب «المتن ثم الشرح»). الخانة تضم الفقرات المتتالية من نوع واحد،
+      وتبقى مفتوحة من أسفلها إن أكملت في الصفحة التالية. */
+.p.mt, .p.sh { padding: 0 3.5mm; border-inline: .8pt solid var(--box); background: var(--box-bg); }
+.p.mt { --box: #C2185B; --box-bg: #fdf3f7; }
+.p.sh { --box: #8C8480; --box-bg: #fbfaf8; }
+.p.mt:not(.p.mt + .p.mt):not(.cont), .p.sh:not(.p.sh + .p.sh):not(.cont) { border-top: .8pt solid var(--box); padding-top: 1.6mm; margin-top: 2.4mm; border-radius: 1.6mm 1.6mm 0 0; }
+.p.mt:not(:has(+ .p.mt)):not(.brk), .p.sh:not(:has(+ .p.sh)):not(.brk) { border-bottom: .8pt solid var(--box); padding-bottom: 1.6mm; margin-bottom: 2.4mm; border-radius: 0 0 1.6mm 1.6mm; }
+.p.mt:not(.p.mt + .p.mt):not(.cont):not(:has(+ .p.mt)):not(.brk), .p.sh:not(.p.sh + .p.sh):not(.cont):not(:has(+ .p.sh)):not(.brk) { border-radius: 1.6mm; }
+.shrule { display: none; }
+.shlabel { display: inline-block; margin: 2.4mm 0 0; padding: .4mm 5mm .8mm; border: .8pt solid #8C8480; border-bottom: 0; border-radius: 1.6mm 1.6mm 0 0; background: #8C8480; color: #fff; font-size: .9em; }
+.shlabel + .p.sh { margin-top: 0 !important; border-start-start-radius: 0 !important; }
+
+/* ٧) الحاشية في خانة */
+.notes:has(.fn) { border: .8pt solid var(--c-rule); border-radius: 1.6mm; background: #f7f5f2; padding: 1.6mm 3mm 1.8mm; }
+.notes .fnsep { display: none !important; }
+
+/* الغلاف الداخلي على الخلفية نفسها */
+.page.cover { background: asset(pattern) center / 100% 100% no-repeat; }
+.cover-frame { background: #fff; }

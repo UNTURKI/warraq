@@ -1,0 +1,117 @@
+{
+  "name": "alwarraq",
+  "productName": "Alwarraq",
+  "version": "1.0.0",
+  "description": "ورّاق — كتب التراث مُخرَجةً كما تُطبع",
+  "author": "Alwarraq",
+  "license": "MIT",
+  "main": "electron/main.cjs",
+  "warraq": {
+    "siteUrl": "",
+    "mail": "faqeeh.university@gmail.com"
+  },
+  "scripts": {
+    "start": "electron .",
+    "fonts": "node app/scripts/fetch-fonts.mjs",
+    "dist": "node app/scripts/fetch-fonts.mjs && electron-builder --win --x64",
+    "store": "node app/scripts/fetch-fonts.mjs && electron-builder --win appx --x64"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.alwarraq.app",
+    "productName": "Alwarraq",
+    "copyright": "© ورّاق",
+    "directories": {
+      "app": ".",
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "package.json",
+      "electron/**",
+      "app/**",
+      "!app/test/**",
+      "!app/test-output/**",
+      "!app/data/**",
+      "!app/node_modules/**",
+      "!app/scripts/**"
+    ],
+    "asar": false,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "executableName": "Alwarraq"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "ورَّاق",
+      "uninstallDisplayName": "ورَّاق",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "installerLanguages": [
+        "ar_SA"
+      ],
+      "multiLanguageInstaller": false,
+      "include": "build/installer.nsh",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "Alwarraq-Core-${version}.exe"
+    },
+    "appx": {
+      "identityName": "Faqeeh.4160B6371BD3",
+      "publisher": "CN=BFD26B52-3F81-47EE-A132-2D48F082D2C6",
+      "publisherDisplayName": "Faqeeh",
+      "applicationId": "Alwarraq",
+      "minVersion": "10.0.17763.0",
+      "maxVersionTested": "10.0.26100.0",
+      "displayName": "ورَّاق",
+      "backgroundColor": "#6B1D2F",
+      "languages": ["ar-SA"],
+      "artifactName": "Alwarraq-Store-${version}.${ext}"
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          "waraq",
+          "warraq"
+        ],
+        "name": "Alwarraq.Book",
+        "description": "وَرَق",
+        "role": "Editor",
+        "icon": "waraq"
+      },
+      {
+        "ext": [
+          "wqmod"
+        ],
+        "name": "Alwarraq.Mod",
+        "description": "مود ورّاق",
+        "role": "Viewer",
+        "icon": "waraq"
+      }
+    ],
+    "protocols": [
+      {
+        "name": "ورَّاق",
+        "schemes": [
+          "warraq"
+        ]
+      }
+    ]
+  }
+}

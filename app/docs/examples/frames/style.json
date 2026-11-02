@@ -1,0 +1,10 @@
+{
+  "name": "المبروز",
+  "desc": "كل شيء في إطاره: خلفية منقوشة، ترويسة في مستطيل، النص في مستطيل، المتن والشرح والحاشية كلٌّ في خانته، ورقم الصفحة في خانة أسفل الإطار.",
+  "settings": {
+    "headingColors": { "1": "#C2185B", "2": "#C2185B", "3": "#8E1446", "4": "#8E1446" },
+    "matnColor": "#8E1446", "quranColor": "#1E5631", "ornamentColor": "#C2185B", "ruleColor": "#8C8480",
+    "page": { "w": 170, "h": 240, "side": 23, "top": 37, "bottom": 27 },
+    "runningHead": false, "tocPosition": "end", "sharhEnd": "ornament", "ornament": "✦ ✦ ✦"
+  }
+}

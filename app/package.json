@@ -1,0 +1,18 @@
+{
+  "name": "alwarraq",
+  "version": "1.0.0",
+  "description": "ورّاق — تحويل كتب «تراث» إلى PDF منسق وملفات Word بحواشٍ حقيقية — نسخة سطح المكتب لـ Windows",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "fonts": "node scripts/fetch-fonts.mjs"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "dependencies": {
+    "playwright-core": "1.56.0"
+  },
+  "license": "MIT"
+}

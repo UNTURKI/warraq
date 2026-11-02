@@ -1,0 +1,366 @@
+/* الخزانة (كما في «ورّاق البرنامج»): ما على المنضدة بطاقاتٍ، وما أُخرج مجلّداتٍ على رفوف خزانة خشبية.
+   ألوان الواجهة من wq.css (فتتبع المظهر والسِّراج). الخشب والجلد والذهب ألوانها ألوانها، والسِّراج يُعتم الخشب ويضيء الرفوف كقنديل. */
+.wq body.kz {
+  --wood: #7A4A2A; --wood-d: #4A2B16; --wood-l: #A0703F; --wood-back: #3A2313; --brass-1: #F4DFA0; --brass-2: #C9A24E; --brass-3: #9C7630;
+  --grain-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85 0.012' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.06  0 0 0 0 0.02  0 0 0 0.7 -0.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23g%29'/%3E%3C/svg%3E");
+  --grain-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='64'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.85' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.06  0 0 0 0 0.02  0 0 0 0.7 -0.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23g%29'/%3E%3C/svg%3E");
+  --grain-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6 0.02' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.02  0 0 0 0 0.0  0 0 0 0.6 -0.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23g%29'/%3E%3C/svg%3E");
+  --leather: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 -0.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23g%29'/%3E%3C/svg%3E");
+}
+.wq.night body.kz { --wood: #5A3720; --wood-d: #2E1B0D; --wood-l: #7A5230; --wood-back: #22150B; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+body.kz { font-size: 14px; line-height: 1.6; }
+
+.kz-in { max-width: 1240px; margin-inline: auto; padding: 24px clamp(16px, 2.4vw, 30px) 40px; display: grid; gap: 22px; }
+
+/* الرأس: العنوان، والبحث، و«كتاب جديد» */
+.kz-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.kz-head h1 { margin: 0; font: 700 32px/1.25 var(--display); color: var(--rubric); }
+.kz-head .sub { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+.kz-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search { display: flex; align-items: center; gap: 9px; width: min(340px, 60vw); padding: 6px 8px 6px 10px; padding-inline-start: 12px; border: 1px solid var(--line); background: var(--sheet); border-radius: 8px; transition: border-color .2s, box-shadow .2s; }
+.search:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 22%, transparent); }
+.search svg { width: 16px; height: 16px; flex: none; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; }
+.search input { flex: 1; min-width: 0; border: 0; background: none; font: 13.5px/1.5 var(--ui); color: var(--ink); outline: none; padding: 1px 0; }
+.search input::placeholder { color: var(--muted); opacity: .8; }
+.search input::-webkit-search-cancel-button { filter: grayscale(1); }
+.kbd { font: 700 11px/1.7 var(--ui); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 6px; background: var(--sheet); color: var(--muted); white-space: nowrap; direction: ltr; unicode-bidi: isolate; display: inline-block; flex: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 700 14px var(--ui); border-radius: 7px; padding: 8px 16px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; white-space: nowrap; }
+.btn:hover { border-color: var(--gold); }
+.btn.pri { background: var(--btn); border-color: var(--btn); color: var(--on-rubric); }
+.btn.pri:hover { background: var(--btn-d); }
+.btn .kbd { background: transparent; color: inherit; border-color: currentColor; opacity: .7; }
+.btn.sm { padding: 3px 12px; font-size: 13px; }
+.tl { font: 700 13px var(--ui); color: var(--rubric); background: none; border: 0; padding: 2px 4px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--rubric) 40%, transparent); }
+.tl.quiet { color: var(--muted); text-decoration-color: transparent; font-weight: 400; }
+.tl.quiet:hover { color: var(--err); text-decoration-color: currentColor; }
+.tl.danger { color: var(--err); }
+
+.lbl { margin: 0 0 10px; font: 800 12.5px var(--ui); color: var(--gold-d); letter-spacing: .03em; display: flex; align-items: center; gap: 9px; }
+.lbl::before { content: ""; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); }
+.shelf-head { display: flex; align-items: center; justify-content: space-between; }
+
+/* على المنضدة: بطاقة لكل كتاب (المنضدة، ثم النسّاخ)، وخانة للإفلات */
+.desk { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { .desk { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card { position: relative; display: grid; gap: 6px; align-content: start; min-width: 0; padding: 12px 14px; border: 1px solid var(--line); background: var(--sheet); border-radius: 9px; text-align: start; font: inherit; color: inherit; }
+button.card { display: block; cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s var(--pen); }
+button.card:hover { border-color: var(--gold); box-shadow: 0 10px 22px -16px rgba(42, 29, 20, .5); transform: translateY(-1px); }
+.card .ci { display: grid; gap: 6px; min-width: 0; }
+.card > b, .card .ci > b { font: 700 19px/1.4 var(--display); color: var(--rubric); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card .row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.card .meta { font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card .cf { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); }
+.card .go { color: var(--gold-d); font-weight: 700; }
+.card.empty .ci > b { color: var(--muted); }
+.card.job.failed .meta { color: var(--err); }
+.card.more { place-content: center; text-align: center; }
+.steps5 { display: flex; gap: 5px; flex: none; }
+.steps5 i { width: 9px; height: 9px; transform: rotate(45deg); border: 1.5px solid var(--gold); }
+.steps5 i.f { background: var(--gold); }
+.prog { display: block; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 2px; }
+.prog i { display: block; height: 100%; background: var(--gold); transition: width .4s; }
+.card.drop { border: 1.5px dashed var(--gold); background: transparent; place-content: center; justify-items: center; text-align: center; cursor: pointer; min-height: 104px; }
+.card.drop > b { font: 700 14.5px var(--ui); color: var(--ink); white-space: normal; }
+.card.drop:hover, .card.drop.over { background: color-mix(in srgb, var(--gold) 10%, transparent); }
+
+/* ================= الخزانة الخشبية ================= */
+.cabinet { position: relative; filter: drop-shadow(0 24px 22px rgba(42, 29, 20, .32)); }
+.wq.night .cabinet { filter: drop-shadow(0 24px 26px rgba(0, 0, 0, .6)); }
+
+/* التاج: إفريز بارز بفتيلة مذهّبة ولوحة نحاسية */
+.crown { position: relative; z-index: 2; height: 32px; margin-inline: -9px; border-radius: 5px 5px 1px 1px; display: grid; place-items: center;
+  background: var(--grain-h) 0 0 / 480px 64px, linear-gradient(var(--wood-l) 0, var(--wood) 26%, var(--wood-d) 28%, var(--wood) 34%, var(--wood-l) 58%, var(--wood) 82%, var(--wood-d) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), inset 0 -1px 0 rgba(0, 0, 0, .4), 0 4px 5px -1px rgba(0, 0, 0, .45); }
+.crown::before, .crown::after { content: ""; position: absolute; inset-inline: 12px; height: 1px; background: linear-gradient(90deg, transparent, rgba(227, 199, 126, .75) 8%, rgba(227, 199, 126, .75) 92%, transparent); }
+.crown::before { top: 9px; opacity: .55; }
+.crown::after { bottom: 5px; }
+.plaque { position: relative; z-index: 1; font: 700 11px/1.7 var(--ui); letter-spacing: .02em; color: #3A2509; padding: 0 16px; border-radius: 2px; white-space: nowrap;
+  background: linear-gradient(var(--brass-1), var(--brass-2) 55%, var(--brass-3)); text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65), inset 0 -1px 0 rgba(0, 0, 0, .25), 0 1px 2px rgba(0, 0, 0, .55); }
+.plaque::before, .plaque::after { content: ""; position: absolute; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff6d4, #8a6a2c 70%); }
+.plaque::before { inset-inline-start: 5px; }
+.plaque::after { inset-inline-end: 5px; }
+
+/* الهيكل: قائمتان على الجانبين، والظهر ألواحٌ داكنة */
+.carcass { position: relative; padding: 0 16px;
+  background:
+    var(--grain-v) left top / 16px 480px repeat-y, var(--grain-v) right top / 16px 480px repeat-y,
+    linear-gradient(90deg, var(--wood-d), var(--wood-l) 35%, var(--wood) 70%, var(--wood-d)) left top / 16px 100% no-repeat,
+    linear-gradient(270deg, var(--wood-d), var(--wood-l) 35%, var(--wood) 70%, var(--wood-d)) right top / 16px 100% no-repeat,
+    var(--wood-back); }
+
+/* الرفّ: تجويفٌ يظلّله ما فوقه، ثم لوحٌ بوجهين (أعلاه مضاء وحافته الأمامية) */
+.cell { position: relative; display: flex; align-items: flex-end; gap: 3px; min-height: 206px; padding: 24px 18px 0;
+  background:
+    linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2) 24px, transparent 64px),
+    linear-gradient(90deg, rgba(0, 0, 0, .42), transparent 28px, transparent calc(100% - 28px), rgba(0, 0, 0, .42)),
+    radial-gradient(ellipse 70% 80% at 50% 100%, rgba(255, 214, 160, .07), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .32) 0 1px, rgba(255, 255, 255, .045) 1px 2px, transparent 2px 96px),
+    var(--grain-b) 0 0 / 240px 480px,
+    var(--wood-back); }
+.cell.center { justify-content: center; align-items: center; padding-bottom: 16px; }
+.wq.night .cell { background-blend-mode: normal; }
+.wq.night .cell::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 120% at 50% -20%, rgba(255, 190, 110, .2), transparent 70%); }
+.plank { position: relative; z-index: 2; height: 17px;
+  background: var(--grain-h) 0 0 / 480px 64px,
+    linear-gradient(color-mix(in srgb, var(--wood-l) 80%, #fff) 0, var(--wood-l) 4px, rgba(255, 255, 255, .3) 5px, var(--wood-l) 6px, var(--wood) 11px, var(--wood-d) 17px);
+  box-shadow: 0 5px 7px -3px rgba(0, 0, 0, .6); }
+.plinth { position: relative; z-index: 2; height: 24px; margin-inline: -5px; border-radius: 0 0 4px 4px;
+  background: var(--grain-h) 0 0 / 480px 64px, linear-gradient(var(--wood-d), var(--wood) 22%, var(--wood-l) 48%, var(--wood) 70%, var(--wood-d));
+  box-shadow: inset 0 2px 2px rgba(0, 0, 0, .3); }
+.plinth::after { content: ""; position: absolute; inset-inline: 14px; top: 9px; height: 1px; background: rgba(0, 0, 0, .3); box-shadow: 0 1px 0 rgba(255, 255, 255, .1); }
+
+/* المجلّد: جلدٌ مدوَّر الكعب، وأعصابٌ بارزة بين خطوط مذهّبة، ورقعةُ عنوان، ورقمُ المجلد في دائرة */
+.spine { --c: #6A1F2B; --lab: #17110D; --g: #E3C77E; position: relative; z-index: 1; flex: none; padding: 0; border: 0; cursor: pointer; border-radius: 3px 3px 2px 2px; color: var(--g);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, .55) 0, rgba(0, 0, 0, .2) 7%, rgba(255, 255, 255, .2) 21%, rgba(255, 255, 255, .07) 36%, transparent 56%, rgba(0, 0, 0, .14) 80%, rgba(0, 0, 0, .52) 100%),
+    var(--leather) 0 0 / 120px 120px,
+    var(--c);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), inset 0 -2px 0 rgba(0, 0, 0, .35), 3px 0 5px -2px rgba(0, 0, 0, .6);
+  transition: transform .25s var(--pen), box-shadow .25s, filter .2s; }
+.spine::before, .spine::after { content: ""; position: absolute; inset-inline: 0; height: 18px; pointer-events: none; opacity: .92;
+  background:
+    linear-gradient(var(--g), var(--g)) 0 0 / 100% 1px no-repeat,
+    linear-gradient(rgba(0, 0, 0, .4), rgba(255, 255, 255, .26) 45%, rgba(0, 0, 0, .4)) 0 3px / 100% 5px no-repeat,
+    linear-gradient(var(--g), var(--g)) 0 10px / 100% 1px no-repeat,
+    linear-gradient(rgba(0, 0, 0, .4), rgba(255, 255, 255, .26) 45%, rgba(0, 0, 0, .4)) 0 13px / 100% 5px no-repeat; }
+.spine::before { top: 7px; }
+.spine::after { bottom: 7px; transform: scaleY(-1); }
+.spine .lab { position: absolute; top: 31px; bottom: 31px; inset-inline: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 1px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, .4), rgba(255, 255, 255, .08) 30%, transparent 60%, rgba(0, 0, 0, .35)), var(--lab);
+  box-shadow: inset 0 0 0 1px rgba(227, 199, 126, .8), inset 0 0 0 3px var(--lab), inset 0 0 0 3.6px rgba(227, 199, 126, .5), 0 1px 2px rgba(0, 0, 0, .45); }
+.spine:has(.no) .lab { bottom: 55px; }
+.spine .lab span { writing-mode: vertical-rl; max-height: calc(100% - 10px); overflow: hidden; text-overflow: clip; white-space: nowrap; font: 700 13px/1.2 "Amiri", var(--display); color: #E8CD86; text-shadow: 0 1px 0 rgba(0, 0, 0, .7), 0 0 5px rgba(232, 205, 134, .28); }
+.spine.thin .lab { inset-inline: 3px; }
+.spine.thin .lab span { font-size: 12px; }
+.spine .no { position: absolute; bottom: 31px; left: 50%; width: 19px; height: 19px; margin-left: -9.5px; border-radius: 50%; display: grid; place-items: center; font: 700 10.5px/1 var(--ui); font-style: normal; color: var(--g); background: rgba(0, 0, 0, .2); box-shadow: inset 0 0 0 1px var(--g), 0 1px 0 rgba(255, 255, 255, .12); }
+.spine:hover, .spine:focus-visible, .spine.on { transform: translateY(-11px); filter: brightness(1.08); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), inset 0 -2px 0 rgba(0, 0, 0, .35), 3px 0 5px -2px rgba(0, 0, 0, .6), 0 14px 14px -8px rgba(0, 0, 0, .7); }
+.spine:focus-visible { outline: 2px solid var(--brass-1); outline-offset: 2px; }
+.spine.on { transform: translateY(-15px); }
+.spine.gone { filter: grayscale(.75) brightness(.78); opacity: .7; }
+/* الكعب الحقيقي (كما اختير للكتاب): صورته بنسبة الكعب على الرف (فلا يُمطّ نصّه)، بظلٍّ خفيف عند طرفيه، بلا زخرفة الكعب الافتراضي */
+.spine.real { background: linear-gradient(90deg, rgba(0, 0, 0, .3), transparent 16%, rgba(255, 255, 255, .06) 50%, transparent 84%, rgba(0, 0, 0, .3)), var(--img) center / 100% 100% no-repeat, var(--c); }
+.spine.real::before, .spine.real::after { display: none; }
+
+/* السنادة: صفيحة نحاسية تسند آخر كتاب، وقاعدتها تحته */
+.bookend { position: relative; z-index: 0; flex: none; width: 9px; height: 86px; margin-inline-start: 4px; border-radius: 3px 3px 0 0;
+  background: linear-gradient(90deg, #6f531c, var(--brass-1) 38%, var(--brass-2) 62%, #7d5f24); box-shadow: -3px 0 5px -1px rgba(0, 0, 0, .55); }
+.bookend::after { content: ""; position: absolute; bottom: 0; right: -10px; width: 19px; height: 3px; background: linear-gradient(var(--brass-1), var(--brass-3)); border-radius: 1px; }
+
+/* خانة الرَّحل: يُسحب إليها ملف PDF ليُقرأ */
+.slot { flex: 1; align-self: stretch; min-width: 170px; margin: 6px 0 10px; margin-inline-start: 14px; display: grid; place-content: center; justify-items: center; gap: 2px; padding: 10px; text-align: center; cursor: pointer;
+  border: 1.5px dashed rgba(244, 231, 196, .45); border-radius: 8px; background: rgba(0, 0, 0, .1); color: #EADBB5; font-size: 12.5px; transition: background-color .2s, border-color .2s; }
+.slot b { font: 700 14px var(--ui); color: #F4E7C4; }
+.slot:hover, .slot.over, .slot:focus-visible { background: rgba(244, 231, 196, .08); border-color: #E3C77E; outline: none; }
+
+/* لوحة نحاسية: الخزانة فارغة */
+.brass { display: grid; justify-items: center; gap: 4px; padding: 16px 30px 18px; text-align: center; color: #3A2509; border-radius: 4px;
+  background: linear-gradient(160deg, var(--brass-1), #D6B263 40%, var(--brass-3) 72%, #DDBD72);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55), inset 0 0 0 4px rgba(110, 78, 24, .3), inset 0 0 0 5px rgba(255, 255, 255, .25), 0 8px 14px -6px rgba(0, 0, 0, .7); }
+.brass b { font: 700 21px/1.4 var(--display); color: #33200A; text-shadow: 0 1px 0 rgba(255, 255, 255, .45); }
+.brass span { font-size: 12.5px; }
+.brass .btn { margin-top: 8px; background: #33200A; border-color: #33200A; color: var(--brass-1); }
+.brass .btn:hover { border-color: #33200A; background: #4a3010; }
+
+/* لوحة الكتاب */
+.book-panel { position: fixed; inset-block: 0; inset-inline-end: 0; width: min(360px, 92vw); background: var(--sheet); border-inline-start: 1px solid var(--line); box-shadow: 0 0 40px -10px rgba(0, 0, 0, .35); padding: 22px 20px 18px; overflow-y: auto; display: grid; gap: 10px; align-content: start; z-index: 5; animation: kz-in .25s var(--pen); }
+@keyframes kz-in { from { transform: translateX(-24px); opacity: 0; } }
+.book-panel .x { position: absolute; top: 10px; inset-inline-start: 10px; width: 30px; height: 30px; border: 0; background: none; color: var(--muted); font-size: 15px; cursor: pointer; border-radius: 6px; }
+.book-panel .x:hover { background: var(--vellum); color: var(--ink); }
+.book-panel .cover { width: 140px; aspect-ratio: 17 / 24; justify-self: center; border-radius: 2px 5px 5px 2px; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(90deg, rgba(0, 0, 0, .25), rgba(255, 255, 255, .06) 12%, transparent 30%), var(--leather) 0 0 / 120px 120px, var(--c, #6A1F2B); box-shadow: 0 12px 24px -10px rgba(0, 0, 0, .55), inset 7px 0 0 rgba(0, 0, 0, .2), inset 8px 0 0 rgba(255, 255, 255, .08); }
+.book-panel .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.book-panel .ct { font: 700 18px/1.5 var(--display); padding: 14px; text-align: center; color: #E8CD86; }
+.book-panel h2 { margin: 6px 0 0; font: 700 22px/1.4 var(--display); color: var(--rubric); text-align: center; }
+.book-panel .pa { margin: 0; text-align: center; color: var(--ink); font-size: 13.5px; }
+.book-panel .pm { margin: 0; text-align: center; color: var(--muted); font-size: 12.5px; }
+.book-panel .vols { list-style: none; margin: 6px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.book-panel .vols li { display: grid; grid-template-columns: 1fr auto; gap: 0 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.book-panel .vols small { color: var(--muted); font-size: 12px; }
+.book-panel .vols .acts { grid-row: span 2; display: flex; align-items: center; gap: 2px; }
+.book-panel .gone { color: var(--err); }
+.book-panel .pacts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.book-panel .pacts .btn { padding: 6px 12px; font-size: 13px; }
+
+.toast { position: fixed; bottom: 18px; inset-inline-start: 50%; transform: translateX(50%); background: var(--ink); color: var(--paper); padding: 9px 18px; border-radius: 8px; font-size: 13.5px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .5); z-index: 9; width: max-content; max-width: min(620px, calc(100vw - 40px)); text-align: center; line-height: 1.6; }
+@media (prefers-reduced-motion: reduce) { .spine, button.card, .book-panel { transition: none; animation: none; } }
+
+/* ================= الترتيب والخزائن ================= */
+.shelf-head { gap: 12px; flex-wrap: wrap; }
+.shelf-tools { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.seg-mode { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--sheet); }
+.seg-mode button { font: 700 12.5px/1.5 var(--ui); padding: 4px 12px; border: 0; border-inline-start: 1px solid var(--line); background: none; color: var(--ink); cursor: pointer; }
+.seg-mode button:first-child { border-inline-start: 0; }
+.seg-mode button[aria-pressed="true"] { background: var(--btn); color: var(--on-rubric); }
+
+/* أسماء الخزائن: ألواحٌ صغيرة فوق التاج، والمفتوحة منها متّصلة به */
+.cab-tabs { display: flex; align-items: flex-end; gap: 6px; padding-inline: 18px; margin-bottom: -2px; position: relative; z-index: 3; flex-wrap: wrap; }
+.cab-tab { display: inline-flex; align-items: baseline; gap: 8px; padding: 6px 16px 5px; border: 0; border-radius: 8px 8px 0 0; cursor: pointer; font: 700 13px/1.4 var(--ui); color: #EADBB5;
+  background: var(--grain-h) 0 0 / 480px 64px, linear-gradient(color-mix(in srgb, var(--wood-l) 70%, #000), color-mix(in srgb, var(--wood) 80%, #000));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); opacity: .82; transition: opacity .2s, transform .2s; }
+.cab-tab small { font: 700 11px var(--ui); color: var(--brass-1); opacity: .85; }
+.cab-tab:hover { opacity: 1; transform: translateY(-1px); }
+.cab-tab[aria-selected="true"] { opacity: 1; padding-bottom: 8px; color: #3A2509; background: var(--grain-h) 0 0 / 480px 64px, linear-gradient(var(--wood-l), var(--wood)); }
+.cab-tab[aria-selected="true"] span { padding: 0 10px; border-radius: 2px; background: linear-gradient(var(--brass-1), var(--brass-2) 55%, var(--brass-3)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), 0 1px 2px rgba(0, 0, 0, .5); text-shadow: 0 1px 0 rgba(255, 255, 255, .45); }
+.cab-tab[aria-selected="true"] small { color: #F4E7C4; }
+.cab-tab.add { background: none; box-shadow: none; border: 1.5px dashed var(--gold); color: var(--gold-d); opacity: 1; padding: 4px 12px; border-bottom: 0; }
+.cab-tab.drop-on { outline: 2px solid var(--brass-1); outline-offset: 2px; opacity: 1; }
+
+/* الطبقة: أجنحة متجاورة بين قوائم؛ والجناح المسمّى فوقه بطاقة فهرس في حاملٍ نحاسي */
+.band { display: flex; align-items: stretch; min-width: 0; }
+.bay { display: flex; flex-direction: column; min-width: 0; }
+.bay:nth-of-type(2n + 1) { --wood-back: color-mix(in srgb, #3A2313 86%, #7a5236); }
+.wq.night .bay:nth-of-type(2n + 1) { --wood-back: color-mix(in srgb, #22150B 84%, #4b3220); }
+.bay > .cell { flex: 1 0 auto; }
+.post { flex: 0 0 14px; position: relative; z-index: 2;
+  background: var(--grain-v) 0 0 / 14px 480px repeat-y, linear-gradient(90deg, var(--wood-d), var(--wood-l) 38%, var(--wood) 70%, var(--wood-d));
+  box-shadow: 3px 0 6px -2px rgba(0, 0, 0, .55), -3px 0 6px -2px rgba(0, 0, 0, .55); }
+.bay-cap { display: flex; justify-content: center; padding: 10px 12px 0; position: relative;
+  background: linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .22)), var(--grain-b) 0 0 / 240px 480px, var(--wood-back); }
+.bay-cap + .cell { padding-top: 14px; }
+.card-holder { position: relative; display: grid; place-items: center; min-width: 120px; max-width: 100%; padding: 4px; border: 0; border-radius: 3px; cursor: default; font: inherit;
+  background: linear-gradient(160deg, var(--brass-1), var(--brass-2) 45%, var(--brass-3) 75%, #E0C27A);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5), 0 3px 6px -1px rgba(0, 0, 0, .6); }
+.card-holder::before, .card-holder::after { content: ""; position: absolute; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff6d4, #7a5c22 70%); }
+.card-holder::before { inset-inline-start: -2px; }
+.card-holder::after { inset-inline-end: -2px; }
+.card-holder .cardtext { display: grid; justify-items: center; gap: 0; padding: 2px 16px 3px; min-width: 100%; border-radius: 1px; background: linear-gradient(#FFFBF0, #F1E6CC); box-shadow: inset 0 1px 3px rgba(0, 0, 0, .25); }
+.card-holder b { font: 700 15px/1.35 var(--display); color: #4A1622; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+.card-holder small { font: 700 10.5px/1.3 var(--ui); color: #8A6727; }
+.card-holder.editable { cursor: pointer; }
+.card-holder.editable:hover .cardtext { background: linear-gradient(#FFFDF6, #F6ECD4); }
+.bay-empty { align-self: center; margin: 0 auto 30px; color: #EADBB5; font-size: 12.5px; padding: 10px 14px; border: 1.5px dashed rgba(244, 231, 196, .4); border-radius: 8px; }
+.bay.drop-on > .cell { box-shadow: inset 0 0 0 2px var(--brass-1), inset 0 0 30px rgba(243, 217, 160, .18); }
+.bay-slot .slot { margin-inline-start: 0; }
+body.dragging-book .bay[data-drop-group] > .cell { outline: 1px dashed rgba(244, 231, 196, .35); outline-offset: -6px; }
+.spine[draggable="true"] { -webkit-user-drag: element; }
+
+/* صفحات الخزانة (إذا امتلأت رفوفها الأربعة): على القاعدة */
+.plinth { display: grid; place-items: center; }
+.pager { position: relative; z-index: 3; display: inline-flex; align-items: center; gap: 10px; margin-top: 2px; padding: 1px 6px; border-radius: 3px; font: 700 11px/1.6 var(--ui); color: #3A2509;
+  background: linear-gradient(var(--brass-1), var(--brass-2) 55%, var(--brass-3)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), 0 1px 2px rgba(0, 0, 0, .55); }
+.pager[hidden] { display: none; }
+.pager button { border: 0; background: none; font: 700 15px/1 var(--ui); color: #3A2509; cursor: pointer; padding: 0 4px; }
+.pager button:disabled { opacity: .35; cursor: default; }
+.plinth:has(.pager:not([hidden])) { height: 30px; }
+
+/* لوحة الكتاب: مكانه */
+.book-panel .place { display: grid; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); }
+.book-panel .place label { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.book-panel .place select { font: 13.5px var(--ui); padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--sheet); color: var(--ink); }
+.book-panel .place .subj { margin: 0; font-size: 12.5px; color: var(--muted); }
+
+/* سؤالٌ باسم، وقائمة أوامر، واختيار الترتيب أول مرة */
+.kz-ask { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 20px; background: color-mix(in srgb, var(--ink) 30%, transparent); backdrop-filter: blur(2px); }
+.kz-ask-card { width: min(380px, 100%); display: grid; gap: 12px; padding: 20px 22px 18px; border-radius: 12px; background: var(--sheet); border: 1px solid var(--line); box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .5); animation: kz-in .2s var(--pen); }
+.kz-ask-card.wide { width: min(640px, 100%); }
+.kz-ask-card h3 { margin: 0; font: 700 22px/1.3 var(--display); color: var(--rubric); }
+.kz-ask-card p { margin: -6px 0 0; color: var(--muted); font-size: 13px; }
+.kz-ask-card label { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.kz-ask-card input { font: 15px var(--ui); padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); }
+.kz-ask-card input:focus { outline: none; border-color: var(--gold); }
+.kz-ask-card .row { display: flex; justify-content: flex-end; gap: 8px; }
+.kz-menu { position: fixed; z-index: 31; display: grid; padding: 5px; min-width: 200px; border-radius: 10px; background: var(--sheet); border: 1px solid var(--line); box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .45); }
+.kz-menu button { text-align: start; font: 13.5px var(--ui); padding: 7px 12px; border: 0; border-radius: 7px; background: none; color: var(--ink); cursor: pointer; }
+.kz-menu button:hover { background: var(--vellum); }
+.kz-menu button.danger { color: var(--err); }
+.mode-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.mode-opts button { display: grid; justify-items: center; gap: 6px; padding: 14px 10px 12px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); cursor: pointer; text-align: center; font: inherit; }
+.mode-opts button:hover { border-color: var(--gold); transform: translateY(-2px); }
+.mode-opts b { font: 700 16px var(--display); color: var(--rubric); }
+.mode-opts small { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+/* رسومٌ صغيرة لكل ترتيب: رفٌّ خشبي عليه كعوب */
+.mo { display: block; width: 120px; height: 58px; border-radius: 4px; position: relative; background: linear-gradient(transparent 46px, var(--wood-d) 46px 52px, transparent 52px), var(--wood-back); box-shadow: inset 0 0 0 3px var(--wood); }
+.mo::before { content: ""; position: absolute; left: 10px; right: 10px; top: 14px; bottom: 12px;
+  background: repeating-linear-gradient(90deg, #6A1F2B 0 7px, transparent 7px 9px, #22385E 9px 16px, transparent 16px 18px, #1D5A3F 18px 24px, transparent 24px 26px, #5A3A22 26px 33px, transparent 33px 35px); }
+.mo-subject::after, .mo-custom::after { content: ""; position: absolute; top: 3px; bottom: 6px; left: 50%; width: 5px; margin-left: -2.5px; background: var(--wood-l); box-shadow: 0 0 3px rgba(0, 0, 0, .5); }
+.mo-subject::before { background: repeating-linear-gradient(90deg, #6A1F2B 0 7px, transparent 7px 9px) right / 42% 100% no-repeat, repeating-linear-gradient(90deg, #22385E 0 7px, transparent 7px 9px) left / 42% 100% no-repeat; }
+.mo-custom::before { background: repeating-linear-gradient(90deg, #1D5A3F 0 7px, transparent 7px 9px) right / 42% 100% no-repeat, linear-gradient(transparent, transparent); }
+.mo-custom { background: linear-gradient(transparent 46px, var(--wood-d) 46px 52px, transparent 52px), radial-gradient(circle at 25% 50%, rgba(244,231,196,.5) 0 1px, transparent 1.5px) 0 0 / 100% 100%, var(--wood-back); }
+
+/* الاسم على الكعب: كلمات كاملة بلا نقاط (والكلمة الواحدة الأطول من الكعب وحدها تُختصر) */
+.spine .lab span.one { text-overflow: ellipsis; }
+
+/* لافتة المجموعة الصغيرة: لوحةٌ ذهبية على إطار الرف (كلوحة اسم الخزانة)، فلا يرتفع الرف */
+.bay-rail { position: relative; z-index: 2; height: 24px; display: grid; place-items: center;
+  background: var(--grain-h) 0 0 / 480px 64px, linear-gradient(var(--wood-d) 0, var(--wood) 18%, var(--wood-l) 50%, var(--wood) 80%, var(--wood-d) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 -1px 0 rgba(0, 0, 0, .45), 0 4px 6px -2px rgba(0, 0, 0, .55); }
+.bay-rail::after { content: ""; position: absolute; inset-inline: 10px; bottom: 4px; height: 1px; background: linear-gradient(90deg, transparent, rgba(227, 199, 126, .55) 10%, rgba(227, 199, 126, .55) 90%, transparent); }
+.bay-rail + .cell { padding-top: 18px; }
+.grp-plate { position: relative; z-index: 1; max-width: calc(100% - 16px); overflow: hidden; text-overflow: ellipsis; font: 700 11px/1.7 var(--ui); letter-spacing: .02em; color: #3A2509; padding: 0 16px; border: 0; border-radius: 2px; white-space: nowrap; cursor: default;
+  background: linear-gradient(var(--brass-1), var(--brass-2) 55%, var(--brass-3)); text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65), inset 0 -1px 0 rgba(0, 0, 0, .25), 0 1px 2px rgba(0, 0, 0, .55); }
+.grp-plate::before, .grp-plate::after { content: ""; position: absolute; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff6d4, #8a6a2c 70%); }
+.grp-plate::before { inset-inline-start: 5px; }
+.grp-plate::after { inset-inline-end: 5px; }
+.grp-plate.editable { cursor: pointer; }
+.grp-plate.editable:hover { filter: brightness(1.08); }
+.band.plated .cell { min-height: 196px; }
+
+/* اختيار اللافتة: صورتان صغيرتان */
+.seg-label button { display: inline-flex; align-items: center; gap: 6px; }
+.seg-label i { display: inline-block; width: 18px; border-radius: 1.5px; background: linear-gradient(var(--brass-1), var(--brass-3)); box-shadow: 0 0 0 1px rgba(0, 0, 0, .15); }
+.seg-label .li-plate { height: 5px; }
+.seg-label .li-card { height: 11px; background: linear-gradient(#FFFBF0, #F1E6CC); box-shadow: 0 0 0 2px var(--brass-2); }
+.seg-label button[aria-pressed="true"] .li-card { box-shadow: 0 0 0 2px var(--brass-1); }
+
+/* الاسم على الكعب في لوحة الكتاب */
+.book-panel .place .spine-name { display: flex; gap: 4px; align-items: center; }
+.book-panel .place .spine-name input { flex: 1; min-width: 0; font: 13.5px var(--ui); padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--sheet); color: var(--ink); }
+.book-panel .place .spine-name input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 30%, transparent); }
+.book-panel .place .spine-name .tl { padding: 2px 6px; font-size: 15px; }
+
+/* ترتيب الكتب: موضع الإدراج بين الكعوب (ينفتح له مكانٌ وتظهر فيه علامة نحاسية) */
+.spine { transition: transform .25s var(--pen), box-shadow .25s, filter .2s, margin .14s; }
+.spine.ins-before { margin-inline-start: 16px; box-shadow: 9px 0 0 -2px var(--brass-1, #E3C77E); }
+.spine.ins-after { margin-inline-end: 16px; box-shadow: -9px 0 0 -2px var(--brass-1, #E3C77E); }
+.wq[dir="ltr"] .spine.ins-before, [dir="ltr"] .spine.ins-before { box-shadow: -9px 0 0 -2px var(--brass-1, #E3C77E); }
+[dir="ltr"] .spine.ins-after { box-shadow: 9px 0 0 -2px var(--brass-1, #E3C77E); }
+body.dragging-book .bay[data-bay] > .cell { outline: 1px dashed rgba(244, 231, 196, .28); outline-offset: -6px; }
+@keyframes kz-moved { 0% { transform: translateY(-16px); filter: brightness(1.35); } 100% { transform: none; filter: none; } }
+.spine.moved:not(.on) { animation: kz-moved .7s ease-out; }
+.spine.moved.on { animation: kz-moved-on .7s ease-out; }
+@keyframes kz-moved-on { 0% { filter: brightness(1.4); } 100% { filter: brightness(1.08); } }
+@media (prefers-reduced-motion: reduce) { .spine.moved, .spine.moved.on { animation: none; } .spine { transition: none; } }
+
+.book-panel .place .ord { display: grid; grid-template-columns: 70px 1fr; align-items: center; gap: 4px 8px; font-size: 12.5px; color: var(--muted); }
+.book-panel .place .ord > small { grid-column: 2; font-size: 11.5px; color: var(--muted); opacity: .85; }
+.book-panel .place .ord-row { display: flex; align-items: center; gap: 2px; }
+.book-panel .place .ord-row .tl { text-decoration: none; color: var(--ink); min-width: 28px; padding: 3px 6px; font-size: 15px; line-height: 1; border: 1px solid var(--line); border-radius: 7px; background: var(--sheet); }
+.book-panel .place .ord-row .tl:disabled { opacity: .35; cursor: default; }
+.book-panel .place .ord-pos { flex: 1; min-width: 0; text-align: center; font: 600 12.5px var(--ui); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* «وَرَق» بجانب PDF و Word في لوحة الكتاب */
+.book-panel .wq { display: inline-flex; align-items: center; gap: 4px; }
+.book-panel .wq-fi { display: inline-block; width: 11px; height: 14px; flex: none; background: url(/img/waraq-file.svg) center / contain no-repeat; }
+.book-panel .wq-row { border-top: 1px dashed var(--line); }
+
+/* لوحة الكتاب: تتسع لما فيها بدل شريط التمرير */
+.book-panel .p-id, .book-panel .p-ops { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.book-panel.wide { width: min(660px, 94vw); grid-template-columns: 210px minmax(0, 1fr); column-gap: 24px; align-items: start; padding-top: 30px; }
+.book-panel.wide .p-id { position: sticky; top: 0; }
+.book-panel.wide .cover { width: 170px; }
+.book-panel.wide .vols { margin-top: 0; }
+.book-panel.wide2 { width: min(820px, 96vw); }
+.book-panel.wide2 .vols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
+.book-panel.wide3 { width: min(1000px, 98vw); }
+.book-panel.wide3 .vols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* الدفتر (من الرَّحل): كعبٌ مستدير الزوايا، بخياطةٍ لا أشرطة مذهّبة، ورقعته ألين */
+.spine.nb { border-radius: 9px; }
+.spine.nb::before, .spine.nb::after { height: 2px; inset-inline: 5px; opacity: .6; background: repeating-linear-gradient(90deg, var(--g) 0 3px, transparent 3px 6px); }
+.spine.nb::before { top: 12px; }
+.spine.nb::after { bottom: 12px; }
+.spine.nb .lab { top: 22px; bottom: 22px; inset-inline: 5px; border-radius: 5px; box-shadow: inset 0 0 0 1px rgba(227, 199, 126, .55), 0 1px 2px rgba(0, 0, 0, .4); }
+.spine.nb.thin .lab { inset-inline: 4px; }
+.book-panel .cover.nb { border-radius: 12px; box-shadow: 0 12px 24px -10px rgba(0, 0, 0, .55); }
+.book-panel .nb-note { margin: 0; font-size: 12.5px; line-height: 1.7; color: var(--muted); background: var(--vellum); border-radius: 8px; padding: 8px 10px; }
+
+/* شكل الكعوب: كعب الغلاف كما يُطبع، أو الجلدي الافتراضي */
+.seg-look button { display: inline-flex; align-items: center; gap: 6px; }
+.seg-look i { display: inline-block; width: 6px; height: 14px; border-radius: 1.5px; }
+.seg-look .lk-real { background: linear-gradient(#7a1f2b 0 22%, #e3c77e 22% 26%, #1d1d1f 26% 74%, #e3c77e 74% 78%, #7a1f2b 78%); }
+.seg-look .lk-leather { background: linear-gradient(#e3c77e 0 1px, transparent 1px 3px, #e3c77e 3px 4px, #17110d 4px 10px, #e3c77e 10px 11px, transparent 11px), #6A1F2B; }
+.book-panel .place select[data-look] { font: 13.5px var(--ui); padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--sheet); color: var(--ink); min-width: 0; }

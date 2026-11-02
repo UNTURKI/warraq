@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="wq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الرَّحل — ورّاق</title>
+  <meta name="description" content="ضع كتابك على الرَّحل: ملف PDF يصير كتاباً بين يديك تقلّب أوراقه، وتظلّل وتكتب عليه، ثم تحفظه بملاحظاتك.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/wq.css">
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/rahl/rahl.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+  <script src="/js/wq.js"></script>
+</head>
+<body class="rahlpage">
+  <header class="top">
+    <a class="top-mark" href="/" aria-label="ورّاق: الصفحة الرئيسية"><svg viewBox="0 0 40 72" width="27" height="48" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></a>
+    <div class="top-in">
+      <a class="brand" href="/"><b><span class="wq-word" role="img" aria-label="ورّاق"></span></b><small>إحياء التراث بإخراجٍ يليق به</small></a>
+      <nav class="nav" aria-label="التنقل">
+        <button type="button" class="lamp" data-lamp aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2.5 3 3.5 5 3.5 7a3.5 3.5 0 0 1-7 0c0-2 1-4 3.5-7z"/><path d="M6 15h12l-1.5 5h-9z"/></svg><span>السِّراج</span></button>
+        <a class="lnk site-only" href="/identity/">الهوية</a>
+        <a class="lnk" href="/card/" title="اصنع بطاقة أسلوب لإخراج كتبك، أو ركّب بطاقة جاهزة وعدّلها">اصنع بطاقتك</a>
+        <a class="lnk" href="/rahl/" aria-current="page" title="تصفّح كتابك كأنه بين يديك">الرَّحل</a>
+        <a class="btn kb" href="/app/">اب<span class="k">ــ</span>دأ إخراج كتاب</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap rahl">
+    <section class="rh-hero">
+      <div class="rh-text">
+        <h1>الرَّحل</h1>
+        <p class="rh-lead">والرَّحلُ كرسيٌّ من خشبٍ يُوضع عليه الكتاب ليُقرأ. ضع عليه كتابك: ملفاً بصيغة PDF يصير كتاباً بين يديك، تقلّب أوراقه، وتحدّد كلامه فتنسخه أو تظلّله، وتكتب عليه بالقلم، وتضع ملاحظاتك وعلاماتك، ثم تحفظه بملاحظاته.</p>
+        <ul class="rh-feats">
+          <li>تقليب الأوراق كالكتاب الحقيقي</li>
+          <li>تحديد النص ونسخه بالإحالة</li>
+          <li>أقلام الحبر والتظليل بألوان</li>
+          <li>نصٌّ مضاف بخطه وحجمه ولونه</li>
+          <li>ملاحظات لاصقة وعلامات</li>
+          <li>البحث في الكتاب كله</li>
+        </ul>
+        <button type="button" class="rh-nbnew" id="nbNew">
+          <svg class="rh-nbic" viewBox="0 0 48 60" aria-hidden="true"><rect x="3" y="2" width="40" height="56" rx="7" class="c"/><rect x="34" y="2" width="4" height="56" class="band"/><rect x="9" y="16" width="22" height="11" rx="3" class="lab"/><path d="M12 36h20M12 42h20M12 48h14" class="ln"/></svg>
+          <span><b>أو افتح دفتراً جديداً</b><small>صفحةٌ فارغة أو مسطّرة أو لكراسة الخط أو لتفريغ الدرس… تكتب فيها وتعلّق بأقلامك، وكلما بلغت آخرها فُتحت لك صفحةٌ جديدة</small></span>
+        </button>
+      </div>
+      <label class="rh-drop" id="drop" tabindex="0">
+        <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+        <svg class="rh-art" viewBox="0 0 360 300" aria-hidden="true">
+          <!-- الرَّحل من حروف الشعار: رِجلاه ألفان متقاطعتان، والنقط الخمس شريطُ الكتاب، في محرابٍ بخيطٍ ذهبي يضيئه السِّراج -->
+          <defs>
+            <path id="rhAlif" d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z"/>
+            <linearGradient id="rhPgL" x1="0" x2="1"><stop offset="0" stop-color="#FFFDF8"/><stop offset=".78" stop-color="#FCF7EC"/><stop offset="1" stop-color="#E7D9BD"/></linearGradient>
+            <linearGradient id="rhPgR" x1="1" x2="0"><stop offset="0" stop-color="#FFFDF8"/><stop offset=".78" stop-color="#FCF7EC"/><stop offset="1" stop-color="#E7D9BD"/></linearGradient>
+            <linearGradient id="rhPgT" x1="0" x2="1"><stop offset="0" stop-color="#E9DCC2"/><stop offset=".25" stop-color="#FCF7EC"/><stop offset="1" stop-color="#FFFDF8"/></linearGradient>
+            <radialGradient id="rhGlow" cx=".5" cy=".44" r=".5"><stop offset="0" stop-color="#F3D9A0" stop-opacity=".6"/><stop offset=".6" stop-color="#F3D9A0" stop-opacity=".18"/><stop offset="1" stop-color="#F3D9A0" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse class="rh-glow" cx="180" cy="140" rx="165" ry="136" fill="url(#rhGlow)"/>
+          <g class="rh-arch" fill="none">
+            <path d="M50 287V122C50 66 106 26 180 12c74 14 130 54 130 110v165" stroke-width="1.1"/>
+            <path d="M60 287V124C60 74 112 38 180 24c68 14 120 50 120 100v163" stroke-width=".6" opacity=".7"/>
+            <path class="rh-key" d="M180 4l4 4-4 4-4-4z"/>
+          </g>
+          <ellipse cx="180" cy="288" rx="74" ry="5" fill="#2A1D14" opacity=".13"/>
+          <g class="rh-legs">
+            <g transform="translate(180 198) rotate(31) translate(-60.2 -100)"><use href="#rhAlif" transform="scale(1.9 2.86)" class="rh-leg-b"/></g>
+            <g transform="translate(180 198) scale(-1 1) rotate(31) translate(-60.2 -100)"><use href="#rhAlif" transform="scale(1.9 2.86)" class="rh-leg-f"/></g>
+          </g>
+          <g class="rh-book" transform="translate(180 0) scale(.88 1) translate(-180 0)">
+            <path class="rh-leg-b" d="M180 134C150 125 102 123 52 130L57 60C102 53 150 57 180 71Z"/>
+            <path class="rh-leg-f" d="M180 134C210 125 258 123 308 130L303 60C258 53 210 57 180 71Z"/>
+            <path class="rh-gilt" d="M180 130C150 121 104 119 56 125.5L60.5 62.5M180 130C210 121 256 119 304 125.5L299.5 62.5"/>
+            <path d="M180 127C150 117 108 115 62 121L65 63C106 56 150 60 180 74Z" fill="url(#rhPgL)"/>
+            <path d="M180 127C210 117 252 115 298 121L295 63C254 56 210 60 180 74Z" fill="url(#rhPgR)"/>
+            <g class="rh-lines">
+              <path d="M167 87C147 78 116 75 80 78M167 95C147 86 116 83 80 86M167 103C147 94 116 91 80 94M167 111C147 102 116 99 80 102M167 119C152 111 132 108 108 109"/>
+              <path d="M280 94C252 84 222 84 193 90M280 102C252 92 222 92 193 98M280 110C252 100 222 100 193 106M280 118C256 109 228 108 206 112"/>
+            </g>
+            <path class="rh-head" d="M260 77C246 73 232 73 220 76"/>
+            <path class="rh-key" d="M276 80l3 3-3 3-3-3zM204 80l3 3-3 3-3-3z"/>
+            <path d="M180 74V127" stroke="#2A1D14" stroke-opacity=".2"/>
+            <!-- الورقة تُقلَّب (عند المرور والإفلات) -->
+            <g class="rh-turn">
+              <path d="M180 127C210 117 252 115 298 121L295 63C254 56 210 60 180 74Z" fill="url(#rhPgT)"/>
+              <path class="rh-lines" d="M280 94C252 84 222 84 193 90M280 102C252 92 222 92 193 98M280 110C252 100 222 100 193 106"/>
+            </g>
+          </g>
+          <g class="rh-dots">
+            <path d="M180 127l4.2 4.2-4.2 4.2-4.2-4.2z"/><path d="M180 135.4l4.2 4.2-4.2 4.2-4.2-4.2z"/><path d="M180 143.8l4.2 4.2-4.2 4.2-4.2-4.2z"/><path d="M180 152.2l4.2 4.2-4.2 4.2-4.2-4.2z"/><path d="M180 160.6l4.2 4.2-4.2 4.2-4.2-4.2z"/>
+          </g>
+        </svg>
+        <b class="rh-drop-t">ضع كتابك على الرَّحل</b>
+        <span class="rh-drop-s">اسحب ملف PDF إلى هنا، أو انقر لتختاره</span>
+        <span class="rh-busy" hidden><span class="spin" aria-hidden="true"><i></i><i></i><i></i></span> يُجهَّز الكتاب…</span>
+      </label>
+    </section>
+    <div class="rh-opts">
+      <label class="rh-check"><input type="checkbox" id="coverFirst" checked> <span>الصفحة الأولى في الملف غلاف الكتاب</span></label>
+      <p class="rh-priv">الملف يبقى في جهازك ولا يُرفع إلى أي مكان، وما تكتبه عليه يُحفظ عندك.</p>
+    </div>
+    <p class="status err" id="err" hidden></p>
+
+    <section class="rh-shelf" id="shelfWrap" hidden>
+      <div class="rh-shelf-h">
+        <h2>رفّك</h2>
+        <p>كتبك ودفاترك التي وضعتها على الرَّحل، بملاحظاتها وموضع قراءتك فيها.</p>
+      </div>
+      <ol class="rh-books" id="shelf"></ol>
+    </section>
+  </main>
+
+  <dialog class="rh-dlg" id="nbDlg" aria-labelledby="nbDlgT">
+    <form method="dialog" class="nbd">
+      <div class="nbd-h"><h2 id="nbDlgT">دفترٌ جديد</h2><button type="button" class="nbd-x" data-nbd="cancel" aria-label="إلغاء">✕</button></div>
+      <div class="nbd-body">
+        <div class="nbd-prev" aria-hidden="true"><canvas class="nbd-cover" width="150" height="212"></canvas><canvas class="nbd-page" width="150" height="212"></canvas></div>
+        <div class="nbd-fields">
+          <label class="nbd-name"><span>اسم الدفتر</span><input type="text" id="nbName" maxlength="80" dir="auto" autocomplete="off"></label>
+          <div class="nbd-f"><span>الصفحة الأولى</span><div class="nbd-tpls" id="nbTpls" role="radiogroup" aria-label="قالب الصفحة الأولى"></div><small class="nbd-hint" id="nbTplHint"></small></div>
+          <div class="nbd-row">
+            <div class="nbd-f"><span>المقاس</span><div class="nbd-seg" id="nbSize" role="radiogroup" aria-label="المقاس"></div></div>
+            <div class="nbd-f"><span>الورق</span><div class="nbd-seg" id="nbPaper" role="radiogroup" aria-label="الورق"></div></div>
+          </div>
+          <div class="nbd-f"><span>الغلاف</span><div class="nbd-colors" id="nbColor" role="radiogroup" aria-label="لون الغلاف"></div></div>
+          <label class="rh-check nbd-khz" id="nbKhzRow" hidden><input type="checkbox" id="nbKhz" checked> <span>ضعه في الخزانة كذلك</span></label>
+        </div>
+      </div>
+      <div class="nbd-foot"><small>وكل صفحةٍ تزيدها تختار قالبها (أو تبقى على قالب ما قبلها).</small><span class="spacer"></span><button type="button" class="btn quiet small" data-nbd="cancel">إلغاء</button><button type="submit" class="btn" data-nbd="ok">افتح الدفتر</button></div>
+    </form>
+  </dialog>
+
+  <footer class="colophon site-only">
+    <p class="c1">ورّاق: إحياء التراث بإخراجٍ يليق به</p>
+    <p class="c5"><a class="tl" href="/identity/">هوية ورّاق وفكرة شعاره</a></p>
+    <i></i>
+  </footer>
+  <script src="/js/feedback.js" defer></script>
+  <script type="module" src="/rahl/rahl.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="wq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الطِّراز — ورّاق</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/wq.css">
+  <link rel="stylesheet" href="/tiraz/tiraz.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+  <script src="/js/wq.js"></script>
+</head>
+<!-- «الطِّراز» (في البرنامج وحده): المودات — حُلَلٌ تُلبس البرنامج فتغيّر شكله وأصواته وحركته، أو تضيف إليه ما ليس فيه.
+     لا يدخل هذا الباب مود، فيبقى منه الإطفاء دائماً. -->
+<body class="tz">
+  <main class="tz-in">
+    <header class="tz-head">
+      <div class="tz-title">
+        <h1>الطِّراز</h1>
+        <p class="sub">مودات تُلبس البرنامج حُلّةً أخرى: تغيّر شكله وأصواته وحركته، أو تضيف إليه ما ليس فيه.</p>
+      </div>
+      <div class="tz-tools">
+        <button type="button" class="btn pri" id="addBtn" title="مود من ملف ‎.wqmod‎ (أو اسحبه إلى هنا)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>أضف مودًا
+        </button>
+        <button type="button" class="btn" id="makeBtn" title="مجلدٌ فيه قالبٌ يعمل ودليل الصانع، ويظهر ما تحفظه فيه في الحال">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4.5 19.5 9.5 9 20H4v-5z"/><path d="M12.5 6.5l5 5"/></svg>اصنع مودًا
+        </button>
+        <button type="button" class="btn" id="aiBtn" title="توجيهٌ جاهز تنسخه إلى الذكاء الاصطناعي، ثم تلصق ردّه هنا فيصير مودًا">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.6L12 15l-1.8-4.4L5.5 9l4.7-1.4z"/><path d="M18.5 15.5l.8 2 2 .8-2 .7-.8 2-.8-2-2-.7 2-.8z"/></svg>بالذكاء الاصطناعي
+        </button>
+        <span class="tz-mw">
+          <button type="button" class="btn ib" id="moreBtn" title="المزيد" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg></button>
+          <span class="tz-menu" id="moreMenu" role="menu" hidden>
+            <button type="button" role="menuitem" data-a="link">اربط مجلد مودٍ «قيد الصنع»…<small>يعمل من مجلده ويتبع ملفاته</small></button>
+            <button type="button" role="menuitem" data-a="guide">دليل الصانع<small>كيف يُصنع المود، وأدواته</small></button>
+            <button type="button" role="menuitem" data-a="reloadUi">أعد تحميل الواجهة</button>
+          </span>
+        </span>
+      </div>
+    </header>
+
+    <div class="tz-master" id="master">
+      <button type="button" class="tz-switch big" id="safeSw" role="switch" aria-checked="true"><i></i></button>
+      <div>
+        <b id="masterT">المودات تعمل</b>
+        <small id="masterH">إن أفسد مودٌ الواجهة: <span class="kbd">Ctrl+Alt+Shift+M</span> يوقفها كلها ولو لم يظهر هذا الباب.</small>
+      </div>
+    </div>
+
+    <div class="tz-banner" id="banner" role="status" hidden></div>
+
+    <section aria-labelledby="hMine">
+      <div class="tz-sh">
+        <h2 class="lbl" id="hMine">مودات عندك</h2>
+        <small class="tz-order" id="orderHint" hidden>الترتيب: ما بعدُ يعلو ما قبله</small>
+      </div>
+      <div class="tz-list" id="list"></div>
+    </section>
+
+    <section aria-labelledby="hGal" id="galSec" hidden>
+      <h2 class="lbl" id="hGal">من معرض ورّاق</h2>
+      <div class="tz-gal" id="gallery"></div>
+    </section>
+  </main>
+
+  <div class="tz-drop" id="drop" hidden><div><b>أفلِته هنا</b><small>ملف مود ‎.wqmod‎ (أو مجلدٌ فيه mod.json)</small></div></div>
+
+  <!-- التثبيت -->
+  <dialog class="tz-dlg" id="instDlg" aria-labelledby="instT">
+    <form method="dialog">
+      <div class="tz-dh"><div class="tz-pv" id="instPv"></div><div><small class="tz-eyebrow" id="instKind">مودٌ جديد</small><h2 id="instT"></h2><p class="tz-by" id="instBy"></p></div></div>
+      <p class="tz-desc" id="instDesc"></p>
+      <dl class="tz-facts" id="instFacts"></dl>
+      <div class="tz-warn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.2v.3"/></svg>
+        <p>المود يعمل داخل البرنامج بكامل ما لواجهته: يرى ما فيها ويغيّره، ويستطيع أن يقرأ كتبك ويحفظ ملفات. <b>ثبّت ما تثق بصانعه.</b> وتطفئه أو تحذفه من هنا متى شئت.</p>
+      </div>
+      <div class="tz-dact"><button type="button" class="btn" value="no" id="instNo">ألغِ</button><button type="submit" class="btn pri" value="yes" id="instYes">ثبّته وشغّله</button></div>
+    </form>
+  </dialog>
+
+  <!-- اصنع مودًا -->
+  <dialog class="tz-dlg" id="makeDlg" aria-labelledby="makeT">
+    <form method="dialog" id="makeForm">
+      <h2 id="makeT">اصنع مودًا</h2>
+      <p class="tz-desc">يُنشأ له مجلد في <b>المستندات ← الورّاق ← مودات</b> ويُفتح، فيه قالبٌ يعمل (زرٌّ في الشريط الجانبي يُظهر رسالة) و«دليل الصانع». ويعمل المود «قيد الصنع»: كلما حفظتَ ملفاً فيه ظهر أثره في البرنامج في الحال.</p>
+      <label class="tz-fld">اسمه<input id="makeName" maxlength="80" placeholder="مثل: سراجي" required></label>
+      <fieldset class="tz-parts"><legend>أين يعمل؟</legend><div id="makeParts"></div></fieldset>
+      <div class="tz-dact"><button type="button" class="btn" value="no" id="makeNo">ألغِ</button><button type="submit" class="btn pri" value="yes">اصنعه</button></div>
+    </form>
+  </dialog>
+
+  <!-- اصنعه بالذكاء الاصطناعي: التوجيه، ثم ردّه -->
+  <dialog class="tz-dlg wide" id="aiDlg" aria-labelledby="aiT">
+    <div class="tz-gh"><h2 id="aiT">اصنع مودًا بالذكاء الاصطناعي</h2><button type="button" class="btn ib" id="aiX" title="أغلق"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="tz-ai">
+      <ol class="tz-steps">
+        <li>
+          <b>انسخ التوجيه</b>
+          <p>فيه كل ما يحتاجه الذكاء الاصطناعي ليصنع مودًا يعمل: ما المود، وأدواته، وما في البرنامج، وأن يضع الملفات كلها في كتلة كودٍ واحدة.</p>
+          <div class="tz-row"><button type="button" class="btn pri" id="aiCopy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>انسخ التوجيه</button><details class="tz-pd"><summary>اطّلع عليه</summary><pre id="aiPrompt" dir="rtl"></pre></details></div>
+        </li>
+        <li>
+          <b>ألصقه في محادثة مع الذكاء الاصطناعي، واكتب تحته ما تريد</b>
+          <p>في ChatGPT أو Claude أو Gemini أو غيرها. مثلاً: «اجعل زرّ السِّراج ناراً تتحرك، وإذا ضغطتُه سُمع صوت نارٍ أُوقدت» — أو «اجعل الأبواب غرفاً في دارٍ ثلاثية الأبعاد».</p>
+        </li>
+        <li>
+          <b>انسخ كتلة الكود من ردّه وألصقها هنا</b>
+          <p>كتلةٌ واحدة تُنسخ بزرّ النسخ الذي عليها (فيها <code>=== FILE: mod.json ===</code> ثم كل ملف). ولا بأس إن نسختَ الردّ كله بكلامه. وإن ذكر ملفاتٍ لا تُكتب نصاً (صوراً أو أصواتاً) فأرفقها.</p>
+          <textarea id="aiText" dir="ltr" spellcheck="false" placeholder="=== FILE: mod.json ===&#10;{ … }&#10;=== FILE: mod.js ===&#10;export default function (wq) { … }&#10;=== END ==="></textarea>
+          <div class="tz-row">
+            <label class="btn" id="aiFilesL"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5 12.6 20a5 5 0 0 1-7-7l8-8a3.4 3.4 0 0 1 4.8 4.8l-8 8a1.7 1.7 0 0 1-2.4-2.4l7.3-7.3"/></svg>أرفق ملفات (صور، أصوات)<input type="file" id="aiFiles" multiple hidden></label>
+            <span class="tz-att" id="aiAtt"></span>
+            <span class="tz-sp"></span>
+            <button type="button" class="btn pri" id="aiMake">حوّله إلى مود</button>
+          </div>
+          <p class="tz-hint">وإن أعطاك ملفاً مضغوطاً (‎.zip‎) أو مجلداً فاسحبه إلى «الطِّراز» كأي مود.</p>
+          <div class="tz-ai-msg" id="aiMsg" hidden></div>
+        </li>
+      </ol>
+    </div>
+  </dialog>
+
+  <!-- دليل الصانع -->
+  <dialog class="tz-dlg wide" id="guideDlg" aria-labelledby="guideT">
+    <div class="tz-gh"><h2 id="guideT">دليل الصانع</h2><button type="button" class="btn ib" id="guideX" title="أغلق"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <article class="tz-guide" id="guide"></article>
+  </dialog>
+
+  <div class="tz-toast" id="toast" role="status" hidden></div>
+  <script type="module" src="/tiraz/tiraz.js"></script>
+</body>
+</html>

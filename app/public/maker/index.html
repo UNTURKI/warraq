@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الصانع السريع — استوديو الأساليب</title>
+  <meta name="description" content="اصنع أسلوب إخراج كتابك بالنقر: ألوان وخطوط وأشكال جاهزة للعناوين والصفحة، ومعاينة حية.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@700&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/preview.css">
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/api/fonts.css">
+  <link rel="stylesheet" href="/maker/maker.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+</head>
+<body class="mk-body">
+  <header class="mk-top">
+    <a class="mk-back" id="mkBack" href="/app/" title="رجوع بلا حفظ">→ رجوع</a>
+    <div class="mk-title"><b>صانع الأساليب</b><small id="mkMode">اصنع أسلوب إخراج كتابك بالنقر، بلا كود</small></div>
+    <label class="mk-name"><span>اسم الأسلوب</span><input id="mkName" maxlength="60" placeholder="مثل: أسلوب مكتبتي" autocomplete="off"></label>
+    <div class="mk-acts">
+      <a class="btn" id="mkFull" href="/studio/" title="المحرر الكامل في استوديو الأساليب: صور وتنسيق وقوالب وصفحات خاصة وطباعة وخطوط">المحرر الكامل ↗</a>
+      <button class="btn" id="mkExport" type="button" title="بطاقة الأسلوب: صورة تُحفظ عندك وفي داخلها الأسلوب، وتُركَّب في أي نسخة من ورّاق">⬇ تنزيل بطاقته</button>
+      <button class="btn primary" id="mkSave" type="button">حفظ الأسلوب</button>
+    </div>
+  </header>
+
+  <main class="mk-main">
+    <div class="mk-work">
+      <nav class="mk-steps" id="mkSteps" aria-label="خطوات صنع الأسلوب"></nav>
+      <section class="mk-panel" id="mkPanel" aria-live="polite"></section>
+      <div class="mk-nav">
+        <button class="btn" id="mkPrev" type="button">→ السابق</button>
+        <span class="mk-dirty" id="mkDirty" hidden>تغييرات لم تُحفظ</span>
+        <button class="btn primary" id="mkNext" type="button">التالي ←</button>
+      </div>
+    </div>
+    <aside class="mk-pv" aria-label="معاينة حية للأسلوب"><div id="mkPreview"></div></aside>
+  </main>
+
+  <input type="file" id="mkFile" accept=".png,.json,.md,.txt,image/png,application/json,text/plain,text/markdown" hidden>
+  <div class="toast" id="toast" hidden></div>
+  <style id="mkSpecCss"></style>
+  <script type="module" src="/maker/maker.js"></script>
+</body>
+</html>

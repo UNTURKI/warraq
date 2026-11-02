@@ -1,0 +1,52 @@
+/* وضع البرنامج (يُربط بكل صفحة حين يعمل ورّاق برنامجاً على سطح المكتب، ولا يُحمَّل في الموقع) */
+
+/* ما يخص الموقع وحده: التذييل، وروابط الهوية والتنزيل، وتبويبات إدارة الموقع… */
+[data-desktop] .site-only { display: none !important; }
+
+/* زر «ملاحظاتك» العائم: في البرنامج مكانه «مساعدة ← أرسل ملاحظة» */
+[data-desktop] .fb-open { display: none !important; }
+
+/* داخل الهيكل (/desk/): الشريط الجانبي هو التنقل، فلا ترويسة في الصفحات ولا أزرار تنقّل بينها */
+[data-shell] header.top { display: none !important; }
+[data-shell] .list-head a[href="/admin/"], [data-shell] .list-head a[href="/app/"], [data-shell] .list-head a[href="/covers/"], [data-shell] .list-head a[href="/rahl/"] { display: none !important; }
+
+/* زر الإعدادات في الترويسة */
+[data-desktop] .nav .dk-set { display: inline-flex; align-items: center; gap: 6px; }
+[data-desktop] .nav .dk-set svg { width: 18px; height: 18px; flex: none; }
+
+/* لا تُحدَّد نصوص الواجهة بالسحب كما في صفحة ويب (تبقى النصوص والحقول قابلة للتحديد) */
+[data-desktop] .nav, [data-desktop] .tabs, [data-desktop] .btn, [data-desktop] button { -webkit-user-select: none; user-select: none; }
+
+/* المنضدة في الهيكل: تخطيطها في /css/bench.css (يضعه bench-desk.js) */
+
+/* أبواب الهيكل («الأساليب»، «المجلِّد»): شريط أدوات برنامج بدل ترويسة الصفحة */
+[data-shell] .list-head { min-height: 54px; padding: 8px 22px; gap: 12px; }
+[data-shell] .list-head .logo { display: none; }
+[data-shell] .list-head .brand > div:not(.logo) { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; min-width: 0; }
+[data-shell] .list-head h1 { margin: 0; font-size: 21px; line-height: 1.3; }
+[data-shell] .list-head p.small, [data-shell] .list-head .muted.small { margin: 0; font-size: 12.5px; }
+[data-shell] .list-head .btn { font-size: 13px; padding: 5px 12px; border-radius: 7px; }
+[data-shell] .list-head .btn svg { width: 15px; height: 15px; }
+
+/* «الرَّحل» بابٌ في البرنامج: دعوةٌ في الوسط بلا صفحة تعريف */
+[data-shell] .rahl .rh-hero { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: 16px; padding: 30px 0 6px; }
+[data-shell] .rahl .rh-text { justify-items: center; gap: 8px; }
+[data-shell] .rahl .rh-text h1 { font-size: 34px; line-height: 1.3; }
+[data-shell] .rahl .rh-lead { font-family: var(--ui); font-size: 14px; line-height: 1.8; max-width: 60ch; color: var(--muted); }
+[data-shell] .rahl .rh-feats { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; font-size: 12.5px; margin-top: 4px; }
+[data-shell] .rahl .rh-feats li { padding: 2px 12px 2px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); gap: 7px; }
+[data-shell] .rahl .rh-feats li::before { width: 6px; height: 6px; }
+[data-shell] .rahl .rh-drop { width: min(540px, 100%); }
+
+/* شريط التمرير: الألف ونقطته — قلمٌ عنّابي رفيع على سطرٍ ذهبي، في وسطه معيَّن من نقط الشعار.
+   (في السِّراج: قلمٌ ذهبي ومعيَّنٌ لازوردي). يُطفأ هنا ما يمنع تخصيصه في Chromium (scrollbar-width/color). */
+[data-desktop], [data-desktop] * { scrollbar-width: auto !important; scrollbar-color: auto !important; }
+[data-desktop] { --sb-pen: color-mix(in srgb, #6B1D2F 62%, transparent); --sb-pen-on: #6B1D2F; --sb-dot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 32'%3E%3Cg fill='%23C5A059'%3E%3Cpath d='M5 0 10 5 5 10 0 5z'/%3E%3Cpath d='M5 11 10 16 5 21 0 16z'/%3E%3Cpath d='M5 22 10 27 5 32 0 27z'/%3E%3C/g%3E%3C/svg%3E"); --sb-dot-on: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 32'%3E%3Cg fill='%23E3C77E'%3E%3Cpath d='M5 0 10 5 5 10 0 5z'/%3E%3Cpath d='M5 11 10 16 5 21 0 16z'/%3E%3Cpath d='M5 22 10 27 5 32 0 27z'/%3E%3C/g%3E%3C/svg%3E"); --sb-rule: color-mix(in srgb, #C5A059 30%, transparent); }
+[data-desktop].night { --sb-pen: color-mix(in srgb, #E2C27A 55%, transparent); --sb-pen-on: #E2C27A; --sb-dot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 32'%3E%3Cg fill='%230F1A2B'%3E%3Cpath d='M5 0 10 5 5 10 0 5z'/%3E%3Cpath d='M5 11 10 16 5 21 0 16z'/%3E%3Cpath d='M5 22 10 27 5 32 0 27z'/%3E%3C/g%3E%3C/svg%3E"); --sb-dot-on: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 32'%3E%3Cg fill='%2316243B'%3E%3Cpath d='M5 0 10 5 5 10 0 5z'/%3E%3Cpath d='M5 11 10 16 5 21 0 16z'/%3E%3Cpath d='M5 22 10 27 5 32 0 27z'/%3E%3C/g%3E%3C/svg%3E"); --sb-rule: color-mix(in srgb, #D6B36A 22%, transparent); }
+[data-desktop] ::-webkit-scrollbar { width: 14px; height: 14px; background: transparent; }
+[data-desktop] ::-webkit-scrollbar-track { background: linear-gradient(90deg, transparent 6.5px, var(--sb-rule) 6.5px 7.5px, transparent 7.5px); }
+[data-desktop] ::-webkit-scrollbar-track:horizontal { background: linear-gradient(180deg, transparent 6.5px, var(--sb-rule) 6.5px 7.5px, transparent 7.5px); }
+[data-desktop] ::-webkit-scrollbar-thumb { min-height: 44px; min-width: 44px; border: 3.5px solid transparent; border-radius: 10px; background: var(--sb-dot) center / 5px 16px no-repeat, var(--sb-pen); background-clip: padding-box; }
+[data-desktop] ::-webkit-scrollbar-thumb:hover, [data-desktop] ::-webkit-scrollbar-thumb:active { border-width: 2.5px; background: var(--sb-dot-on) center / 7px 22px no-repeat, var(--sb-pen-on); background-clip: padding-box; }
+[data-desktop] ::-webkit-scrollbar-button, [data-desktop] ::-webkit-scrollbar-corner { display: none; background: transparent; }
+[data-desktop] .pvw-bar .pvw-tabs::-webkit-scrollbar { display: none; }

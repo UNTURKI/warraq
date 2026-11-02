@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- الوحدة (٩ مم) مرةً واحدة، ونسخها بـ<use> من وسط الصورة: تبقى خطوطاً حادة في PDF (الخلفية المكرّرة تصير صورةً نقطية) -->
+  <defs><g id="t" transform="scale(0.1875)">
+  <rect width="48" height="48" fill="#fff"/>
+  <g fill="none" stroke="#f1c4d6" stroke-width="1">
+    <path d="M24 0 L31 17 L48 24 L31 31 L24 48 L17 31 L0 24 L17 17 Z"/>
+    <path d="M0 0 L17 7 L24 0 M48 0 L41 17 L48 24 M48 48 L31 41 L24 48 M0 48 L7 31 L0 24"/>
+    <path d="M17 7 L7 17 M31 7 L41 17 M41 31 L31 41 M7 31 L17 41" />
+    <path d="M17 17 L31 17 L31 31 L17 31 Z"/>
+    <path d="M0 0 L7 17 M48 0 L31 7 M48 48 L41 31 M0 48 L17 41"/>
+  </g>
+</g><g id="r"><use href="#t" x="-162"/><use href="#t" x="-153"/><use href="#t" x="-144"/><use href="#t" x="-135"/><use href="#t" x="-126"/><use href="#t" x="-117"/><use href="#t" x="-108"/><use href="#t" x="-99"/><use href="#t" x="-90"/><use href="#t" x="-81"/><use href="#t" x="-72"/><use href="#t" x="-63"/><use href="#t" x="-54"/><use href="#t" x="-45"/><use href="#t" x="-36"/><use href="#t" x="-27"/><use href="#t" x="-18"/><use href="#t" x="-9"/><use href="#t" x="0"/><use href="#t" x="9"/><use href="#t" x="18"/><use href="#t" x="27"/><use href="#t" x="36"/><use href="#t" x="45"/><use href="#t" x="54"/><use href="#t" x="63"/><use href="#t" x="72"/><use href="#t" x="81"/><use href="#t" x="90"/><use href="#t" x="99"/><use href="#t" x="108"/><use href="#t" x="117"/><use href="#t" x="126"/><use href="#t" x="135"/><use href="#t" x="144"/><use href="#t" x="153"/><use href="#t" x="162"/></g></defs>
+  <svg x="50%" y="50%" overflow="visible"><g transform="scale(3.7795)"><use href="#r" y="-225"/><use href="#r" y="-216"/><use href="#r" y="-207"/><use href="#r" y="-198"/><use href="#r" y="-189"/><use href="#r" y="-180"/><use href="#r" y="-171"/><use href="#r" y="-162"/><use href="#r" y="-153"/><use href="#r" y="-144"/><use href="#r" y="-135"/><use href="#r" y="-126"/><use href="#r" y="-117"/><use href="#r" y="-108"/><use href="#r" y="-99"/><use href="#r" y="-90"/><use href="#r" y="-81"/><use href="#r" y="-72"/><use href="#r" y="-63"/><use href="#r" y="-54"/><use href="#r" y="-45"/><use href="#r" y="-36"/><use href="#r" y="-27"/><use href="#r" y="-18"/><use href="#r" y="-9"/><use href="#r" y="0"/><use href="#r" y="9"/><use href="#r" y="18"/><use href="#r" y="27"/><use href="#r" y="36"/><use href="#r" y="45"/><use href="#r" y="54"/><use href="#r" y="63"/><use href="#r" y="72"/><use href="#r" y="81"/><use href="#r" y="90"/><use href="#r" y="99"/><use href="#r" y="108"/><use href="#r" y="117"/><use href="#r" y="126"/><use href="#r" y="135"/><use href="#r" y="144"/><use href="#r" y="153"/><use href="#r" y="162"/><use href="#r" y="171"/><use href="#r" y="180"/><use href="#r" y="189"/><use href="#r" y="198"/><use href="#r" y="207"/><use href="#r" y="216"/><use href="#r" y="225"/></g></svg>
+</svg>

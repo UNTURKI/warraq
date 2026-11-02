@@ -1,0 +1,107 @@
+/* أساس واجهات استوديو الأغلفة (المالك والمستخدم) */
+@font-face{font-family:"Adwa Assalaf";font-weight:400;font-style:normal;font-display:swap;src:url("/fonts/AdwaAssalaf-Regular.ttf") format("truetype")}
+@font-face{font-family:"Adwa Assalaf";font-weight:700;font-style:normal;font-display:swap;src:url("/fonts/AdwaAssalaf-Bold.ttf") format("truetype")}
+:root {
+  /* هوية «ورّاق»: الألوان من مظهر الموقع (/api/theme.css يعرّف ‎--l-*‎)، وما بعد الفاصلة المظهر الأصلي */
+  --paper: var(--l-paper, #FBF8F1);
+  --card: var(--l-sheet, #FFFDF8);
+  --ink: var(--l-ink, #2A1D14);
+  --ink-2: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  --muted: var(--l-muted, #6C5949);
+  --line: var(--l-line, #E4DCCB);
+  --line-2: color-mix(in srgb, var(--line) 80%, var(--ink));
+  --accent: var(--l-btn, #6B1D2F);
+  --accent-2: var(--l-btn-d, #551625);
+  --accent-soft: var(--l-vellum, #F3EFE6);
+  --head: var(--l-rubric, #6B1D2F);
+  --mark: var(--l-mark, #6B1D2F);
+  --dot: var(--l-dot, #C5A059);
+  --on: var(--l-on, #fff);
+  --gold: var(--l-gold-d, #8A6727);
+  --gold-soft: color-mix(in srgb, var(--l-gold, #C5A059) 20%, var(--paper));
+  --danger: #b4232f;
+  --danger-soft: #fbeaec;
+  --ok: #1d7a4f;
+  --ok-soft: #e6f4ec;
+  --cover-c: var(--l-rubric, #6B1D2F);   /* لون قسم الخلفية */
+  --slot-c: var(--l-gold-d, #8A6727);    /* لون قسم الخانة */
+  --radius: 3px;
+  --shadow: 0 1px 2px rgba(42, 29, 20, .06), 0 4px 16px rgba(42, 29, 20, .06);
+  --shadow-lg: 0 10px 40px rgba(42, 29, 20, .18);
+  --ui: "Tajawal", system-ui, sans-serif;
+  --display: "Adwa Assalaf", "Amiri", "Noto Naskh Arabic", serif;
+  color-scheme: light;
+}
+.lgd { fill: var(--dot); }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font-family: var(--ui); color: var(--ink); background: var(--paper); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; color: inherit; }
+h1, h2, h3, h4 { margin: 0; line-height: 1.3; }
+h1 { color: var(--head); font-weight: 700; }
+a { color: var(--accent-2); }
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+
+/* أزرار */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 3px; border: 1px solid var(--line-2); background: var(--card); cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap; transition: background .15s, border-color .15s, box-shadow .15s, transform .1s; }
+.btn:hover { background: var(--card); border-color: var(--gold); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible, .ibtn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on); }
+.btn.primary:hover { background: var(--accent-2); }
+.btn.gold { background: var(--gold); border-color: var(--gold); color: #fff; }
+.btn.ghost { background: transparent; border-color: transparent; }
+.btn.ghost:hover { background: rgba(42, 29, 20, .06); }
+.btn.danger { color: var(--danger); }
+.btn.danger:hover { background: var(--danger-soft); border-color: #e7b3b9; }
+.btn.sm { height: 32px; padding: 0 10px; font-size: 13px; border-radius: 3px; }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.ibtn { width: 32px; height: 32px; display: inline-grid; place-items: center; border-radius: 3px; border: 1px solid transparent; background: transparent; cursor: pointer; color: var(--ink-2); }
+.ibtn:hover { background: rgba(42, 29, 20, .07); color: var(--ink); }
+.ibtn.on { color: var(--accent-2); }
+.ibtn[disabled] { opacity: .35; pointer-events: none; }
+
+/* حقول */
+.field { display: grid; gap: 4px; }
+.field > span { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.inp, select.inp, textarea.inp { width: 100%; height: 36px; padding: 0 10px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--card); }
+textarea.inp { height: auto; min-height: 64px; padding: 8px 10px; resize: vertical; line-height: 1.5; }
+.inp:focus { border-color: var(--accent-2); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent); }
+.row { display: flex; gap: 8px; align-items: center; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+/* مفتاح تبديل */
+.sw { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; padding: 6px 0; font-size: 14px; }
+.sw input { appearance: none; width: 36px; height: 21px; border-radius: 99px; background: #cfcac0; position: relative; cursor: pointer; transition: background .15s; flex: none; margin: 0; }
+.sw input::after { content: ""; position: absolute; top: 2.5px; right: 2.5px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .25); transition: transform .15s; }
+.sw input:checked { background: var(--accent-2); }
+.sw input:checked::after { transform: translateX(-15px); }
+
+/* لون */
+.color { position: relative; width: 36px; height: 36px; border-radius: 3px; border: 1px solid var(--line-2); overflow: hidden; flex: none; background: conic-gradient(#ccc 25%, #fff 0 50%, #ccc 0 75%, #fff 0) 0 0/10px 10px; }
+.color input { position: absolute; inset: -6px; width: calc(100% + 12px); height: calc(100% + 12px); border: 0; padding: 0; cursor: pointer; background: none; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 2px; font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--ink-2); white-space: nowrap; }
+.chip.cover { background: var(--accent-soft); color: var(--cover-c); }
+.chip.slot { background: var(--gold-soft); color: var(--slot-c); }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.dot.cover { background: var(--cover-c); }
+.dot.slot { background: var(--slot-c); }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.checker { background: conic-gradient(#e9e6df 25%, #fff 0 50%, #e9e6df 0 75%, #fff 0) 0 0/14px 14px; }
+
+/* تنبيه عائم */
+.toast { position: fixed; bottom: 22px; left: 22px; z-index: 100; background: var(--ink); color: #fff; padding: 11px 16px; border-radius: 3px; box-shadow: var(--shadow-lg); font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: center; transform: translateY(20px); opacity: 0; transition: .25s; pointer-events: none; max-width: min(460px, calc(100vw - 44px)); }
+.toast.show { transform: none; opacity: 1; }
+.toast.warn { background: #7a2e0e; }
+
+/* صورة خارجية (مربع دائري الزوايا) — نسبة الزوايا مطابقة لقالب SVG: 180/1024 */
+.thumb { position: relative; aspect-ratio: 1; border-radius: 17.6%; overflow: hidden; background: #ddd; isolation: isolate; }
+.thumb > img, .thumb > svg { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }

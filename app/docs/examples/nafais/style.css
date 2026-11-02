@@ -1,0 +1,37 @@
+/* ١) الباب داخل خانة، ورقمه في مربع */
+.h1 { margin: 1mm 0 7mm; }
+.h1::after { display: none; }
+.bab { display: flex; align-items: stretch; border: 1.2pt solid var(--c-h1); border-radius: 2.5mm; overflow: hidden; background: #f7f2e6; }
+.bab-n { flex: none; width: 21mm; background: var(--c-h1); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.25; padding: 2mm 0; }
+.bab-n small { font-size: 9pt; font-weight: 400; color: #e6d3a3; }
+.bab-n b { font-size: 21pt; }
+.bab-t { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.4mm 5mm .6mm; font-family: 'Katibeh', var(--f-heading); font-weight: 400; font-size: 27pt; line-height: 1.35; }
+/* الفصل بين خطين */
+.h2 .fasl { display: flex; align-items: center; gap: 4mm; }
+.h2 .fasl i { flex: 1; border-top: .8pt solid var(--c-rule); }
+
+/* ٢) رقم الصفحة في الأعلى، في الطرف الخارجي: يسار الفردية ويمين الزوجية */
+.folio { top: 9.5mm; bottom: auto; left: auto; right: auto; width: auto; }
+.page.pg-l .folio { left: 13mm; }
+.page.pg-r .folio { right: 13mm; }
+.fo { display: inline-block; min-width: 11mm; padding: 1.3mm 2mm; background: var(--c-h1); color: #fff; border-radius: 1.5mm; font-size: 12pt; text-align: center; }
+.rh { border-bottom: 0; }
+.rh-t { display: inline-block; border-bottom: .6pt solid var(--c-rule); padding: 0 7mm 1mm; }
+
+/* ٤) إطار حول الصفحات، وزخرفة في الجنب الخارجي */
+.page.content, .page.toc { background: asset(frame) center/100% 100% no-repeat #fff; }
+.side { position: absolute; top: 36mm; bottom: 36mm; width: 5mm; background: asset(band) center top/100% auto repeat-y; }
+.page.pg-l .side { left: 7mm; }
+.page.pg-r .side { right: 7mm; }
+
+/* ٣) صفحة خاصة في أول الكتاب */
+.page.x-basmala { background: asset(frame) center/100% 100% no-repeat #fbf7ec; }
+.bsm { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7mm; text-align: center; }
+.bsm-orn { width: 36mm; }
+.bsm-t { font-family: 'Aref Ruqaa', serif; font-size: 34pt; font-weight: 700; color: var(--c-h1); line-height: 1.6; }
+.bsm-rule { width: 42mm; border-top: 1pt solid var(--c-rule); }
+.bsm-b { font-family: 'Katibeh', var(--f-heading); font-size: 24pt; color: var(--c-h2); }
+.bsm-a { font-size: 13pt; color: #5b4a3c; }
+
+/* ٥) رأس الفهرس في خانة مثل الأبواب */
+.toc-box { margin: 1mm 0 6mm; border: 1.2pt solid var(--c-h1); border-radius: 2.5mm; background: #f7f2e6; color: var(--c-h1); text-align: center; font-family: 'Katibeh', var(--f-heading); font-size: 27pt; line-height: 1.35; padding: 2.4mm 5mm .6mm; }

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="wq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>هوية ورّاق — الشعار وميزانه</title>
+  <meta name="description" content="فكرة شعار ورّاق: ميزان ابن مقلة للخط، الألف تُقاس بنقط القلم فصار للورّاقين منهجٌ يضبطون به ما ينسخون. ومعه ألوان الموقع بأسماء الصنعة، وخطّاه، وحركاته الأربع.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/wq.css">
+  <link rel="stylesheet" href="/identity/identity.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+  <script src="/js/wq.js"></script>
+</head>
+<body class="idp" id="top">
+  <header class="top">
+    <a class="top-mark" href="/" aria-label="ورّاق: الصفحة الرئيسية"><svg viewBox="0 0 40 72" width="27" height="48" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></a>
+    <div class="top-in">
+      <a class="brand" href="/"><b><span class="wq-word" role="img" aria-label="ورّاق"></span></b><small>إحياء التراث بإخراجٍ يليق به</small></a>
+      <ol class="mob-rail" data-rail-mob aria-hidden="true"></ol>
+      <nav class="nav" aria-label="التنقل">
+        <button type="button" class="lamp" data-lamp aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2.5 3 3.5 5 3.5 7a3.5 3.5 0 0 1-7 0c0-2 1-4 3.5-7z"/><path d="M6 15h12l-1.5 5h-9z"/></svg><span>السِّراج</span></button>
+        <a class="lnk" href="/identity/" aria-current="page">الهوية</a>
+        <a class="lnk" href="/card/" title="اصنع بطاقة أسلوب لإخراج كتبك، أو ركّب بطاقة جاهزة وعدّلها">اصنع بطاقتك</a>
+        <a class="lnk" href="/rahl/" title="ضع ملف كتابك (PDF) فيصير كتاباً تقلّبه وتظلّله وتكتب عليه">الرَّحل</a>
+        <a class="lnk" href="/">العودة إلى الموقع</a>
+        <a class="btn kb" href="/app/">اب<span class="k">ــ</span>دأ إخراج كتاب</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="margin" aria-label="الميزان: مواضع الصفحة">
+      <nav class="rail">
+        <div class="rail-mark">
+          <svg class="rail-alif" viewBox="0 0 22 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 22 0v146c0 21-5 38-14 54C3.5 184 0 168 0 146z" fill="currentColor"/></svg>
+          <ol class="rail-dots" data-rail></ol>
+        </div>
+        <p class="rail-now" data-rail-now></p>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <!-- ١. الشعار: يُبنى أمامك، وتغيّر عرض القلم فيتبدّل عدد النقط -->
+      <section class="wrap i-hero" id="s1" data-sec data-label="الشعار">
+        <div class="i-say">
+          <h1>الشعار ميزانٌ قبل أن يكون رسماً</h1>
+          <p class="i-lead">في أوائل القرن الرابع الهجري وضع الوزير الخطّاط ابن مقلة ميزاناً للخط: جعل الألف مقياساً تُنسب إليه الحروف كلها، وقاس الألف بنقط القلم. فصار للورّاقين منهجٌ يضبطون به ما ينسخون، وسُمّي خطّهم «الخطّ المنسوب».</p>
+          <p class="i-lead2">وشعار ورّاق هو هذا الميزان: ألفٌ، وإلى جانبها نقطها الخمس. وعليه يُبنى الموقع كله، كما كان الورّاق ينسخ الكتاب على منهجٍ ثابت لا على هواه.</p>
+
+        </div>
+
+        <div class="i-pen">
+          <label class="i-pen-l" for="penRange">عرض القلم</label>
+          <div class="i-pen-r">
+            <span>أدقّ</span>
+            <input type="range" class="i-range" id="penRange" min="1" max="5" step="1" value="3" aria-describedby="penSay">
+            <span>أعرض</span>
+          </div>
+          <p class="i-pen-say" id="penSay" aria-live="polite"></p>
+          <div class="i-pen-act">
+            <button type="button" class="tbtn" id="penReplay">أعد الرسم</button>
+            <button type="button" class="tbtn" id="penBack" hidden>عُد إلى الخمس</button>
+          </div>
+        </div>
+
+        <figure class="i-stage">
+          <svg id="bSvg" viewBox="0 0 520 520" role="img" aria-labelledby="bCap">
+            <g id="bGuides" class="b-guides"></g>
+            <circle class="b-ring" cx="290" cy="260" r="200" pathLength="1" transform="rotate(-90 290 260)"/>
+            <g id="bDots" class="b-dots"></g>
+            <clipPath id="bClip"><rect class="b-wipe" x="180" y="54" width="220" height="412"/></clipPath>
+            <g clip-path="url(#bClip)"><g id="bAlef" class="b-alef"><svg x="266" y="60" width="48" height="400" viewBox="0 0 22 200" preserveAspectRatio="none"><path d="M0 14 22 0v146c0 21-5 38-14 54C3.5 184 0 168 0 146z"/></svg></g></g>
+            <g id="bDim" class="b-dim"><path d=""/><text y="266" text-anchor="end" direction="rtl"></text></g>
+          </svg>
+          <figcaption class="i-cap" id="bCap">الألف قُطر الدائرة، وإليها تُنسب بقية الحروف. والنقطة وحدة القياس: <b>مربّعٌ قائمٌ على رأسه، ضلعه عرض القلم.</b></figcaption>
+        </figure>
+
+        <div class="i-locks">
+          <div class="i-lock on-paper onpaper"><svg viewBox="0 0 40 72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg><b>ورّاق</b><small>على الكاغد</small></div>
+          <div class="i-lock on-rubric"><svg viewBox="0 0 40 72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg><b>ورّاق</b><small>على الحُمرة</small></div>
+          <div class="i-lock on-night"><svg viewBox="0 0 40 72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg><b>ورّاق</b><small>على اللازورد</small></div>
+          <div class="i-sizes onpaper" aria-label="الشعار في ثلاثة أحجام">
+            <figure><span style="--s:64px"><svg viewBox="0 0 40 72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></span>٦٤</figure>
+            <figure><span style="--s:32px"><svg viewBox="0 0 40 72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></span>٣٢</figure>
+            <figure><span style="--s:16px"><svg viewBox="0 0 40 72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></span>١٦</figure>
+            <p>يبقى مقروءاً حتى في أيقونة المتصفح.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ٢. الميزان: النقطة وحدة المسافات -->
+      <section class="wrap i-sec" id="s2" data-sec data-label="الميزان" style="--u:8px">
+        <span class="i-mark" aria-hidden="true">الميزان</span>
+        <h2 class="h2">النقطة وحدة المسافات</h2>
+        <p class="i-intro">كل فراغٍ في الموقع عددٌ من النقط، لا رقمٌ يُختار كيفما اتفق. اختر مقداراً لترى موضعه في الورقة، أو غيّر عرض القلم فيتّسع كل شيء معاً.</p>
+        <div class="i-two">
+          <div class="i-unit">
+            <ol class="i-steps" id="uSteps">
+              <li><button type="button" class="i-step" data-s="1"><b>نقطة</b><span class="i-dots"></span><small>بين العلامة ونصّها</small><code></code></button></li>
+              <li><button type="button" class="i-step" data-s="2"><b>نقطتان</b><span class="i-dots"></span><small>حشو الزر</small><code></code></button></li>
+              <li><button type="button" class="i-step on" data-s="3"><b>ثلاث</b><span class="i-dots"></span><small>بين العنوان ومتنه</small><code></code></button></li>
+              <li><button type="button" class="i-step" data-s="5"><b>خمس</b><span class="i-dots"></span><small>هامش الورقة</small><code></code></button></li>
+              <li><button type="button" class="i-step" data-s="7"><b>سبع</b><span class="i-dots"></span><small>بين الباب والباب</small><code></code></button></li>
+            </ol>
+            <div class="i-pen-r i-u-range">
+              <label for="uRange">عرض القلم</label>
+              <input type="range" class="i-range" id="uRange" min="6" max="12" step="1" value="8">
+              <output id="uOut" for="uRange"></output>
+            </div>
+          </div>
+          <div class="i-spec onpaper" id="uSpec" data-pick="3" aria-label="ورقة مثال تُقاس مسافاتها بالنقط">
+            <i class="i-gap pad" data-s="5"></i>
+            <h3><i class="i-nq"></i><i class="i-gap x" data-s="1"></i>كتاب الطهارة</h3>
+            <i class="i-gap y" data-s="3"></i>
+            <p>«إنما الأعمال بالنيات» هذا الحديث أصلٌ عظيمٌ من أصول الدين، وعليه مدار كثيرٍ من الأحكام.</p>
+            <i class="i-gap y" data-s="3"></i>
+            <span class="i-fbtn"><i class="i-gap x" data-s="2"></i>تابع القراءة<i class="i-gap x" data-s="2"></i></span>
+            <i class="i-gap y" data-s="7"></i>
+            <h3><i class="i-nq"></i><i class="i-gap x" data-s="1"></i>باب المياه</h3>
+            <i class="i-gap y" data-s="3"></i>
+            <p>الماء الطهور هو الباقي على أصل خلقته.</p>
+          </div>
+        </div>
+
+        <div class="i-uses">
+          <p class="i-uses-h">والنقطة نفسها في كل موضع</p>
+          <ul>
+            <li><label class="chk"><input type="checkbox" checked><span>خانة الاختيار</span></label></li>
+            <li><button type="button" class="switch on" id="uSwitch" aria-pressed="true"><u></u><span>المفتاح</span></button></li>
+            <li><span class="spin" aria-hidden="true"><i></i><i></i><i></i></span><span>نقط الانتظار</span></li>
+            <li><button type="button" class="btn small">اضغط هنا</button><span>أثر الضغطة</span></li>
+          </ul>
+          <p class="i-cap">الحوافّ حادّة كالورق المقصوص، والشكل المميَّز الوحيد هو النقطة. لا بطاقات مدوّرة ولا ظلال رمادية. وفي هامش هذه الصفحة الألف ونقطها الخمس تدلّك على موضعك.</p>
+        </div>
+      </section>
+
+      <!-- ٣. الألوان -->
+      <section class="wrap i-sec" id="s3" data-sec data-label="الألوان">
+        <span class="i-mark" aria-hidden="true">الألوان</span>
+        <h2 class="h2">الألوان بأسماء الصنعة</h2>
+        <p class="i-intro">كما في المخطوط: الحُمرة للعناوين، والمِداد للمتن، والزخرفة للنقط. اضغط لوناً لترى موضعه في الصفحة.</p>
+        <div class="i-two i-col">
+          <div class="i-pal" id="cPal" role="group" aria-label="ألوان الموقع">
+            <button type="button" class="i-sw" data-c="paper" data-var="--p-paper"><i></i><b>الكاغد</b><span>أرض الصفحة</span><code></code></button>
+            <button type="button" class="i-sw" data-c="vellum" data-var="--p-vellum"><i></i><b>الرَّقّ</b><span>أرض اللوحات والعيّنات</span><code></code></button>
+            <button type="button" class="i-sw" data-c="ink" data-var="--p-ink"><i></i><b>المِداد</b><span>النص</span><code></code></button>
+            <button type="button" class="i-sw on" data-c="rubric" data-var="--p-rubric"><i></i><b>الحُمرة</b><span>العناوين والتنبيهات</span><code></code></button>
+            <button type="button" class="i-sw" data-c="gold" data-var="--p-gold"><i></i><b>الزخرفة</b><span>النقط والخطوط</span><code></code></button>
+            <button type="button" class="i-sw" data-c="night" data-hex="#0F1A2B"><i></i><b>اللازورد</b><span>أرض السِّراج</span><code></code></button>
+          </div>
+          <div class="i-leafwrap">
+            <div class="i-leafbox" id="cBox" data-pick="rubric">
+              <div class="i-leaf">
+                <p class="lf-rh" data-c="ink">شرح عمدة الأحكام</p>
+                <h3 class="lf-h" data-c="rubric">كتاب الطهارة</h3>
+                <div class="lf-orn" data-c="gold"><i></i><i></i><i></i></div>
+                <p class="lf-p" data-c="ink">«إنما الأعمال بالنيات» هذا الحديث أصلٌ عظيمٌ من أصول الدين، وعليه مدار كثيرٍ من الأحكام.</p>
+                <p class="lf-sub" data-c="rubric">فصل</p>
+                <p class="lf-p" data-c="ink">والنية محلّها القلب، ولا يُشترط التلفظ بها.</p>
+                <div class="lf-rule" data-c="gold"></div>
+                <p class="lf-fn" data-c="ink">(١) متفق عليه من حديث عمر بن الخطاب.</p>
+              </div>
+            </div>
+            <p class="i-cread" aria-live="polite"><b id="cName"></b><span id="cRole"></span><button type="button" class="tbtn" id="cCopy"></button></p>
+            <button type="button" class="tbtn i-lampbtn" data-lamp aria-pressed="false">جرّب السِّراج في الصفحة كلها</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ٤. الخط -->
+      <section class="wrap i-sec" id="s4" data-sec data-label="الخط">
+        <span class="i-mark" aria-hidden="true">الخط</span>
+        <h2 class="h2">خطّان لا ثالث لهما</h2>
+        <p class="i-intro">أضواء السلف للعناوين ونص القراءة، وهو خط الكتاب المطبوع نفسه. وتجوال للأزرار والخيارات والأرقام. اكتب عنوان كتابك لتراه.</p>
+        <div class="i-type">
+          <div class="i-type-in">
+            <label class="fld">عنوان كتابك<input id="tIn" type="text" value="رياض الصالحين" maxlength="48" autocomplete="off"></label>
+            <div class="i-pen-r">
+              <label for="tSize">الحجم</label>
+              <input type="range" class="i-range" id="tSize" min="34" max="96" step="2" value="72">
+            </div>
+          </div>
+          <div class="i-type-row"><small>أضواء السلف، عريض: العناوين</small><p class="t-display" id="tOut">رياض الصالحين</p></div>
+          <div class="i-type-row"><small>أضواء السلف: نص القراءة</small><p class="t-read">بحواشيه في صفحاتها، وفهرسه، وأبياته مضبوطة الأشطر.</p></div>
+          <div class="i-type-row"><small>تجوال: الأزرار والخيارات والأرقام</small><p class="t-ui">ابدأ الجلب والتنضيد، ٣ مجلدات، ١٬٣٣٨ صفحة</p></div>
+        </div>
+      </section>
+
+      <!-- ٥. الحركة -->
+      <section class="wrap i-sec" id="s5" data-sec data-label="الحركة">
+        <span class="i-mark" aria-hidden="true">الحركة</span>
+        <h2 class="h2">أربع حركات بأسماء أفعال القلم</h2>
+        <p class="i-intro">لا يتحرك شيءٌ في ورّاق إلا كما يتحرك القلم. اضغط كل حركة لتعيدها.</p>
+        <ul class="i-motion" id="mList">
+          <li class="i-mo">
+            <button type="button" class="i-mo-demo" data-mo="nq" aria-label="نَقْط: اضغط لتختم نقطة"></button>
+            <b>نَقْط</b>
+            <p>تُختم النقطة ثم تستقرّ. للاختيار والتمام والضغط.</p>
+          </li>
+          <li class="i-mo">
+            <button type="button" class="i-mo-demo" data-mo="md" aria-label="مَدّ: اضغط لتمتدّ الكشيدة"><span class="m-kash">كت<span>ــــ</span>اب</span></button>
+            <b>مَدّ</b>
+            <p>تمتدّ الكشيدة، فالزر لا يكبر بل يطول حرفه. للأزرار والروابط.</p>
+          </li>
+          <li class="i-mo">
+            <button type="button" class="i-mo-demo" data-mo="st" aria-label="سَطْر: اضغط ليُرسم الخط"><span class="m-line"></span><span class="m-line"></span><span class="m-line"></span></button>
+            <b>سَطْر</b>
+            <p>يُرسم الخط من اليمين. للفواصل والتسطير وخيوط الحواشي.</p>
+          </li>
+          <li class="i-mo">
+            <button type="button" class="i-mo-demo" data-mo="jf" aria-label="جَفاف: اضغط ليظهر النص رطباً ثم يجفّ"><span class="m-dry">بسم الله الرحمن الرحيم</span></button>
+            <b>جَفاف</b>
+            <p>يظهر النص رطباً ثم يجفّ. لكل ما يصل بعد انتظار.</p>
+          </li>
+        </ul>
+        <p class="i-cap">وكلها تسكن إذا طلبتَ من جهازك تقليل الحركة.</p>
+      </section>
+
+      <footer class="colophon site-only">
+        <p class="c1">ورّاق: إحياء التراث بإخراجٍ يليق به</p>
+        <p class="c2"><a class="tl" href="/app/">ابدأ إخراج كتاب</a></p>
+        <i></i>
+        <div class="by">
+          <span class="by-cap">الموقع من صنع</span>
+          <span class="by-logo" role="img" aria-label="فقيه (FAQEEH)"></span>
+          <p class="by-links">
+            <a href="https://x.com/UN_TURKI" target="_blank" rel="noopener">تويتر <bdi dir="ltr">@UN_TURKI</bdi></a>
+            <a href="mailto:faqeeh.university@gmail.com">البريد <bdi dir="ltr">faqeeh.university@gmail.com</bdi></a>
+          </p>
+          <p class="by-note"><b>تنبيه</b> ورّاق، موقعاً وبرنامجاً، مبذولٌ لكل أحد بلا حقوق محفوظة. ولا يحلّ استعماله فيما حرّم الله، ولا في نسخ إخراج دار نشرٍ أو غلافها نسخاً مطابقاً بغير إذنها.</p>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="/identity/identity.js" defer></script>
+  <script src="/js/feedback.js" defer></script>
+</body>
+</html>

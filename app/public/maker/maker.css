@@ -1,0 +1,173 @@
+/* صانع الأساليب: خطوات يُختار فيها بالنقر، ومعاينة حية بجانبها */
+.mk-body { min-height: 100vh; display: flex; flex-direction: column; }
+.mk-body.embed { background: var(--bg); }
+.mk-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 10px 18px; background: linear-gradient(180deg, var(--primary), var(--primary-d)); border-bottom: 3px solid var(--gold); color: #FBF8F1; position: sticky; top: 0; z-index: 20; }
+.mk-back { color: #FBF8F1; text-decoration: none; font-weight: 600; border: 1px solid rgba(197, 160, 89, .7); border-radius: 10px; padding: 6px 14px; white-space: nowrap; }
+.mk-back:hover { background: rgba(255, 255, 255, .08); }
+.mk-title { display: grid; line-height: 1.3; }
+.mk-title b { font-family: var(--display); font-size: 22px; }
+.mk-title small { font-size: 12.5px; opacity: .85; }
+.mk-name { display: flex; align-items: center; gap: 8px; flex: 1 1 240px; min-width: 200px; font-size: 14px; }
+.mk-name span { white-space: nowrap; opacity: .9; }
+.mk-name input { flex: 1; min-width: 0; font: inherit; font-family: var(--display); font-size: 18px; font-weight: 700; padding: 5px 12px; border-radius: 10px; border: 1.5px solid var(--gold); background: #fffdf8; color: var(--ink); }
+.mk-name input.bad { border-color: #ffb4a8; box-shadow: 0 0 0 3px rgba(255, 120, 100, .35); }
+.mk-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.mk-acts .btn { white-space: nowrap; }
+.mk-acts .btn.primary { background: var(--gold); border-color: #a8853f; color: #2c1a10; }
+.mk-acts .btn.primary:hover:not(:disabled) { background: #d6b36c; }
+
+.mk-main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 430px); gap: 18px; padding: 16px 18px 26px; max-width: 1500px; width: 100%; margin: 0 auto; align-items: start; }
+.mk-work { min-width: 0; display: grid; gap: 12px; }
+.mk-pv { position: sticky; top: 76px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+@media (max-width: 980px) {
+  .mk-main { grid-template-columns: minmax(0, 1fr); }
+  .mk-pv { position: static; order: -1; }
+}
+
+/* الخطوات */
+.mk-steps { display: flex; gap: 6px; flex-wrap: wrap; }
+.mk-steps button { font: inherit; font-size: 14.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px 6px 9px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+.mk-steps button i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; background: #efe9dc; display: grid; place-items: center; font-size: 12.5px; }
+.mk-steps button:hover { border-color: var(--gold); }
+.mk-steps button[aria-current="step"] { background: var(--primary); border-color: var(--primary-d); color: #fff; }
+.mk-steps button[aria-current="step"] i { background: rgba(255, 255, 255, .25); }
+.mk-steps button.done i { background: var(--gold); color: #2c1a10; }
+.mk-panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 18px; min-height: 380px; }
+.mk-panel h2 { font-family: var(--display); font-size: 23px; margin: 0 0 2px; color: var(--head); }
+.mk-panel .lead { margin: 0 0 12px; color: var(--muted); font-size: 14.5px; }
+.mk-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mk-dirty { font-size: 13px; color: #9a5b00; }
+
+/* مجموعة اختيارات */
+.mk-group { margin-top: 16px; }
+.mk-group:first-of-type { margin-top: 6px; }
+.mk-group > h3 { font-size: 17px; margin: 0 0 1px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.mk-group > h3 small { font-weight: 400; color: var(--muted); font-size: 13px; }
+.mk-tiles { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.mk-tile { font: inherit; display: grid; gap: 5px; justify-items: center; align-content: start; padding: 8px 8px 6px; border-radius: 12px; border: 2px solid var(--line); background: #fdfcf9; cursor: pointer; color: var(--ink); }
+.mk-tile:hover { border-color: var(--gold); background: #fffaf0; }
+.mk-tile[aria-pressed="true"] { border-color: var(--primary); background: #fff7f3; box-shadow: 0 0 0 3px rgba(107, 29, 47, .12); }
+.mk-tile > b { font-size: 13px; font-weight: 600; max-width: 150px; text-align: center; line-height: 1.4; }
+.mk-tile[aria-pressed="true"] > b { color: var(--head); }
+.mk-spec { display: block; position: relative; overflow: hidden; background: #fff; border: 1px solid #ece6d8; border-radius: 6px; }
+.mk-spec > .sp { position: absolute; top: 0; right: 0; transform-origin: top right; }
+.mk-spec > .sp.bot { top: auto; bottom: 0; transform-origin: bottom right; }
+
+/* لوحات الألوان */
+.mk-pals { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 8px; }
+.mk-pal { font: inherit; display: grid; gap: 6px; padding: 9px 10px 7px; border-radius: 12px; border: 2px solid var(--line); background: #fdfcf9; cursor: pointer; color: var(--ink); text-align: start; }
+.mk-pal:hover { border-color: var(--gold); }
+.mk-pal[aria-pressed="true"] { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(107, 29, 47, .12); }
+.mk-pal .sws { display: flex; height: 26px; border-radius: 7px; overflow: hidden; border: 1px solid rgba(0, 0, 0, .08); }
+.mk-pal .sws i { flex: 1; }
+.mk-pal b { font-size: 13.5px; }
+.mk-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px 14px; margin-top: 10px; }
+.mk-colors label { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.mk-colors input[type="color"] { width: 38px; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: #fff; cursor: pointer; }
+
+/* الخط والمقاس */
+.mk-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px 16px; margin-top: 8px; }
+.mk-fields label { display: grid; gap: 3px; font-size: 14px; }
+.mk-fields select, .mk-fields input[type="text"], .mk-desc { font: inherit; padding: 7px 10px; border-radius: 9px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); width: 100%; }
+.mk-range { display: grid; gap: 2px; font-size: 14px; }
+.mk-range span { display: flex; justify-content: space-between; }
+.mk-range b { color: var(--head); }
+.mk-range input { width: 100%; accent-color: var(--primary); }
+.mk-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.mk-chip { font: inherit; font-size: 15px; padding: 4px 13px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; color: var(--ink); }
+.mk-chip[aria-pressed="true"] { border-color: var(--primary); background: #fff7f3; color: var(--head); font-weight: 700; }
+.mk-check { display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; margin-top: 8px; }
+.mk-note { font-size: 13.5px; color: var(--muted); margin: 8px 0 0; }
+.mk-note.warn { color: #9a5b00; }
+
+/* البداية: بطاقات الأساليب */
+.mk-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 16px 12px; margin-top: 10px; }
+.mk-card { position: relative; font: inherit; display: grid; gap: 6px; justify-items: center; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); min-width: 0; }
+.mk-card .art { width: 100%; aspect-ratio: 1; border-radius: 17.6%; overflow: hidden; box-shadow: 0 4px 12px rgba(61, 35, 20, .18); display: block; }
+.mk-card .art canvas { width: 100%; height: 100%; display: block; }
+.mk-card b { font-family: var(--display); font-size: 14.5px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mk-card small { font-size: 11.5px; color: var(--muted); margin-top: -5px; }
+.mk-card[aria-pressed="true"] .art { box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--primary); }
+.mk-card[aria-pressed="true"] b { color: var(--head); }
+.mk-card.add .art { display: grid; place-items: center; border: 2px dashed var(--gold); box-shadow: none; background: #fffaf0; font-size: 34px; color: var(--head); }
+.mk-sum { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px 14px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 14px; }
+.mk-sum li { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed var(--line); padding: 2px 0; }
+.mk-sum li span { color: var(--muted); }
+.mk-save-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+/* ---------------- عيّنات الاختيار: العناصر نفسها بمقاسها الحقيقي مصغَّرةً، وتنسيق كل اختيار من shared/style-parts.js ---------------- */
+.sp { direction: rtl; text-align: start; font-family: var(--f-body); color: var(--c-text); font-size: 16pt; line-height: 1.85; box-sizing: border-box; pointer-events: none; }
+.sp * { box-sizing: border-box; }
+.sp.pad { padding: 4mm 6mm; }
+.sp .page { width: 170mm; height: 240mm; position: relative; background: #fff; overflow: hidden; }
+.sp .body { position: absolute; top: var(--m-top, 18mm); bottom: var(--m-bottom, 14mm); left: var(--m-side, 20mm); right: var(--m-side, 20mm); }
+.sp .rh { position: absolute; top: calc(var(--m-top, 18mm) - 10.5mm); left: var(--m-side, 20mm); right: var(--m-side, 20mm); text-align: center; font-size: 10.5pt; line-height: 1.5; color: #4a3a2e; border-bottom: 0.5pt solid var(--c-rule); padding-bottom: 0.8mm; font-family: var(--f-heading); }
+.sp .folio { position: absolute; left: 0; right: 0; bottom: calc(var(--m-bottom, 14mm) * 0.4); text-align: center; font-weight: 700; font-size: 15pt; line-height: 1; }
+.sp .h1, .sp .h2, .sp .h3 { font-family: var(--f-heading); font-weight: 700; }
+.sp .h1 { font-size: 24pt; color: var(--c-h1); text-align: center; line-height: 1.5; margin: 0 0 5mm; }
+.sp .h1::after { content: ''; display: block; width: 32mm; margin: 2.2mm auto 0; border-top: 0.8pt solid var(--c-rule); }
+.sp .h2 { font-size: 19pt; color: var(--c-h2); text-align: center; line-height: 1.55; margin: 0 0 3.6mm; }
+.sp .h3 { font-size: 17pt; color: var(--c-h3); text-align: start; line-height: 1.6; margin: 0 0 2.6mm; }
+.sp .orn { text-align: center; color: var(--c-orn); margin: 2.5mm 0 3.5mm; word-spacing: 0.4em; font-size: 1.05em; line-height: 1.6; }
+.sp .p { margin: 0; text-align: justify; }
+.sp .p.first { text-indent: 4mm; }
+.sp .p.mt { font-weight: 700; color: var(--c-matn); }
+.sp .shrule { border-top: 0.8pt solid var(--c-rule); margin: 2.2mm 0 2.6mm; height: 0; }
+.sp .notes { font-size: 13.5pt; line-height: 1.6; }
+.sp .fnsep { width: 34%; border-top: 0.7pt solid var(--c-rule); margin: 0 0 1.4mm 0; }
+.sp .toc-e { display: flex; align-items: baseline; font-size: 14pt; line-height: 1.75; }
+.sp .toc-e .ld { flex: 1 1 0; min-width: 1.5em; overflow: hidden; white-space: nowrap; margin: 0 0.35em; }
+.sp .toc-e .n { font-weight: 700; }
+.sp .toc-e.l1 { font-weight: 700; color: var(--c-h1); }
+.sp .toc-e.l2 { padding-inline-start: 5mm; }
+.sp .cover .body { top: 14mm; bottom: 14mm; left: 14mm; right: 14mm; }
+.sp .cover-frame { position: absolute; inset: 0; border: 1.4pt solid var(--c-rule); padding: 1.6mm; }
+.sp .cover-in { position: absolute; inset: 1.6mm; border: 0.5pt solid var(--c-rule); display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; padding: 12mm 8mm 9mm; }
+.sp .cv-title { font-family: var(--f-cover); font-weight: 700; font-size: 36pt; line-height: 1.45; color: var(--c-h1); }
+.sp .cv-orn { color: var(--c-orn); margin: 9mm 0 8mm; font-size: 14pt; word-spacing: 0.5em; }
+.sp .cv-author { font-weight: 700; font-size: 22pt; color: #3D2314; }
+.sp .cv-bottom { font-size: 11pt; color: #4a3a2e; }
+/* سطر نص صامت */
+.sp .ln { display: block; height: 1.7mm; border-radius: 1mm; background: #dcd6c9; margin: 3.4mm 0; }
+.sp .ln.s { width: 62%; }
+/* العنوان في وسط عيّنته رأسياً */
+.sp.mid { display: flex; flex-direction: column; justify-content: center; }
+.sp.mid .h1, .sp.mid .h2, .sp.mid .h3 { margin: 0; }
+/* صفحة مصغَّرة (الإطار والغلاف يُريان فيها كاملين) */
+.sp .page.mini { width: 70mm; height: 99mm; --m-top: 16mm; --m-bottom: 8mm; --m-side: 10mm; }
+.sp .page.mini .rh { font-size: 5.5pt; top: 8.5mm; padding-bottom: 0.4mm; }
+.sp .page.mini .folio { font-size: 7pt; bottom: 2.6mm; }
+.sp .page.mini .h2 { font-size: 10pt; margin: 0 0 1mm; }
+.sp .page.mini .ln { height: 0.9mm; margin: 2.5mm 0; }
+.sp .page.mini.cover .body { top: 6mm; bottom: 6mm; left: 6mm; right: 6mm; }
+:where(.sp .page.mini) .cover-frame { border-width: 1pt; padding: 1mm; }
+.sp .page.mini .cover-in { inset: 1mm; padding: 6mm 3mm 4mm; }
+.sp-cover-band .page.mini .cover-frame { border-top-width: 3mm; border-bottom-width: 3mm; }
+.sp .page.mini .cv-title { font-size: 15pt; }
+.sp .page.mini .cv-orn { font-size: 7pt; margin: 3mm 0; }
+.sp .page.mini .cv-author { font-size: 9pt; }
+.sp .page.mini .cv-bottom { font-size: 5.5pt; }
+
+/* ===== ثوب هوية «ورّاق»: شريط ورقي، زوايا حادّة، والنقطة المعيَّنة لأرقام الخطوات ===== */
+.mk-top { background: var(--bg); border-bottom: 1px solid var(--line); color: var(--ink); }
+.mk-back { color: var(--ink); border: 1px solid var(--line); border-radius: 3px; font-weight: 700; }
+.mk-back:hover { background: transparent; border-color: var(--gold-d); }
+.mk-title b { color: var(--mark); font-size: 26px; }
+.mk-title small { color: var(--muted); opacity: 1; }
+.mk-name span { color: var(--muted); opacity: 1; }
+.mk-name input { border: 0; border-bottom: 1.5px solid var(--ink); border-radius: 0 !important; background: transparent; padding: 2px 2px; }
+.mk-name input:focus { outline: none; border-bottom-color: var(--gold-d); box-shadow: 0 1.5px 0 var(--gold-d); }
+.mk-acts .btn.primary { background: var(--primary); border-color: var(--primary); color: var(--on); }
+.mk-acts .btn.primary:hover:not(:disabled) { background: var(--primary-d); }
+.mk-pv { border: 0; background: transparent; padding: 0; }
+.mk-steps { gap: 0; border-bottom: 1px solid var(--ink); }
+.mk-steps button { border: 0; border-radius: 3px 3px 0 0; background: transparent; padding: 8px 14px 8px 10px; font-weight: 700; }
+.mk-steps button:hover { background: var(--card); }
+.mk-steps button i { position: relative; isolation: isolate; background: none; border-radius: 0; width: 24px; height: 24px; color: var(--gold-d); }
+.mk-steps button i::before { content: ''; position: absolute; inset: 3px; transform: rotate(45deg); border: 1.5px solid var(--gold); z-index: -1; }
+.mk-steps button.done i { background: none; color: var(--ink); }
+.mk-steps button.done i::before { background: var(--gold); }
+.mk-steps button[aria-current="step"] { background: var(--primary); color: var(--on); }
+.mk-steps button[aria-current="step"] i { background: none; color: var(--primary); }
+.mk-steps button[aria-current="step"] i::before { background: var(--on); border-color: var(--on); }
+.mk-body .btn, .mk-body .mk-card, .mk-body .mk-panel, .mk-body select, .mk-body input:not([type=color]):not([type=range]):not([type=checkbox]):not([type=radio]) { border-radius: 3px; }

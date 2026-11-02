@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="wq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ورّاق — إخراج كتب التراث</title>
+  <meta name="description" content="حوّل كتب مكتبة تراث إلى PDF منسق بأسلوب دور النشر وملفات Word بحواشٍ سفلية حقيقية.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Aref+Ruqaa:wght@700&display=swap">
+  <link rel="stylesheet" href="/css/wq.css">
+  <link rel="stylesheet" href="/css/preview.css">
+  <link rel="stylesheet" href="/css/studio.css">
+  <link rel="stylesheet" href="/css/mutun.css">
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/api/fonts.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+  <script src="/js/wq.js"></script>
+</head>
+<body class="studio" id="top">
+  <header class="top">
+    <a class="top-mark" href="/" aria-label="ورّاق: الصفحة الرئيسية" title="الصفحة الرئيسية"><svg viewBox="0 0 40 72" width="27" height="48" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></a>
+    <div class="top-in">
+      <a class="brand" href="/" title="الصفحة الرئيسية"><b><span class="wq-word" role="img" aria-label="ورّاق"></span></b><small>إحياء التراث بإخراجٍ يليق به</small></a>
+      <ol class="mob-rail" data-rail-mob aria-hidden="true"></ol>
+      <nav class="nav" aria-label="التنقل">
+        <button type="button" class="lamp" data-lamp aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2.5 3 3.5 5 3.5 7a3.5 3.5 0 0 1-7 0c0-2 1-4 3.5-7z"/><path d="M6 15h12l-1.5 5h-9z"/></svg><span>السِّراج</span></button>
+        <a class="lnk site-only" href="/identity/" title="فكرة الشعار وميزان ابن مقلة">الهوية</a>
+        <a class="lnk" href="/card/" title="اصنع بطاقة أسلوب لإخراج كتبك، أو ركّب بطاقة جاهزة وعدّلها">اصنع بطاقتك</a>
+        <a class="lnk" href="/rahl/" title="ضع ملف كتابك (PDF) فيصير كتاباً تقلّبه وتظلّله وتكتب عليه">الرَّحل</a>
+        <a class="lnk site-only" href="/download/" title="نزّل ورّاق برنامجاً يعمل على جهازك">تنزيل البرنامج</a>
+        <button id="resetBtn" class="btn quiet" type="button" title="تعرية الذاكرة وإعادة البدء">إعادة الضبط</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="margin" aria-label="الميزان: محطات الإخراج">
+      <nav class="rail">
+        <div class="rail-mark">
+          <svg class="rail-alif" viewBox="0 0 22 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 22 0v146c0 21-5 38-14 54C3.5 184 0 168 0 146z" fill="currentColor"/></svg>
+          <ol class="rail-dots" data-rail></ol>
+        </div>
+        <p class="rail-now" data-rail-now></p>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <!-- ١. الكتاب -->
+      <section class="wrap stn" id="s1" data-sec data-label="الكتاب">
+        <header class="st-h"><span class="st-n"><i></i><b>١</b></span><h2 class="h2">ابحث عن الكتاب</h2></header>
+        <!-- مصدر الكتاب: مكتبة «تراث» (وما أضافه المالك من مصادر)، أو ملف Word من جهاز المستخدم -->
+        <div id="srcTabs" class="seg" role="radiogroup" aria-label="مصدر الكتاب"></div>
+        <p class="hint" id="kindNote" hidden>البحث يُوضع من ملفه (Word أو PDF): ضعه في الخانة، أو اسحبه إلى أي موضعٍ من المِنضدة، أو افتحه بـ Ctrl+O. وبحثٌ في ملفين يصير مجلدين.</p>
+        <form id="searchForm" class="find" autocomplete="off" role="search">
+          <div class="qwrap">
+            <input id="q" class="find-in" type="search" placeholder="اسم الكتاب، أو المؤلف، أو الشهرة… أو الصق رابط الكتاب من تراث أو رقمه" aria-label="البحث">
+            <ul id="suggest" class="suggest" role="listbox" hidden></ul>
+          </div>
+          <button class="btn kb" type="submit" id="searchBtn">اب<span class="k">ــ</span>حث</button>
+        </form>
+        <div class="try" id="tryBox"><span>جرّب:</span>
+          <button type="button" data-id="95735" data-src="turath" title="مجموع رسائل الحافظ ابن رجب الحنبلي">مجموع رسائل ابن رجب</button>
+          <button type="button" data-id="1681" data-src="turath" title="صحيح البخاري - ط السلطانية">صحيح البخاري</button>
+          <button type="button" data-id="158" data-src="turath" title="الداء والدواء = الجواب الكافي - ط دار المعرفة">الداء والدواء</button>
+          <button type="button" data-id="252" data-src="turath" title="عدة الصابرين وذخيرة الشاكرين - ط عطاءات العلم">عدة الصابرين لابن القيم</button>
+          <button type="button" data-id="7339" data-src="turath" title="القول المفيد على كتاب التوحيد">القول المفيد على كتاب التوحيد</button>
+          <button type="button" data-id="30097" data-src="turath" title="البداية والنهاية - ط دار ابن كثير">كتاب البداية والنهاية</button>
+          <button type="button" data-file="/books/khan.waraq" title="تأليف: وسام بن محمد">الخان الأخير</button>
+        </div>
+        <p class="note" id="addNote" hidden>تختار الآن كتاباً يُضاف مجلداً إلى «<b id="addName"></b>»: ضع ملفه، أو ابحث عنه واختره. <button type="button" class="tbtn" id="addCancel">إلغاء الإضافة</button></p>
+        <p class="hint" id="searchHint"><span id="searchWhere">يعتمد البحث على واجهة «تراث» مع مطابقة سريعة للعنوان والمؤلف لإظهار النسخ والطبعات والشروح المتوفرة.</span> <span id="setHint" hidden>وللبحث عن <b>مجلد فيه كتب</b> (تصير ملفاته مجلدات كتاب واحد بأرقامها التي في أسمائها) اسبق اسمه بعلامة <b dir="ltr">#</b>.</span></p>
+        <div id="searchStatus" class="status" hidden></div>
+        <!-- ملف Word من جهاز المستخدم يصير كتاباً كالمجلوب -->
+        <div id="myBook" class="mybook" hidden>
+          <label class="drop" id="mySlot" tabindex="0">
+            <input type="file" id="myFile" multiple accept=".docx,.pdf,.waraq,.warraq,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" hidden>
+            <i></i><i></i><i></i><i></i>
+            <b id="myTitle">أو ضع ملف كتابك هنا</b>
+            <span>ملف Word ‎(docx) أو PDF أو كتاب «وَرَق» ‎(waraq): اسحبه إلى هنا، أو اضغط لاختياره. وعدة ملفات Word أو PDF معاً تصير مجلدات كتاب واحد</span>
+          </label>
+          <p class="hint mydir"><input type="file" id="myDir" webkitdirectory multiple hidden><button type="button" class="tbtn" id="myDirBtn">اختر مجلداً فيه كتبك</button> كل ملف Word أو PDF فيه يصير مجلداً، ورقمه من اسمه: «… ج٢»، «المجلد الثالث»، «04 - …».</p>
+          <p class="hint" id="myHint">يُقرأ الملف على جهازك ولا يُرفع، ثم يُعامل كأي كتاب: تختار القالب والأسلوب وتعدّل الإعدادات وتخرجه PDF و Word. يُفهم منه المتن والشرح (الخط «---» بينهما، أو المتن العريض أو الملوّن)، والعناوين والحواشي والأبيات، وتبقى صوره وجداوله وغلافه وفهرسه. وملف PDF يُقرأ تخطيط صفحاته: المتن بلونه أو بالخط الفاصل، والحواشي تحت خطها مربوطةً بأرقامها، والأبيات بشطريها، والعناوين والفواصل؛ ويُترك ما يتكرر في رأس الصفحة وذيلها. واسم الملف «اسم الكتاب - المؤلف» يملأ الغلاف.</p>
+          <p class="status" id="myStatus" hidden></p>
+        </div>
+        <ul id="results" class="res"></ul>
+        <a class="catch" href="#bookCard">المجلدات</a>
+      </section>
+
+      <!-- ٢. المجلدات -->
+      <section class="wrap stn" id="bookCard" data-sec data-label="المجلدات" hidden>
+        <header class="st-h"><span class="st-n"><i></i><b>٢</b></span><h2 class="h2">الكتاب والمجلدات</h2></header>
+        <div class="bk">
+          <div class="bk-info">
+            <div class="bk-head">
+              <h3 class="bk-t" id="bookTitle"></h3>
+              <p class="bk-a" id="bookMeta"></p>
+              <span id="bookSrc" class="src-badge" hidden></span>
+            </div>
+            <div id="volBox">
+              <div class="vol-tools">
+                <span id="volCount"></span>
+                <button type="button" class="tbtn" id="selAll">تحديد الكل</button>
+                <button type="button" class="tbtn" id="selNone">إلغاء تحديد الكل</button>
+              </div>
+            </div>
+            <p id="singleVol" class="hint" hidden>الكتاب مجلد واحد، سيُخرَج كاملاً تلقائياً.</p>
+            <!-- كتب من ملفات Word: كل كتاب اختير، وحذفه، وإضافة كتاب آخر مجلداً -->
+            <div id="partsBox" class="parts" hidden>
+              <ul id="partsList" class="parts-list"></ul>
+              <div class="parts-add"><button type="button" class="tbtn" id="addPart">إضافة كتاب</button><span class="hint" id="partsNote"></span></div>
+            </div>
+            <a id="bookLink" class="lnk" target="_blank" rel="noopener">عرض في تراث</a>
+          </div>
+          <div id="volList" class="shelves" role="group" aria-label="مجلدات الكتاب: اضغط كعب المجلد لتختاره أو تتركه"></div>
+        </div>
+        <!-- تقسيم الكتاب: مجلدات الطبعة، أو الأبواب، أو عددٌ يُختار، أو صفحاتٌ يختارها المستخدم (shared/split.js) -->
+        <div id="splitBox" class="inner splitbox" hidden>
+          <h3 class="sub">تقسيم الكتاب <small>لكتابٍ جُمعت مجلداته في مجلدٍ واحد، أو لتخرجه في مجلداتٍ تختارها</small></h3>
+          <div class="split-modes" id="splitModes" role="radiogroup" aria-label="طريقة التقسيم"></div>
+          <div class="split-plan" id="splitPlan" hidden>
+            <ol class="split-list" id="splitList"></ol>
+            <div class="split-foot"><button type="button" class="tbtn" id="splitAdd">＋ مجلد</button><span class="hint" id="splitNote"></span></div>
+          </div>
+        </div>
+        <!-- المتون: نوع المتن (نظم أو نثر)، وما يُخرج منه (كله، من بابٍ إلى باب، من بيتٍ إلى بيت، من فقرةٍ إلى فقرة) — js/mutun-panel.js -->
+        <div id="mRangeBox" class="inner mrange" hidden>
+          <h3 class="sub">نوع المتن <small>وبه تكون خيارات النطاق والتقسيم والأرقام</small></h3>
+          <div id="mRangeHost"></div>
+        </div>
+        <!-- ملف Word: ما فهمه الموقع منه، وخيارات قراءته -->
+        <div id="wordBox" class="inner wordbox" hidden>
+          <h3 class="sub">ما فهمه ورّاق من الملف <small>إن أخطأ في شيء فغيّره من هنا، ويُعاد قراءة الملف</small></h3>
+          <ul id="wordSummary" class="word-sum"></ul>
+          <div class="inner-grid word-opts">
+            <label class="fld">المتن وشرحه<select id="wordMatn"></select></label>
+            <label class="fld">المتن داخل الشرح<select id="wordEmbed"></select></label>
+            <label class="fld" id="wordTocRow">الفهرس<select id="wordToc"><option value="file">فهرس الملف كما هو (عناوينه بمستوياتها)</option><option value="site">فهرس جديد يبنيه ورّاق</option></select></label>
+          </div>
+          <label class="asis"><input type="checkbox" id="wordAsIs"><i aria-hidden="true"></i><span><b>ضع الكتاب كما هو في الملف (حرفياً)</b><small>لا يرتّبه ورّاق ولا ينضّده بأسلوبٍ من أساليبه: خطوط الملف ومقاساته وألوانه وصفحته وترتيبه كما هي، وتغيّر أنت ما تشاء وحده (لون الآيات، أو شكل الأبيات، أو لون العناوين…)</small></span></label>
+          <div class="word-chks">
+            <label class="chk"><input type="checkbox" id="wordFormat"><span>الحفاظ على تنسيق الملف <small>التوسيط، والمحاذاة يساراً، والعريض والألوان والتسطير</small></span></label>
+            <label class="chk" id="wordCoverRow"><input type="checkbox" id="wordCover"><span>الحفاظ على غلاف الملف وصفحات عنوانه <small>صورة الغلاف، وصفحات صور العنوان وشعار الدار كما هي</small></span></label>
+            <label class="chk" id="wordInnerRow" hidden><input type="checkbox" id="wordInner"><span>إضافة الغلاف الداخلي الذي يصنعه ورّاق <small>الملف جاء بصفحات عنوانه، فقد لا تحتاجه</small></span></label>
+          </div>
+          <p id="wordBusy" class="status" hidden></p>
+        </div>
+        <div class="inner cover-edit">
+          <h3 class="sub">بيانات الغلاف الداخلي <small>قابلة للتعديل</small></h3>
+          <div class="inner-grid">
+            <label class="fld">اسم الكتاب<input type="text" data-cover="title"></label>
+            <label class="fld">العنوان الفرعي<input type="text" data-cover="subtitle"></label>
+            <label class="fld">المؤلف<input type="text" data-cover="author"></label>
+            <label class="fld">الوفاة / نبذة<input type="text" data-cover="authorNote"></label>
+            <label class="fld">صفة المحقق<input type="text" data-cover="editorLabel" placeholder="تحقيق"></label>
+            <label class="fld">المحقق<input type="text" data-cover="editor"></label>
+            <label class="fld">الطبعة<input type="text" data-cover="edition"></label>
+            <label class="fld">الناشر / المطبعة<input type="text" data-cover="publisher"></label>
+          </div>
+        </div>
+        <a class="catch" href="#s3">التنضيد</a>
+      </section>
+
+      <div id="settingsCard" hidden>
+      <!-- ٣. التنضيد -->
+      <section class="wrap stn" id="s3" data-sec data-label="التنضيد">
+        <header class="st-h"><span class="st-n"><i></i><b>٣</b></span><h2 class="h2">إعدادات التنضيد</h2></header>
+
+        <!-- الحِزم الجاهزة من المجلِّد: تُختار بصورتها، فتُختار أغلفتها الثلاثة وأسلوبها وتنسيق طباعتها دفعةً واحدة -->
+        <div class="bpk" id="bundlePick" hidden>
+          <h3 class="sub">ابدأ بحزمةٍ جاهزة <small>اختر الحزمة بشكلها: يُختار الغلاف الأمامي والخلفي والكعب والأسلوب وتنسيق الطباعة تلقائياً، ثم غيّر ما شئت</small></h3>
+          <div class="bpk-list" id="bundleList" role="radiogroup" aria-label="الحزم الجاهزة"></div>
+        </div>
+
+        <h3 class="sub">القالب الأساسي <small>المتن أساس كل القوالب</small></h3>
+        <p class="note" id="autoNote" hidden></p>
+        <div class="tpls" id="templates" role="group" aria-label="القالب الأساسي"></div>
+
+        <h3 class="sub">أسلوب دار النشر</h3>
+        <div class="stcards" id="presets" role="group" aria-label="أسلوب دار النشر"></div>
+        <p class="hint" id="presetDesc" aria-live="polite"></p>
+        <!-- لون الورق: أبيض، أو أصفر كورق الكتب الشرعية (الشاموا) -->
+        <div class="paper-row"><span class="paper-l">لون الورق</span>
+          <div class="paper-seg" id="paperSeg" role="group" aria-label="لون الورق">
+            <button type="button" data-v="white" aria-pressed="true"><i class="pw" aria-hidden="true"></i><b>أبيض</b></button>
+            <button type="button" data-v="yellow" aria-pressed="false"><i class="py" aria-hidden="true"></i><b>أصفر</b><small>كورق الكتب الشرعية</small></button>
+          </div>
+        </div>
+        <!-- الهامش الخارجي: معتاد، أو واسع في طرف الكتاب يُكتب فيه (والحواشي تضيق مع النص) — في الكتب والمتون والأبحاث -->
+        <div class="paper-row om-row" id="omRow"><span class="paper-l">الهامش الخارجي</span>
+          <div class="paper-seg om-seg" id="omSeg" role="group" aria-label="الهامش الخارجي">
+            <button type="button" data-om="off" aria-pressed="true"><i class="om-pg" aria-hidden="true"><s></s></i><b>معتاد</b><small id="omOff">النص ١٣ سم، والهامشان ٢ سم</small></button>
+            <button type="button" data-om="on" aria-pressed="false" title="منطقة النص أضيق، والهامش الذي في طرف الكتاب أوسع: للعناوين الجانبية والتلخيص والتعليق. والهامش عند الكعب كما هو"><i class="om-pg wide" aria-hidden="true"><s></s></i><b>واسع للتعليق</b><small id="omOn">النص ١١ سم، والهامش الخارجي ٤ سم</small></button>
+          </div>
+          <div class="om-odd" id="omOdd" role="group" aria-label="الصفحة الفردية" hidden>
+            <span class="om-l" title="الهامش الواسع دائماً في الطرف الخارجي من الكتاب: يسار الصفحة اليسرى، ويمين اليمنى">الصفحة الفردية</span>
+            <button type="button" data-odd="l" aria-pressed="true">يسرى <small>(الكتاب العربي)</small></button>
+            <button type="button" data-odd="r" aria-pressed="false">يمنى</button>
+          </div>
+        </div>
+
+        <!-- خلفيات الصفحات: صورة لصفحات المتن والشرح، ولصفحة الباب، ولصفحة الفصل، وللفهرس (أو صورة واحدة لها كلها) -->
+        <div class="bgs-row" id="bgsRow">
+          <span class="paper-l">خلفيات الصفحات</span>
+          <div class="bgs" id="bgs" role="group" aria-label="خلفيات الصفحات">
+            <button type="button" class="bg-slot" data-bg="body"><i class="bg-th" aria-hidden="true"></i><b>المتن والشرح</b><small>صفحات الكتاب</small><span class="bg-x" data-bg-x="body" title="أزل الخلفية" hidden>✕</span></button>
+            <button type="button" class="bg-slot" data-bg="h1"><i class="bg-th" aria-hidden="true"></i><b>صفحة الباب</b><small>التي فيها باب</small><span class="bg-x" data-bg-x="h1" title="أزل الخلفية" hidden>✕</span></button>
+            <button type="button" class="bg-slot" data-bg="h2"><i class="bg-th" aria-hidden="true"></i><b>صفحة الفصل</b><small>التي فيها فصل</small><span class="bg-x" data-bg-x="h2" title="أزل الخلفية" hidden>✕</span></button>
+            <button type="button" class="bg-slot" data-bg="toc"><i class="bg-th" aria-hidden="true"></i><b>الفهرس</b><small>صفحات الفهرس</small><span class="bg-x" data-bg-x="toc" title="أزل الخلفية" hidden>✕</span></button>
+          </div>
+          <div class="bg-acts"><button type="button" class="btn small quiet" id="bgAll" title="صورة واحدة تكون خلفيةً للصفحات كلها: المتن والشرح، والباب، والفصل، والفهرس">صورة واحدة لها كلها…</button><button type="button" class="btn small quiet" id="bgClear" hidden>أزلها كلها</button></div>
+          <p class="hint bg-hint" id="bgHint">صورةٌ تملأ الصفحة خلف نصها (كورقٍ مزخرف أو إطار). وصفحة الباب أو الفصل بلا صورتها: بخلفية المتن.</p>
+          <input type="file" id="bgFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+        </div>
+
+        <!-- المتون: موضع التعليق، والتقسيم، وسطور المتن، وعنوان التعليق وسطوره، وأرقام الأبيات — js/mutun-panel.js -->
+        <div id="mutunBox" class="mutun-box" hidden>
+          <h3 class="sub">المتن والتعليق عليه</h3>
+          <div id="mutunHost"></div>
+        </div>
+
+        <div class="work">
+          <div class="panels">
+            <div class="panel">
+              <h3 class="sub">المتن المضمَّن في الشرح</h3>
+              <div class="row"><span>لون المتن</span><div class="sw-row" id="matnColors" role="group" aria-label="لون المتن"></div></div>
+              <div class="row"><span>الأقواس</span>
+                <select id="matnBrackets" data-seg aria-label="الأقواس">
+                  <option value="()">( )</option><option value="«»">« »</option><option value="[]">[ ]</option><option value="{}">{ }</option><option value="none">بلا أقواس</option>
+                </select>
+              </div>
+              <div class="row full"><label class="chk"><input type="checkbox" id="matnBold" checked>خط عريض للمتن</label></div>
+              <div class="row full"><label class="chk"><input type="checkbox" id="quranInMatn">الآية في المتن بلون المتن</label></div>
+              <div class="row full gloss"><label class="chk"><input type="checkbox" id="matnQawluhu" checked>إبراز المتن المقتبس في الشرح بعد «قوله»</label><p class="gloss-note"><b>حاشية</b>بين أقواس أو تنصيص أو بلا علامة. ويُبرز كل نص بين «…» يطابق المتن الذي سبقه.</p></div>
+              <div class="row"><span>لون المتن المقتبس</span><div class="row-c"><input type="color" id="cqm" aria-label="لون المتن المقتبس"></div></div>
+              <p class="hint rowhint">المتن يُكتشف آلياً بين رمزي الفاصل <b>ــ … ــ</b> (والشرح بعدهما)، ويُبرز بخط عريض ولون مخصص.</p>
+            </div>
+
+            <div class="panel">
+              <h3 class="sub">التنسيق والتخصيص</h3>
+              <div class="row full"><label class="chk"><input type="checkbox" id="footnotes" checked>الحواشي السفلية</label></div>
+              <div class="row"><span>موقع الفهرس</span>
+                <div class="seg" id="tocPos" role="group" aria-label="موقع الفهرس">
+                  <button type="button" data-v="start">بداية الكتاب</button>
+                  <button type="button" data-v="end">نهاية الكتاب</button>
+                  <button type="button" data-v="none">بدون</button>
+                </div>
+              </div>
+              <div class="row"><span>عناوين الفهرس</span>
+                <div class="row-c">
+                  <label class="chk"><input type="checkbox" class="tocInc" value="1" checked>الأبواب</label>
+                  <label class="chk"><input type="checkbox" class="tocInc" value="2" checked>الفصول</label>
+                  <label class="chk"><input type="checkbox" class="tocInc" value="3" checked>الفرعية</label>
+                </div>
+              </div>
+              <!-- خطٌّ ولونٌ لكل نوعٍ من النص (فارغ الخط: خط الكتاب للنص، وخطه للعناوين) -->
+              <div class="row full"><span>خطوط النص وألوانه</span>
+                <div class="roles" id="roleFonts" role="table" aria-label="خط كل نوعٍ من النص ولونه">
+                  <div class="rl" role="row"><span class="rl-n" role="cell"><b>المتن</b><small>كلام المصنِّف الذي يُشرح</small></span><select data-rf="matn" aria-label="خط المتن"></select><label class="clr" title="لون المتن"><input type="color" id="cm" aria-label="لون المتن"></label></div>
+                  <div class="rl" role="row"><span class="rl-n" role="cell"><b>الشرح والنص</b><small>سائر الكتاب</small></span><select data-rf="body" aria-label="خط الشرح والنص"></select><label class="clr" title="لون النص"><input type="color" id="ct" aria-label="لون الشرح والنص"></label></div>
+                  <div class="rl" role="row"><span class="rl-n" role="cell"><b>الآيات</b><small>القرآن الكريم</small></span><select data-rf="quran" aria-label="خط الآيات"></select><label class="clr" title="لون الآيات"><input type="color" id="cq" aria-label="لون الآيات"></label></div>
+                  <div class="rl" role="row"><span class="rl-n" role="cell"><b>الأبيات</b><small>الشعر والمنظومات</small></span><select data-rf="verse" aria-label="خط الأبيات"></select><label class="clr" title="لون الأبيات"><input type="color" id="cv" aria-label="لون الأبيات"></label></div>
+                  <div class="rl h" role="row"><span class="rl-n" role="cell"><b>الباب</b><small>العنوان الأكبر</small></span><select data-rf="h1" aria-label="خط الباب"></select><label class="clr" title="لون الباب"><input type="color" id="c1" aria-label="لون الباب"></label></div>
+                  <div class="rl h" role="row"><span class="rl-n" role="cell"><b>الفصل</b><small>تحت الباب</small></span><select data-rf="h2" aria-label="خط الفصل"></select><label class="clr" title="لون الفصل"><input type="color" id="c2" aria-label="لون الفصل"></label></div>
+                  <div class="rl h" role="row"><span class="rl-n" role="cell"><b>العنوان الفرعي</b><small>ما دون الفصل</small></span><select data-rf="h3" aria-label="خط العنوان الفرعي"></select><label class="clr" title="لون العنوان الفرعي"><input type="color" id="c3" aria-label="لون العنوان الفرعي"></label></div>
+                </div>
+              </div>
+              <div class="row"><span>بعد انتهاء الشرح</span>
+                <div class="row-c">
+                  <div class="seg" id="sharhEnd" role="group" aria-label="بعد انتهاء الشرح">
+                    <button type="button" data-v="page">المتن في أول صفحة جديدة</button>
+                    <button type="button" data-v="ornament">ثلاثة رموز ثم المتن</button>
+                  </div>
+                  <label class="pick">الرمز <select id="ornament"></select></label>
+                </div>
+              </div>
+              <div class="row"><span>شطرا البيت</span>
+                <select id="verseLayout" data-seg aria-label="نمط الشعر"><option value="line" data-short="موازي">موازي: الشطران في سطر واحد</option><option value="stack" data-short="سلّمي">سلّمي: الأول يميناً والثاني في السطر التالي يساراً</option><option value="stagger" data-short="سلّمي متداخل">سلّمي متداخل: والثاني يبدأ قبل نهاية الأول</option><option value="center" data-short="وسط">وسط: كل شطر في وسط سطره</option><option value="khams" data-short="تخميس">تخميس: بيتان ثم شطر في الوسط</option><option value="tri" data-short="ثلاثي">ثلاثي: بيت ثم شطر في الوسط</option></select>
+              </div>
+              <div class="row"><span>بين الشطرين</span>
+                <div class="row-c">
+                  <span id="verseSepWrap"><select id="verseSep" data-seg aria-label="بين الشطرين"><option value="none">لا شيء</option><option value="one">رمز واحد</option><option value="three">ثلاثة رموز</option></select></span>
+                  <label class="pick" id="verseSymWrap">الرمز <select id="verseSepSymbol"></select></label>
+                </div>
+              </div>
+              <div class="row full"><label class="chk"><input type="checkbox" id="runningHead" checked>ترويسة الصفحات (اسم الكتاب أو الباب)</label></div>
+              <div class="row full"><label class="chk"><input type="checkbox" id="chapterNewPage" checked>بدء الأبواب في صفحة جديدة</label></div>
+              <!-- قواعد التنضيد الأساسية (shared/typo-rules.js) -->
+              <div class="row gloss" id="headSchemeRow"><span>نظام العناوين</span>
+                <select id="headScheme" data-seg aria-label="نظام العناوين"><option value="pro" data-short="التقسيم العلمي">التقسيم العلمي: الباب والفصل والمبحث والمطلب والفرع</option><option value="style" data-short="عناوين الأسلوب">عناوين الأسلوب: كما صمّمها الأسلوب المختار</option></select>
+                <p class="gloss-note"><b>التقسيم العلمي</b>الباب: ٣٦/٤٤ عريض في الوسط، ينزل ٦٠ مم، في صفحةٍ فردية وحده والزوجية بعده بيضاء. الفصل: ٢٨/٣٦ في الوسط، ينزل ٣٢ مم وبعده ٨ مم، يبدأ صفحةً فردية. المبحث: ٢٠/٢٨ يميناً، ٩ مم قبله و٣ بعده، ومعه ثلاثة أسطر. المطلب: ١٧/٢٤ يميناً، ٦ قبله و٢ بعده، ومعه سطران. الفرع والمسألة: عريض المتن في أول فقرته بعده «:». و«عناوين الأسلوب»: مقاسات الأسلوب المختار ومسافاته وصفحاته كما صمّمها.</p>
+              </div>
+              <div class="row"><span>عزو الآيات</span>
+                <select id="ayahCite" data-seg aria-label="عزو الآيات"><option value="">كما في الأصل</option><option value="matn" data-short="في المتن">في المتن بعد الآية: [البقرة: ٢٥٥]</option><option value="note" data-short="في الحاشية">في الحاشية: سورة البقرة، الآية ٢٥٥</option></select>
+              </div>
+              <!-- البحث وحده: لا يُغيَّر نص الباحث إلا بقراره (وفي الكتب والمتون قواعد المسافات من المحرك نفسه) -->
+              <div class="row full gloss research-only" hidden><label class="chk"><input type="checkbox" id="typoRules">تصحيح المسافات حول علامات الترقيم</label><p class="gloss-note"><b>في البحث</b>مطفأ: يبقى نص الباحث كما كتبه. وإن فُعّل: لا مسافة قبل العلامة ومسافةٌ واحدة بعدها، والقوس يلتصق بما بداخله، وإحالة الحاشية بكلمتها قبل العلامة، وواو العطف بما بعدها.</p></div>
+              <div class="row full gloss research-only" hidden><label class="chk"><input type="checkbox" id="spaceCollapse">توحيد المسافات المتتالية فقط</label><p class="gloss-note"><b>أخفّ</b>مسافتان أو أكثر تصير مسافةً واحدة، ولا يُمسّ غير ذلك.</p></div>
+              <div class="row full gloss"><label class="chk"><input type="checkbox" id="nabawiBold" checked>قول النبي ﷺ بخطٍّ عريض</label><p class="gloss-note"><b>قوله ﷺ</b>ما بعد «قال ﷺ» و«قال رسول الله ﷺ» و«قال الرسول» ونحوها: ما بين علامتي التنصيص، أو ما بعد «:» حتى نهاية الجملة.</p></div>
+              <div class="row full gloss" id="typoRow"><label class="chk"><input type="checkbox" id="widowOrphan" checked>لا سطرٌ وحده من فقرة في أسفل الصفحة أو أعلاها</label><p class="gloss-note"><b>اليتيم والأرمل</b>اليتيم: أول سطرٍ من فقرةٍ وحده في أسفل الصفحة؛ والأرمل: آخر سطرٍ منها وحده في أعلى التالية. يبقى منها سطران على الأقل في كل صفحة.</p></div>
+              <div class="row full gloss"><label class="chk"><input type="checkbox" id="runts" checked>لا كلمةٌ وحدها في آخر الفقرة</label><p class="gloss-note"><b>الأقزم</b>كلمةٌ قصيرة وحدها في آخر سطر الفقرة: تُشدّ الفقرة قليلاً فتصعد، وإلا تنزل معها كلمةٌ من السطر قبلها.</p></div>
+              <div class="row full gloss"><label class="chk"><input type="checkbox" id="mergeBroken" checked>دمج الفقرات المقطوعة بين صفحات المصدر</label><p class="gloss-note"><b>حاشية</b>ما انقطع بين صفحتين في المصدر يُوصل في الإخراج.</p></div>
+              <div class="row full print-row">
+                <div class="row-c">
+                  <label class="chk"><input type="checkbox" id="printReady">نسخة جاهزة للطباعة</label>
+                  <label class="fld print-preset" id="printPresetF" hidden>تنسيق الطباعة<select id="printPreset"><option value="">كما في الأسلوب</option></select></label>
+                  <label class="clr" id="basmalaWrap"><input type="color" id="cb">لون البسملة</label>
+                </div>
+                <p class="hint" id="printHint">قبل الكتاب: صفحة بيضاء، ثم العنوان المختصر، ثم بيضاء، ثم الغلاف الداخلي، ثم بيضاء، ثم البسملة، ثم بيضاء. كلها بلا أرقام صفحات.</p>
+                <div class="bsm-choose" id="bsmChoose" hidden>
+                  <span class="lbl">شكل البسملة</span>
+                  <div class="bsm-pick" id="bsmPick" role="radiogroup" aria-label="شكل البسملة"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <aside class="pv" aria-label="معاينة حية للإخراج"><div id="previewHost"></div></aside>
+        </div>
+        <a class="catch" href="#s4">الغلاف</a>
+      </section>
+
+      <!-- ٤. الغلاف -->
+      <section class="wrap stn" id="s4" data-sec data-label="الغلاف">
+        <header class="st-h"><span class="st-n"><i></i><b>٤</b></span><div><h2 class="h2">الغلاف الخارجي</h2><p>الأمامي أول صفحة في كل مجلد، والخلفي آخر صفحة، والكعب يُحسب عرضه لكل مجلد من عدد صفحاته ونوع ورقه.</p></div></header>
+        <div id="outerPanel" class="outer">
+          <div class="row-c">
+            <div class="seg" id="outerMode" role="group" aria-label="الغلاف الخارجي">
+              <button type="button" data-v="none">بلا غلاف خارجي</button>
+              <button type="button" data-v="file" id="outerFileBtn" hidden>غلاف الملف</button>
+              <button type="button" data-v="design">تصميم غلاف خارجي</button>
+            </div>
+            <span class="outer-status" id="outerStatus"></span>
+          </div>
+          <!-- لون الكتاب المجسَّم (الدفّتان والكعب) في المعاينة والرَّحل والخزانة: من الغلاف، أو لونٌ يختاره المستخدم -->
+          <div class="outer-book" id="outerBook">
+            <span class="ob-sw" id="outerBookSw" aria-hidden="true"><i></i></span>
+            <div class="ob-main">
+              <div class="ob-h"><b>لون الكتاب المجسَّم</b><small>جلده في المعاينة والرَّحل والخزانة</small></div>
+              <div class="row-c">
+                <div class="seg" id="outerBookMode" role="group" aria-label="لون الكتاب المجسَّم">
+                  <button type="button" data-v="cover">من الغلاف</button>
+                  <button type="button" data-v="pick">لونٌ أختاره</button>
+                </div>
+                <span class="ob-pick" id="outerBookPick" hidden>
+                  <span class="ob-chips" id="outerBookChips"></span>
+                  <label class="ob-color" title="لونٌ آخر"><input type="color" id="outerBookColor" value="#6b1d2f" aria-label="لون الكتاب"></label>
+                </span>
+              </div>
+              <p class="hint" id="outerBookHint"></p>
+            </div>
+          </div>
+          <div id="outerBody" hidden>
+            <div class="outer-bundle" id="outerBundleRow" hidden>
+              <label class="fld">حزمة جاهزة<select id="outerBundle"><option value="">— اختر حزمة: غلاف أمامي وخلفي وكعب وأسلوب وتنسيق طباعة —</option></select></label>
+              <p class="hint">تختار أغلفتها الثلاثة وأسلوبها وتنسيق طباعتها دفعة واحدة، ثم تعدّل ما شئت.</p>
+            </div>
+            <div class="two">
+              <label class="fld">لقب المؤلف<input type="text" id="outerTitle" data-outer="authorTitle" placeholder="مثل: شيخ الإسلام"></label>
+              <label class="fld">اسم الشهرة<input type="text" id="outerShort" data-outer="authorShort" placeholder="مثل: ابن تيمية"></label>
+            </div>
+            <p class="hint">اسم الكتاب واسم المؤلف يُملآن في الغلاف تلقائياً (من الذكاء الاصطناعي إن كان مفعّلاً، أو من بيانات الغلاف الداخلي)، ورقم المجلد يُكتب لكل مجلد برقمه الحقيقي عند الإخراج.</p>
+            <div class="outer-tabs" id="outerTabs" role="tablist" aria-label="أجزاء الغلاف">
+              <button type="button" role="tab" data-k="front">الغلاف الأمامي<small></small></button>
+              <button type="button" role="tab" data-k="back">الغلاف الخلفي<small></small></button>
+              <button type="button" role="tab" data-k="spine">الكعب<small></small></button>
+            </div>
+            <div class="outer-kind" id="outerKind"></div>
+            <div class="outer-paper" id="outerPaperBox">
+              <div class="row-c">
+                <label class="fld">ورق المتن (لحساب عرض الكعب)<select id="outerPaper"></select></label>
+                <label class="fld" id="paperGsmF" hidden>الغراماج<input type="number" id="paperGsm" min="30" max="400" step="5"></label>
+                <label class="fld" id="paperBulkF" hidden>نوعه<select id="paperBulk"></select></label>
+                <label class="fld" id="paperMicF" hidden>سماكة الورقة (ميكرون)<input type="number" id="paperMic" min="30" max="600" step="1"></label>
+              </div>
+              <p class="hint" id="spineCalc"></p>
+              <label class="chk"><input type="checkbox" id="outerWrap">غلاف الطباعة المفرود: الأمامي والكعب والخلفي في ملف PDF واحد لكل مجلد، بنزيف ٣ مم (للمطبعة)</label>
+            </div>
+            <p class="outer-file-note" id="outerFileNote" hidden>الغلاف الأمامي هو غلاف الملف نفسه. اختر من التبويبين الآخرين غلافاً خلفياً وكعباً إن شئت.</p>
+            <iframe id="outerFrame" class="outer-frame" title="استوديو الأغلفة"></iframe>
+          </div>
+        </div>
+        <a class="catch" href="#s5">الإخراج</a>
+      </section>
+
+      <!-- ٥. الإخراج -->
+      <section class="wrap stn" id="s5" data-sec data-label="الإخراج">
+        <header class="st-h"><span class="st-n"><i></i><b>٥</b></span><h2 class="h2">الإخراج</h2></header>
+        <div class="panel out">
+          <div class="out-opts">
+            <label class="chk"><input type="checkbox" id="outPdf" checked>PDF ملون منسّق</label>
+            <label class="chk"><input type="checkbox" id="outDocx" checked>Word (DOCX) بحواشٍ حقيقية</label>
+            <label class="chk" title="صيغة ورّاق (‎.waraq‎): الكتاب كله بنصه كما فهمه ورّاق وأسلوبه وتعديلاتك في ملفٍ واحد، يُفتح بنقرتين ويُحرَّر في المحرِّر ويُخرج منه بلا اتصال"><input type="checkbox" id="outWaraq"><span class="wq-lab"><i class="wq-fi" aria-hidden="true"></i> وَرَق: الكتاب نفسه، يُحرَّر ويُخرج منه</span></label>
+            <label class="chk"><input type="checkbox" id="zipFonts" checked>إرفاق ملفي خط الكتاب في الملف المضغوط</label>
+            <p class="hint fontdl site-only">لتظهر ملفات Word بخطها ثبّت الخط: <a class="tl" href="/fonts/AdwaAssalaf-Regular.ttf" download>العادي</a> · <a class="tl" href="/fonts/AdwaAssalaf-Bold.ttf" download>العريض</a></p>
+            <div class="out-sel">
+              <label class="fld">خط الكتاب<select id="bookFont"></select></label>
+              <label class="fld">خط ملف Word
+                <select id="docxFont">
+                  <option value="">مثل خط PDF</option>
+                  <option>Traditional Arabic</option>
+                  <option>Sakkal Majalla</option>
+                  <option>Simplified Arabic</option>
+                  <option>Arial</option>
+                </select>
+              </label>
+            </div>
+            <label class="slide"><span>تباعد أسطر Word<b id="spacingVal">1.0</b></span><input type="range" id="spacingRange" min="0" max="3" step="1" value="0" aria-label="تباعد أسطر Word">
+              <select id="docxLineSpacing" hidden><option value="1">1.0</option><option value="1.15">1.15</option><option value="1.5">1.5</option><option value="1.85">1.85 (مثل PDF)</option></select>
+            </label>
+          </div>
+          <div class="spec">
+            <div class="spec-pg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <dl id="specDl">
+              <dt>المقاس</dt><dd>١٧×٢٤ سم</dd>
+              <dt>الهوامش</dt><dd>٢٠ / ١٨ / ١٤ مم</dd>
+              <dt>المتن</dt><dd>١٦ نقطة بتباعد ١٫٨٥</dd>
+              <dt>الحواشي</dt><dd>١٣٫٥ نقطة</dd>
+            </dl>
+          </div>
+        </div>
+        <div class="go actions">
+          <div class="acts">
+            <button id="startBtn" class="btn big kb" type="button">اب<span class="k">ـــ</span>دأ الجلب والتنضيد</button>
+            <button id="rerenderBtn" class="btn big quiet" type="button" hidden>إعادة التنضيد بالإعدادات الحالية</button>
+          </div>
+          <p class="hint" id="goCap"></p>
+        </div>
+
+        <!-- الجلب والإخراج: الألف تُكتب بقدر ما جُلب، والنقط تُختم عند كل خُمس -->
+        <div id="progressCard" class="prog" hidden>
+          <header class="st-h prog-h">
+            <div><h3 class="h2">الجلب والإخراج</h3><p id="progSub"></p></div>
+            <button id="cancelBtn" class="btn quiet" type="button">إيقاف</button>
+          </header>
+          <div class="live idle" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="mz" aria-hidden="true">
+              <svg class="mz-ghost" viewBox="0 0 22 200" preserveAspectRatio="none"><path d="M0 14 22 0v146c0 21-5 38-14 54C3.5 184 0 168 0 146z" fill="currentColor"/></svg>
+              <svg class="mz-ink" id="barFill" viewBox="0 0 22 200" preserveAspectRatio="none" style="clip-path:inset(0 0 100% 0)"><path d="M0 14 22 0v146c0 21-5 38-14 54C3.5 184 0 168 0 146z" fill="currentColor"/></svg>
+              <ol class="mz-dots" id="mzDots"><li><i></i></li><li><i></i></li><li><i></i></li><li><i></i></li><li><i></i></li></ol>
+            </div>
+            <div class="pct">
+              <b id="pctNum">٠٪</b>
+              <span id="pctCap">في الانتظار</span>
+              <div class="stats">
+                <div><b id="stDone">٠</b><small>صفحة مجلوبة</small></div>
+                <div><b id="stCur">—</b><small>الصفحة الحالية</small></div>
+                <div><b id="stLeft">٠</b><small>المتبقي</small></div>
+                <div><b id="stTotal">٠</b><small>إجمالي الصفحات</small></div>
+              </div>
+            </div>
+            <div class="ruled" aria-hidden="true"><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><span id="ruledNo"></span></div>
+          </div>
+          <div class="fin" id="doneBox" hidden>
+            <svg viewBox="0 0 40 72" width="40" height="72" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg>
+            <p class="d1">تمّ إخراج الكتاب</p>
+            <p class="d2" id="doneTitle"></p>
+            <p class="d3" id="doneCount"></p>
+            <p class="d4" id="doneKinds"></p>
+            <i></i>
+            <div class="acts">
+              <button type="button" class="btn big kb" id="zipAll">نزّل المجلدات كلّ<span class="k">ــ</span>ها (ZIP)</button>
+            </div>
+          </div>
+          <div id="volRows" class="vrows"></div>
+          <div class="acts" id="zipRow">
+            <button id="zipBtn" class="btn" type="button" disabled>تنزيل المجلدات المكتملة (ZIP)</button>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <footer class="wrap foot site-only">
+        <p>لا يُحفظ أي نص أو بيانات في قاعدة بيانات؛ كل شيء في ذاكرة الجلسة المؤقتة، و«إعادة الضبط» تمحوها تماماً.</p>
+        <p>التحليل والتنضيد بخوارزميات محلية صارمة؛ والذكاء الاصطناعي، إن فعّله المالك، يساعد في بيانات الغلاف فقط، ويعمل الموقع كاملاً بدونه. المحتوى من مكتبة <a href="https://app.turath.io" target="_blank" rel="noopener">«تراث»</a>.</p>
+        <p><a href="/identity/">هوية ورّاق وفكرة شعاره</a></p>
+        <div class="by">
+          <span class="by-cap">الموقع من صنع</span>
+          <span class="by-logo" role="img" aria-label="فقيه (FAQEEH)"></span>
+          <p class="by-links">
+            <a href="https://x.com/UN_TURKI" target="_blank" rel="noopener">تويتر <bdi dir="ltr">@UN_TURKI</bdi></a>
+            <a href="mailto:faqeeh.university@gmail.com">البريد <bdi dir="ltr">faqeeh.university@gmail.com</bdi></a>
+          </p>
+          <p class="by-note"><b>تنبيه</b> ورّاق، موقعاً وبرنامجاً، مبذولٌ لكل أحد بلا حقوق محفوظة. ولا يحلّ استعماله فيما حرّم الله، ولا في نسخ إخراج دار نشرٍ أو غلافها نسخاً مطابقاً بغير إذنها.</p>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="/shared/cover-core.js"></script>
+  <script src="/covers/render.js"></script>
+  <script src="/js/feedback.js" defer></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

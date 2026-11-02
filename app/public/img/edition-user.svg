@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="نسخة المستخدم">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF8F1"/><stop offset="1" stop-color="#EFE6D3"/></linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C2338"/><stop offset="1" stop-color="#551625"/></linearGradient>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="1.1" fill="#C5A059" opacity=".35"/></pattern>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#3D2314" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="480" height="320" fill="url(#bg)"/>
+  <rect width="480" height="320" fill="url(#dots)"/>
+  <!-- نافذة البرنامج -->
+  <g filter="url(#sh)">
+    <rect x="70" y="42" width="340" height="232" rx="14" fill="#fff"/>
+    <path d="M70 56a14 14 0 0 1 14-14h312a14 14 0 0 1 14 14v22H70z" fill="url(#bar)"/>
+    <rect x="70" y="76" width="340" height="3" fill="#C5A059"/>
+    <circle cx="92" cy="60" r="5" fill="#E7C98A"/><circle cx="109" cy="60" r="5" fill="#E7C98A" opacity=".65"/><circle cx="126" cy="60" r="5" fill="#E7C98A" opacity=".4"/>
+    <rect x="290" y="54" width="98" height="12" rx="6" fill="#fff" opacity=".2"/>
+  </g>
+  <!-- شريط البحث -->
+  <rect x="94" y="96" width="292" height="26" rx="13" fill="#F3EFE6" stroke="#e4dccb"/>
+  <circle cx="368" cy="109" r="5.5" fill="none" stroke="#6B1D2F" stroke-width="2"/><path d="M364 113l-4.5 4.5" stroke="#6B1D2F" stroke-width="2" stroke-linecap="round"/>
+  <rect x="250" y="105" width="100" height="8" rx="4" fill="#d9cfbc"/>
+  <!-- صفحة الكتاب -->
+  <g>
+    <rect x="232" y="136" width="130" height="122" rx="5" fill="#FBF8F1" stroke="#C5A059" stroke-width="1.4"/>
+    <rect x="262" y="148" width="70" height="9" rx="4.5" fill="#6B1D2F"/>
+    <path d="M283 164h28" stroke="#C5A059" stroke-width="1.6"/>
+    <g fill="#cfc4ae"><rect x="246" y="174" width="102" height="5" rx="2.5"/><rect x="246" y="186" width="102" height="5" rx="2.5"/><rect x="262" y="198" width="86" height="5" rx="2.5"/><rect x="246" y="210" width="102" height="5" rx="2.5"/><rect x="246" y="222" width="102" height="5" rx="2.5"/></g>
+    <rect x="300" y="198" width="34" height="5" rx="2.5" fill="#8B1A1A"/>
+    <path d="M290 240h14M276 240h6M312 240h6" stroke="#C5A059" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+  <!-- الناتج: PDF و Word -->
+  <g>
+    <rect x="118" y="140" width="92" height="52" rx="9" fill="#6B1D2F"/>
+    <text x="164" y="173" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#FBF8F1">PDF</text>
+    <rect x="118" y="204" width="92" height="52" rx="9" fill="#274472"/>
+    <text x="164" y="237" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" font-weight="700" fill="#FBF8F1">Word</text>
+    <path d="M222 197h-8M218 192l-5 5 5 5" stroke="#C5A059" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- شارة التنزيل -->
+  <g transform="translate(398 258)"><circle r="26" fill="#C5A059"/><circle r="26" fill="none" stroke="#fff" stroke-width="3"/><path d="M0-11v16M-7-1l7 7 7-7M-9 12h18" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

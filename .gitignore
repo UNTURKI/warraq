@@ -1,0 +1,9 @@
+node_modules/
+dist/
+app/data/
+app/test-output/
+.cache/
+*.key
+*.pfx
+.env
+book-dump.bat

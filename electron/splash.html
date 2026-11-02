@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src file: data:; style-src 'unsafe-inline'; font-src file:">
+<title>ورّاق</title>
+<!-- شاشة الافتتاح: الألف تُرسم كما في الهوية — النقط الخمس تُنقط واحدةً واحدة، ثم يُمدّ الألف (ثانية ونصف) -->
+<style>
+  @font-face { font-family: Adwa; src: url('../app/public/fonts/AdwaAssalaf-Bold.ttf') format('truetype'); font-weight: 700; }
+  @font-face { font-family: Tajawal; src: url('../app/public/fonts/Tajawal-Regular.woff') format('woff'); }
+  :root { --paper: #FBF8F1; --ink: #2A1D14; --rubric: #6B1D2F; --gold: #C5A059; --muted: #6C5949; }
+  @media (prefers-color-scheme: dark) { :root { --paper: #0F1A2B; --ink: #EDE3CB; --rubric: #E2C27A; --gold: #D6B36A; --muted: #A9B4C6; } }
+  /* السِّراج كما تركه المستخدم (يمرّره البرنامج في العنوان: #lamp1 أو #lamp0) */
+  :root:has(#lamp1:target) { --paper: #0F1A2B; --ink: #EDE3CB; --rubric: #E2C27A; --gold: #D6B36A; --muted: #A9B4C6; }
+  :root:has(#lamp0:target) { --paper: #FBF8F1; --ink: #2A1D14; --rubric: #6B1D2F; --gold: #C5A059; --muted: #6C5949; }
+  html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); user-select: none; cursor: default; overflow: hidden; }
+  body { display: grid; place-items: center; -webkit-app-region: drag; }
+  .box { display: grid; justify-items: center; gap: 14px; }
+  svg { width: 72px; height: 130px; overflow: visible; }
+  .d { fill: var(--gold); transform-box: fill-box; transform-origin: center; transform: scale(0); animation: dot .32s cubic-bezier(.3, 1.6, .5, 1) forwards; }
+  .d:nth-child(1) { animation-delay: .05s; } .d:nth-child(2) { animation-delay: .17s; } .d:nth-child(3) { animation-delay: .29s; }
+  .d:nth-child(4) { animation-delay: .41s; } .d:nth-child(5) { animation-delay: .53s; }
+  .stem { fill: var(--rubric); transform-box: fill-box; transform-origin: top; transform: scaleY(0); animation: stem .55s cubic-bezier(.6, 0, .2, 1) .7s forwards; }
+  h1 { margin: 0; font: 700 34px/1.2 Adwa, 'Traditional Arabic', serif; color: var(--rubric); opacity: 0; animation: fade .5s ease 1.05s forwards; }
+  p { margin: 0; font: 14px Tajawal, 'Segoe UI', sans-serif; color: var(--muted); opacity: 0; animation: fade .5s ease 1.2s forwards; }
+  @keyframes dot { to { transform: scale(1); } }
+  @keyframes stem { to { transform: scaleY(1); } }
+  @keyframes fade { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .d, .stem, h1, p { animation: none; transform: none; opacity: 1; } }
+.wq-word { display: inline-block; height: 1.15em; aspect-ratio: 214 / 164; vertical-align: -0.33em; background: currentColor; -webkit-mask: url(waraq-word.png) center / contain no-repeat; mask: url(waraq-word.png) center / contain no-repeat; }
+</style>
+</head>
+<body>
+  <i id="lamp1" hidden></i><i id="lamp0" hidden></i>
+  <div class="box">
+    <svg viewBox="-12 -4 64 80" aria-hidden="true">
+      <path class="stem" d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z"/>
+      <g><path class="d" d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path class="d" d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path class="d" d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path class="d" d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path class="d" d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g>
+    </svg>
+    <h1><span class="wq-word" role="img" aria-label="ورّاق"></span></h1>
+    <p>إحياء التراث بإخراجٍ يليق به</p>
+  </div>
+</body>
+</html>

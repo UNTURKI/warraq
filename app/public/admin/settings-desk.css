@@ -1,0 +1,89 @@
+/* نافذة «الإعدادات» في البرنامج (settings-desk.js يضع العلامة data-settings) */
+[data-settings] { height: 100%; overflow: hidden; }
+[data-settings] body { height: 100%; overflow: hidden; display: grid; grid-template-columns: minmax(216px, max-content) minmax(0, 1fr); grid-template-rows: 38px minmax(0, 1fr); font-size: 14px; line-height: 1.65; }
+[data-settings] body::before { content: none; }
+[data-settings] header.topbar, [data-settings] .fb-open { display: none !important; }
+
+/* ألوان السِّراج (كبقية البرنامج) */
+[data-settings].night { --bg: #0F1A2B; --card: #16243B; --field: #132037; --ink: #EDE3CB; --line: #2A3B57; --muted: #A9B4C6; --head: #E2C27A; --mark: #E2C27A; --primary: #E2C27A; --primary-d: #F0D79C; --on: #0F1A2B; --gold: #D6B36A; --gold-d: #D6B36A; --dot: #D6B36A; --ok: #8FCB8A; --err: #F0A0A0; color-scheme: dark; }
+
+/* شريط العنوان: يُسحب به، وأزرار النافذة يرسمها ويندوز */
+.sd-bar { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; padding-inline: 12px; background: var(--card); border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12.5px; -webkit-app-region: drag; app-region: drag; user-select: none; -webkit-user-select: none;
+  padding-inline-end: max(12px, calc(env(titlebar-area-x, 0px) + 12px)); }
+.sd-bar svg { color: var(--mark); }
+.sd-bar b { font: 700 16px/1 var(--display); color: var(--head); }
+
+/* التبويبات عمودٌ على الجانب */
+.sd-side { grid-row: 2; grid-column: 1; background: var(--card); border-inline-end: 1px solid var(--line); padding: 14px 10px; overflow-y: auto; overflow-x: hidden; max-width: 330px; }
+[data-settings] .sd-side .tabs { display: grid; gap: 3px; margin: 0; border: 0; }
+[data-settings] .sd-side .tabs button { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; width: 100%; padding: 9px 12px; border: 0; border-radius: 7px; background: transparent; color: var(--ink); text-align: start; font: inherit; cursor: pointer; position: relative; }
+[data-settings] .sd-side .tabs button b { font-size: 14.5px; font-weight: 700; white-space: nowrap; flex: none; }
+[data-settings] .sd-side .tabs button small { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+[data-settings] .sd-side .tabs button:hover { background: color-mix(in srgb, var(--field) 60%, transparent); }
+[data-settings] .sd-side .tabs button[aria-selected="true"] { background: var(--field); color: var(--head); box-shadow: 0 1px 2px rgba(42, 29, 20, .06); }
+[data-settings] .sd-side .tabs button[aria-selected="true"]::after { content: ""; position: absolute; inset-block: 7px; inset-inline-end: -10px; width: 3px; border-radius: 2px; background: var(--gold); }
+
+/* المحتوى */
+[data-settings] main.wrap { grid-row: 2; grid-column: 2; max-width: none; margin: 0; padding: 22px 30px 40px; overflow-y: auto; min-height: 0; }
+[data-settings] #panel > .card.tab { background: none; padding: 0; margin: 0; border-radius: 0; max-width: 860px; }
+[data-settings] .sd-h, [data-settings] .tab h2 { font: 700 26px/1.35 var(--display); color: var(--head); margin: 0 0 14px; }
+[data-settings] .hint { font-size: 13px; }
+[data-settings] .btn { border-radius: 7px; font-size: 14px; padding: 7px 16px; }
+[data-settings] .btn.small { font-size: 13px; padding: 3px 12px; }
+[data-settings] .btn.big { font-size: 15px; padding: 9px 22px; }
+[data-settings] .panel { border-radius: 9px; }
+[data-settings] .field input, [data-settings] .panel select, [data-settings] input.grow, [data-settings] input.short { border-radius: 7px; font-size: 14px; }
+[data-settings] .status { border-radius: 6px; }
+
+/* صفوف الإعدادات: الاسم يميناً، والأداة يساراً */
+.sd-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 8px 26px; align-items: start; padding: 14px 0; }
+.sd-row + .sd-row { border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.sd-l { font-weight: 700; padding-top: 7px; }
+.sd-c { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+.sd-note { margin: 0; font-size: 12.5px; color: var(--muted); }
+.sd-ver { font-size: 13px; color: var(--muted); }
+.sd-seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.sd-seg button { font: 700 13px/1.5 var(--ui); padding: 6px 16px; border: 0; border-inline-start: 1px solid var(--line); background: var(--field); color: var(--ink); cursor: pointer; }
+.sd-seg button:first-child { border-inline-start: 0; }
+.sd-seg button[aria-pressed="true"] { background: var(--primary); color: var(--on); }
+.sd-path { display: flex; gap: 8px; width: 100%; }
+.sd-path input, .sd-in { flex: 1; min-width: 0; width: 100%; font: 14px/1.5 var(--ui); padding: 7px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--field); color: var(--ink); }
+.sd-in:focus, .sd-path input:focus { outline: none; border-color: var(--gold-d); }
+.sd-chips { display: flex; gap: 6px; }
+.sd-chips button { font: 12.5px var(--ui); padding: 2px 10px; border: 1px dashed var(--gold); border-radius: 999px; background: none; color: var(--head); cursor: pointer; }
+.sd-range { display: flex; align-items: center; gap: 14px; width: 100%; }
+.sd-range b { font: 700 22px/1 var(--display); color: var(--head); min-width: 22px; text-align: center; }
+.sd-range input { flex: 1; accent-color: var(--gold-d); }
+.sd-range small { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.sd-tog { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.sd-tog input { appearance: none; -webkit-appearance: none; width: 17px; height: 17px; margin: 0; border: 1.5px solid var(--gold-d); border-radius: 4px; background: var(--field); display: grid; place-items: center; cursor: pointer; }
+.sd-tog input:checked { background: var(--primary); border-color: var(--primary); }
+.sd-tog input:checked::after { content: ""; width: 5px; height: 9px; border: solid var(--on); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); }
+/* كما في الملف: صفوف متقاربة بلا فواصل، ومنزلقٌ ذهبي بمعيَّن */
+.sd-row { padding: 9px 0; }
+.sd-row + .sd-row { border-top: 0; }
+.sd-range input { appearance: none; -webkit-appearance: none; height: 18px; background: linear-gradient(var(--line), var(--line)) no-repeat 0 50% / 100% 3px; cursor: pointer; direction: rtl; }
+.sd-range input::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: linear-gradient(to left, var(--gold) calc((var(--v, 2) - 1) / 7 * 100%), transparent 0); }
+.sd-range input::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -5.5px; transform: rotate(45deg); background: var(--head); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--head); }
+
+/* السِّراج في التبويبات الموروثة من لوحة المالك: ما كان ورقاً أبيض صار لازوردياً */
+[data-settings].night .src-groups-help, [data-settings].night .src-form, [data-settings].night .panel.addkey, [data-settings].night #drop.drop { background: var(--field); border-color: var(--line); color: var(--ink); }
+[data-settings].night #drop.drop { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+[data-settings].night #drop.drop.over, [data-settings].night #drop.drop:hover { background: color-mix(in srgb, var(--gold) 10%, var(--field)); }
+[data-settings].night .pill.warn { background: #3A2E18; color: #F0D79C; border-color: #5A4622; }
+[data-settings].night #panel code { background: #1E2E4A; color: #F0D79C; border-color: var(--line); }
+[data-settings].night .look-demo { box-shadow: 0 0 0 1px var(--line); }
+[data-settings].night .switch span { background: #2A3B57; box-shadow: inset 0 0 0 1px #3A4D6C; }
+[data-settings].night .switch span::before { background: #A9B4C6; }
+[data-settings].night .switch input:checked + span { background: var(--primary); box-shadow: none; }
+[data-settings].night .switch input:checked + span::before { background: #0F1A2B; }
+
+/* «اللوتس» في تبويب الخطوط */
+.sd-lotus { display: grid; gap: 4px; margin: 4px 0 16px; padding: 12px 16px; border: 1px solid var(--line); border-inline-start: 3px solid var(--gold); border-radius: 0 8px 8px 0; background: var(--field); }
+.sd-lotus p { margin: 0; font-size: 13.5px; line-height: 1.8; color: var(--ink); }
+.sd-lotus .sd-note { color: var(--muted); font-size: 12.5px; }
+.sd-lotus-t { font: 700 20px/1.4 var(--display, serif); color: var(--head); display: flex; align-items: center; gap: 8px; }
+.sd-lotus-t::before { content: ""; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); }
+.sd-lotus-t.ok::after { content: "✓"; font: 700 14px var(--ui, sans-serif); color: var(--ok, #2E6B3A); }
+/* شعار «ورّاق» المكتوب (img/waraq-word.png): قناعٌ بلون ما حوله، فيتبع ألوان الواجهة نهاراً وليلاً */
+.wq-word{display:inline-block;height:1.15em;aspect-ratio:214/164;vertical-align:-0.33em;background:currentColor;-webkit-mask:url(/img/waraq-word.png) center/contain no-repeat;mask:url(/img/waraq-word.png) center/contain no-repeat}

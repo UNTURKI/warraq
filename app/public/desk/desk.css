@@ -1,0 +1,75 @@
+/* هيكل البرنامج كما في «ورّاق البرنامج»: شريط عنوان، وشريط جانبي بالأبواب، والباب، وشريط الحالة.
+   الألوان من wq.css (فتتبع المظهر والسِّراج)، والمقاييس مقاييس البرنامج: خط الواجهة ١٤، والعناوين وحدها بخط العرض. */
+html.wq, .wq body.shell { height: 100%; }
+.wq body.shell { min-height: 0; overflow: hidden; display: grid; grid-template-columns: 84px minmax(0, 1fr); grid-template-rows: 38px minmax(0, 1fr) auto; font-size: 14px; line-height: 1.6; }
+
+/* شريط العنوان: يُسحب به النافذة؛ ويُترك مكان أزرار النافذة (حيث رسمها ويندوز) */
+.tbar { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; background: var(--vellum); border-bottom: 1px solid var(--line); font-size: 12.5px; color: var(--muted); -webkit-app-region: drag; app-region: drag; user-select: none; -webkit-user-select: none; white-space: nowrap; overflow: hidden;
+  padding-inline-start: max(8px, calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw) + 8px));
+  padding-inline-end: max(12px, calc(env(titlebar-area-x, 0px) + 12px)); }
+.tb-mark { -webkit-app-region: no-drag; app-region: no-drag; display: grid; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 6px; background: none; color: var(--mark); cursor: pointer; }
+.tb-mark:hover { background: color-mix(in srgb, var(--vellum) 50%, var(--line)); }
+.tb-name { font: 700 16px/1 var(--display); color: var(--rubric); }
+.tb-ctx { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tb-ctx::before { content: "·"; margin-inline-end: 8px; }
+.tb-ctx:empty { display: none; }
+.tb-saved { color: var(--ok); font-weight: 700; }
+.tb-saved::before { content: "·"; margin-inline-end: 8px; color: var(--muted); font-weight: 400; }
+
+/* الشريط الجانبي */
+.side { grid-row: 2; grid-column: 1; background: var(--vellum); border-inline-end: 1px solid var(--line); display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px 8px; user-select: none; -webkit-user-select: none; min-height: 0; }
+.side .door { position: relative; display: grid; justify-items: center; gap: 2px; padding: 9px 2px 7px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: 700 11.5px/1.35 var(--ui); cursor: pointer; text-align: center; }
+.side .door svg { width: 24px; height: 24px; }
+.side .door:hover { background: color-mix(in srgb, var(--vellum) 55%, var(--line)); color: var(--ink); }
+.side .door[aria-current="page"] { background: var(--btn); color: var(--on-rubric); }
+.side .door[data-lamp][aria-pressed="true"] { color: var(--gold); }
+.side .sp { flex: 1; }
+/* المنضدة تعمل: نقطة ذهبية تنبض على بابها */
+.side .busy { position: absolute; top: 7px; inset-inline-end: 14px; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .side .busy { animation: none; } }
+
+.doors { grid-row: 2; grid-column: 2; position: relative; min-width: 0; min-height: 0; background: var(--paper); }
+.doors iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--paper); }
+.doors iframe[hidden] { display: block !important; visibility: hidden; pointer-events: none; }
+
+/* شريط الحالة */
+.status { grid-row: 3; grid-column: 1 / -1; display: flex; align-items: center; gap: 22px; border-top: 1px solid var(--line); background: var(--vellum); padding: 6px 14px; font: 12px/1.5 var(--ui); color: var(--muted); min-width: 0; white-space: nowrap; overflow: hidden; }
+.status b { font-weight: 700; color: var(--ink); }
+.status .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); margin-inline-end: 6px; vertical-align: 1px; }
+.status .off .dot { background: var(--err); }
+.status .end { margin-inline-start: auto; }
+.status .bar { display: inline-block; width: 70px; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; vertical-align: 2px; margin-inline: 6px; }
+.status .bar i { display: block; height: 100%; background: var(--gold); }
+
+/* اختصار المفاتيح على الأزرار (كما في الملف) */
+.kbd { font: 700 11px/1.7 var(--ui); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 6px; background: var(--sheet); color: var(--muted); white-space: nowrap; direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+/* القلم (Ctrl+K) */
+.pal { position: fixed; inset: 0; z-index: 50; display: grid; justify-items: center; align-items: start; padding-top: 84px; background: color-mix(in srgb, var(--ink) 18%, transparent); }
+.pal[hidden] { display: none; }
+.pal-card { width: min(580px, calc(100vw - 32px)); max-height: min(520px, calc(100vh - 130px)); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 30px 70px -20px rgba(20, 12, 6, .55), 0 2px 6px rgba(20, 12, 6, .12); overflow: hidden; animation: pal-in .16s var(--pen); }
+@keyframes pal-in { from { opacity: 0; transform: translateY(-8px) scale(.985); } }
+.pal-in { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.pal-in svg { width: 19px; height: 19px; flex: none; fill: none; stroke: var(--gold-d); stroke-width: 1.7; stroke-linejoin: round; }
+.pal-in input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font: 16px/1.5 var(--ui); color: var(--ink); }
+.pal-in input::placeholder { color: var(--muted); opacity: .8; }
+.pal-list { overflow-y: auto; padding: 6px 0 8px; scrollbar-width: thin; }
+.pal-g { padding: 8px 18px 3px; font: 800 11.5px var(--ui); color: var(--gold-d); letter-spacing: .03em; }
+.pal-it { display: flex; align-items: center; gap: 10px; padding: 8px 18px; cursor: pointer; font-size: 14px; color: var(--ink); border-inline-start: 3px solid transparent; }
+.pal-it .pal-t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pal-it small { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.pal-it[aria-selected="true"] { background: color-mix(in srgb, var(--gold) 14%, var(--sheet)); border-inline-start-color: var(--gold); }
+.pal-none { padding: 18px; text-align: center; color: var(--muted); font-size: 13.5px; }
+.pal-foot { display: flex; gap: 16px; padding: 7px 16px; border-top: 1px solid var(--line); background: var(--vellum); font-size: 11.5px; color: var(--muted); }
+.pal-foot > span { display: inline-flex; align-items: center; gap: 4px; }
+.pal-in input:focus, .pal-in input:focus-visible { outline: none; }
+
+/* سبعة أبواب والسِّراج والإعدادات: في النوافذ القصيرة تتقارب (ولا يخرج زرٌّ عن الشريط) */
+.side { overflow-y: auto; scrollbar-width: none; }
+.side::-webkit-scrollbar { display: none; }
+@media (max-height: 720px) {
+  .side { gap: 2px; padding-block: 6px; }
+  .side .door { padding: 6px 2px 4px; font-size: 10.5px; }
+  .side .door svg { width: 21px; height: 21px; }
+}

@@ -1,0 +1,21 @@
+/* خطوط عربية مضمّنة (رخصة SIL OFL 1.1 — انظر fonts/OFL.txt). مقتطعة للعربية واللاتينية الأساسية. */
+@font-face{font-family:"Amiri";src:url("fonts/Amiri-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Amiri";src:url("fonts/Amiri-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Aref Ruqaa";src:url("fonts/ArefRuqaa-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Aref Ruqaa";src:url("fonts/ArefRuqaa-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Scheherazade New";src:url("fonts/ScheherazadeNew-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Scheherazade New";src:url("fonts/ScheherazadeNew-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Naskh Arabic";src:url("fonts/NotoNaskhArabic-VF.woff") format("woff");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Lateef";src:url("fonts/Lateef-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Lateef";src:url("fonts/Lateef-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Markazi Text";src:url("fonts/MarkaziText-VF.woff") format("woff");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Reem Kufi";src:url("fonts/ReemKufi-VF.woff") format("woff");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Kufi Arabic";src:url("fonts/NotoKufiArabic-VF.woff") format("woff");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Kufam";src:url("fonts/Kufam-VF.woff") format("woff");font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:"El Messiri";src:url("fonts/ElMessiri-VF.woff") format("woff");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Cairo";src:url("fonts/Cairo-VF.woff") format("woff");font-weight:200 1000;font-style:normal;font-display:swap}
+@font-face{font-family:"Tajawal";src:url("fonts/Tajawal-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Tajawal";src:url("fonts/Tajawal-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Tajawal";src:url("fonts/Tajawal-ExtraBold.woff") format("woff");font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:"Rakkas";src:url("fonts/Rakkas-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Lalezar";src:url("fonts/Lalezar-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}

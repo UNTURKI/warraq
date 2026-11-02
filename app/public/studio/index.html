@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>استوديو الأساليب — ورّاق</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/api/fonts.css">
+  <link rel="stylesheet" href="/covers/ui.css">
+  <link rel="stylesheet" href="/css/preview.css">
+  <link rel="stylesheet" href="/studio/studio.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+</head>
+<body>
+  <!-- قائمة الأساليب -->
+  <div id="listView" hidden>
+    <header class="list-head">
+      <div class="brand">
+        <div class="logo"><svg viewBox="0 0 40 72" width="25" height="45" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></div>
+        <div>
+          <h1 id="listTitle">استوديو الأساليب</h1>
+          <p class="muted small" id="listSub"></p>
+        </div>
+      </div>
+      <div class="row wrap">
+        <a class="btn admin-only" href="/admin/" data-ic="back">دار ابن فقيه</a>
+        <a class="btn admin-only" href="/app/" target="_blank" data-ic="external">صفحة المستخدم</a>
+        <a class="btn card-only" href="/">الرئيسية</a>
+        <a class="btn card-only site-only" href="/identity/">الهوية</a>
+        <a class="btn card-only" href="/rahl/">الرَّحل</a>
+        <a class="btn user-only no-embed" href="/app/" data-ic="back">صفحة الإخراج</a>
+        <button class="btn user-only embed-only" type="button" id="closeEmbed" data-ic="back">رجوع إلى الإخراج</button>
+        <a class="btn admin-only" href="#/print" id="printBtn">🖨️ إعدادات الطباعة</a>
+        <button class="btn" id="textBtn" data-ic="copy">بطاقة نصية</button>
+        <button class="btn primary" id="newBtn" data-ic="plus">إضافة أسلوب</button>
+      </div>
+    </header>
+    <main class="list-main">
+      <!-- لكل نوعٍ أساليبه: الكتب، والأبحاث، والمتون (المتن وصفحةٌ للتعليق عليه) -->
+      <div class="kind-tabs" id="kindTabs" role="tablist" aria-label="نوع الأساليب"></div>
+      <div class="style-grid" id="grid"></div>
+      <!-- عند المستخدم: أساليب دور النشر يبدأ منها -->
+      <section class="site-grid" id="siteGrid" hidden></section>
+      <!-- إعدادات الطباعة: ما يسبق الكتاب في «النسخة الجاهزة للطباعة» -->
+      <section class="card print-strip admin-only" id="printStrip">
+        <div class="ps-text">
+          <h3>🖨️ إعدادات الطباعة</h3>
+          <p class="muted small">ما يسبق الكتاب ويلحقه في «النسخة الجاهزة للطباعة»: رتّب الصفحات، وخصّص العنوان المختصر والبسملة وصورها، والترقيم وهامش التجليد. <span id="psState"></span></p>
+        </div>
+        <ol class="ps-seq" id="psSeq" aria-label="تسلسل صفحات ما قبل الكتاب"></ol>
+        <a class="btn primary" href="#/print">تخصيص</a>
+      </section>
+      <section class="card how">
+        <h3>بطاقة الأسلوب</h3>
+        <p>لكل أسلوب <b>بطاقة</b>: ملف صورة يظهر في جهازك مربعاً دائري الزوايا عليه اسم الأسلوب وألوانه، وبداخله إعداداته كاملة (وصوره وتنسيقه وخطوطه). نزّلها من زر التنزيل تحت أي أسلوب، واحفظها أو أرسلها. ولتركيبها: اسحبها إلى خانة <b>«ركّب بطاقة أسلوب»</b> في آخر الشبكة، ثم عدّلها كأي أسلوب.</p>
+        <h3>اصنع أسلوباً بالذكاء الاصطناعي</h3>
+        <ol class="ai-steps">
+          <li><b>انسخ التوجيه</b> الذي يخص ما تصنعه، والصقه في أي ذكاء اصطناعي (Claude أو ChatGPT أو Gemini…). لكل قسمٍ توجيهه: <b>الكتب والمتون</b> أسلوبٌ واحد (المتن يُنضَّد كالكتاب، ومعه موضع التعليق وخانات الاسم ورقم الهاتف في الغلاف)، و<b>الأبحاث</b> وحدها.
+            <span class="prompt-picks">
+              <span class="row wrap"><b class="pp-name">الكتب والمتون</b><button class="btn sm primary" type="button" data-prompt-copy="books" data-ic="copy">نسخ التوجيه</button><a class="btn sm" href="/api/styles/ai-prompt?kind=books" download data-ic="download">تنزيله ملفاً</a></span>
+              <span class="row wrap"><b class="pp-name">الأبحاث</b><button class="btn sm primary" type="button" data-prompt-copy="research" data-ic="copy">نسخ التوجيه</button><a class="btn sm" href="/api/styles/ai-prompt?kind=research" download data-ic="download">تنزيله ملفاً</a></span>
+            </span></li>
+          <li><b>اكتب تحته وصف الأسلوب الذي تريد</b> بكلامك: الألوان، شكل عنوان الباب، موضع رقم الصفحة، الإطار، الصفحات الخاصة، وفي المتون موضع التعليق وشكل خانات الاسم ورقم الهاتف… وإن شئت أرفق صورة صفحة تريد مثلها. وما لا تذكره يتركه لاختيارك في المنضدة، ويكتب التنسيق صالحاً لكل اختيار.</li>
+          <li><b>انسخ جوابه</b>: يكتبه في مربع كود واحد، فاضغط زر «نسخ» الذي على المربع. ثم اضغط «بطاقة نصية» في أعلى هذه الصفحة، والصقه كما هو. يصير أسلوباً تراه في المعاينة وتعدّله. (وإن نسخت الكود وحده، أو الجواب بلا علاماته، قُبل أيضاً.)</li>
+          <li>إن ظهرت <b>ملاحظات</b> بعد التركيب أو لم يعجبك شيء، انسخ الملاحظات وأعطها له ليصلح، ثم الصق جوابه الجديد.</li>
+        </ol>
+        <p class="muted small">البطاقة قد تحمل ما لا تعرفه إعدادات ورّاق: صوراً وزخارف، خطوطاً، أشكالاً للعناوين ورقم الصفحة، وصفحات خاصة. فتعمل كما هي دون تغيير في ورّاق، ثم تُعدَّل بعد تركيبها كأي أسلوب. لا تفتح البطاقة في برنامج صور وتعيد حفظها، فذلك يحذف ما بداخلها.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- المحرر -->
+  <div id="editView" hidden>
+    <header class="topbar">
+      <div class="row">
+        <button class="ibtn" id="backBtn" title="كل الأساليب" data-ic="back"></button>
+        <input class="name-inp" id="nameInp" aria-label="اسم الأسلوب" maxlength="60">
+        <span class="chips" id="edChips"></span>
+        <span class="dirty" id="dirty"></span>
+      </div>
+      <div class="row">
+        <button class="btn sm" id="resetBuiltin" hidden data-ic="reset">استعادة الأصل</button>
+        <button class="btn sm" id="cardBtn" data-ic="download">تنزيل البطاقة</button>
+        <button class="btn sm primary" id="saveBtn" data-ic="save">حفظ</button>
+      </div>
+    </header>
+    <div class="ed-grid">
+      <form class="ed-form" id="form" autocomplete="off" onsubmit="return false"></form>
+      <aside class="ed-preview"><div id="previewHost"></div></aside>
+    </div>
+  </div>
+
+  <!-- إعدادات الطباعة: للموقع كله، أو لأسلوب بعينه -->
+  <div id="printView" hidden>
+    <header class="topbar">
+      <div class="row">
+        <button class="ibtn" id="prBack" title="رجوع" data-ic="back"></button>
+        <h2 class="pr-title" id="prTitle">إعدادات الطباعة</h2>
+        <span class="chips" id="prChips"></span>
+        <span class="dirty" id="prDirty"></span>
+      </div>
+      <div class="row">
+        <button class="btn sm" id="prFollow" hidden data-ic="reset">اتبع الإعدادات العامة</button>
+        <button class="btn sm" id="prReset" data-ic="reset">التسلسل الأصلي</button>
+        <button class="btn sm primary" id="prSave" data-ic="save">حفظ</button>
+      </div>
+    </header>
+    <section class="card pr-follow" id="prFollowBox" hidden>
+      <h3>هذا الأسلوب يتبع إعدادات الطباعة العامة</h3>
+      <p class="muted">ما يسبق الكتاب في «النسخة الجاهزة للطباعة» يؤخذ من <a href="#/print">إعدادات الطباعة للموقع كله</a>. وإن أردت لهذا الأسلوب ترتيباً أو مقاسات تخصه (تسافر مع بطاقته)، اجعل له إعدادات خاصة.</p>
+      <div class="row"><button class="btn primary" id="prOwn" data-ic="plus">إعدادات خاصة بهذا الأسلوب</button></div>
+    </section>
+    <!-- التنسيقات المحفوظة: ما صُنع هنا يُحفظ باسمه، ثم يُعمَّم للموقع كله أو يُربط بأسلوب، ويُنزَّل ملفاً يفهمه الموقع -->
+    <section class="card pr-presets" id="prPresets">
+      <div class="pp-head">
+        <div>
+          <h3>التنسيقات المحفوظة</h3>
+          <p class="muted small">احفظ ما صنعته هنا تنسيقاً باسمه. ثم عمّمه للموقع كله، أو اربطه بأسلوب بعينه، أو نزّله ملفاً تضعه لاحقاً (هنا أو في موقع آخر) فيفهمه.</p>
+        </div>
+        <div class="row wrap">
+          <button class="btn sm primary" id="ppSave" data-ic="save">حفظ هذا التنسيق باسم…</button>
+          <label class="btn sm" data-ic="upload">وضع ملف تنسيق<input type="file" id="ppFile" accept=".json,application/json" hidden></label>
+        </div>
+      </div>
+      <div class="pp-list" id="ppList"></div>
+    </section>
+    <div class="ed-grid" id="printHost"></div>
+  </div>
+
+  <dialog id="newDlg" class="dlg">
+    <form method="dialog" id="newForm">
+      <h3>أسلوب جديد</h3>
+      <label class="field"><span>الاسم</span><input class="inp" id="newName" maxlength="60" required placeholder="مثل: دار الرسالة"></label>
+      <label class="field"><span>ابدأ من</span><select class="inp" id="newFrom"></select></label>
+      <p class="muted small">يبدأ الأسلوب الجديد نسخةً من الأسلوب المختار، ثم تعدّله كما تشاء.</p>
+      <div class="row end"><button class="btn" value="cancel" type="button" id="newCancel">إلغاء</button><button class="btn primary" value="ok">إنشاء وتحرير</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="textDlg" class="dlg wide">
+    <form method="dialog" id="textForm">
+      <h3>بطاقة نصية</h3>
+      <p class="muted small">الصق هنا جواب الذكاء الاصطناعي كما هو (كل ملف في مربع كود وقبله اسمه). أو اسحب ملفه النصي إلى خانة التركيب.</p>
+      <textarea class="inp code" id="textInp" rows="14" dir="ltr" spellcheck="false" placeholder="### style.json&#10;```json&#10;{ &quot;name&quot;: &quot;…&quot;, &quot;settings&quot;: { } }&#10;```&#10;&#10;### style.css&#10;```css&#10;…&#10;```"></textarea>
+      <p class="text-state" id="textState" hidden></p>
+      <div class="row end"><button class="btn" value="cancel" type="button" id="textCancel">إلغاء</button><button class="btn primary" value="ok" id="textOk" disabled>تركيب البطاقة</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="notesDlg" class="dlg wide">
+    <form method="dialog">
+      <h3>رُكّبت البطاقة، وعليها ملاحظات</h3>
+      <p class="muted small">هذه أشياء في البطاقة تجاهلها ورّاق أو حذفها. الأسلوب يعمل، لكن قد لا يطابق ما أردت. انسخ الملاحظات وأعطها لمن كتب البطاقة ليصلحها.</p>
+      <textarea class="inp" id="notesOut" rows="8" readonly></textarea>
+      <div class="row end"><button class="btn" type="button" id="notesCopy" data-ic="copy">نسخ الملاحظات</button><button class="btn primary" value="ok">حسناً</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="codeDlg" class="dlg">
+    <form method="dialog">
+      <h3>هذه البطاقة تحمل برنامجاً</h3>
+      <p>بطاقة «<b id="codeName"></b>» فيها <b>كود</b> يتحكم في آلية التنضيد، لا إعدادات وصور فقط.</p>
+      <p class="muted small">الكود يعمل معزولاً: داخل مستند الطباعة بلا اتصال بالشبكة، وفي المعاينة داخل إطار لا يصل إلى ورّاق ولا إلى بياناتك. ومع ذلك لا تركّب إلا بطاقة تعرف مصدرها. ويمكنك قراءة الكود وتعطيله بعد التركيب من «برنامج الأسلوب».</p>
+      <div class="row end"><button class="btn" value="cancel">إلغاء</button><button class="btn primary" value="ok">تركيب البطاقة</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+  <script src="/covers/icons.js"></script>
+  <script type="module" src="/studio/studio.js"></script>
+</body>
+</html>

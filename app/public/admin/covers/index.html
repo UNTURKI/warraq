@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>استوديو الأغلفة — دار ابن فقيه</title>
+  <link rel="stylesheet" href="/covers/fonts.css">
+  <link rel="stylesheet" href="/api/fonts.css">
+  <link rel="stylesheet" href="/covers/ui.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+</head>
+<body>
+  <!-- قائمة التصاميم -->
+  <div id="listView" class="list-view hidden">
+    <header class="list-head">
+      <div class="brand">
+        <div class="logo"><svg viewBox="0 0 40 72" width="25" height="45" aria-hidden="true"><path d="M27.4 5.4 36 0v52.5c0 7.6-2 13.6-5.4 19-1.6-5.8-3.2-11.6-3.2-19z" fill="currentColor"/><g class="lgd" fill="#C5A059"><path d="M12 0l7.07 7.07L12 14.14 4.93 7.07z"/><path d="M12 14.14l7.07 7.07L12 28.28l-7.07-7.07z"/><path d="M12 28.28l7.07 7.07L12 42.42l-7.07-7.07z"/><path d="M12 42.42l7.07 7.07L12 56.56l-7.07-7.07z"/><path d="M12 56.56l7.07 7.07L12 70.7l-7.07-7.07z"/></g></svg></div>
+        <div>
+          <h1>استوديو الأغلفة</h1>
+          <p class="muted small">دار ابن فقيه — تصاميم أغلفة الكتب وخياراتها للمستخدمين</p>
+        </div>
+      </div>
+      <div class="row wrap">
+        <a class="btn" href="/covers/thumbnail-template.svg" download="قالب-الصورة-الخارجية.svg" data-ic="download">قالب الصورة الخارجية (SVG)</a>
+        <a class="btn" href="/admin/" data-ic="back">دار ابن فقيه</a>
+        <a class="btn" href="/covers/" target="_blank" data-ic="external">صفحة المستخدم</a>
+        <label class="btn" title="ضع ملف غلاف نزّلته من هنا (‎.zip) فيعود التصميم بصوره ونصوصه ومواضعها وخطوطها" data-ic="upload">استيراد ملف غلاف<input type="file" id="impFile" accept=".zip,.json,application/zip,application/json" hidden></label>
+        <label class="btn" title="اختر مجلّداً فيه صور: يصير كل ملف طبقة باسمه. وإن كان فيه cover.json عاد التصميم كما حُفظ" data-ic="image">مجلّد صور<input type="file" id="impDir" webkitdirectory directory multiple hidden></label>
+        <label class="btn" id="impBundleBtn" title="ضع ملف ربط (حزمة) نزّلته من صفحة «الربط»: تدخل أغلفته الثلاثة وأسلوبه وتنسيق طباعته دفعة واحدة" data-ic="link">استيراد حزمة<input type="file" id="impBundle" accept=".zip,application/zip" hidden></label>
+        <button class="btn primary" id="newDesign" data-ic="plus">تصميم جديد</button>
+      </div>
+    </header>
+    <nav class="kind-tabs" id="kindTabs" role="tablist" aria-label="صفحات المجلِّد">
+      <a role="tab" href="#/" data-kind="front"><span class="kt-ic front"></span>الغلاف الأمامي <small data-kcount="front"></small></a>
+      <a role="tab" href="#/back" data-kind="back"><span class="kt-ic back"></span>الغلاف الخلفي <small data-kcount="back"></small></a>
+      <a role="tab" href="#/spine" data-kind="spine"><span class="kt-ic spine"></span>الكعب <small data-kcount="spine"></small></a>
+      <a role="tab" href="#/links" data-kind="links"><span class="kt-ic links"></span>الربط <small data-kcount="links"></small></a>
+    </nav>
+    <main class="list-main">
+      <section id="designsSec">
+        <div class="sec-title"><div><h2 id="kindTitle">التصاميم</h2><p class="muted small" id="kindHint"></p></div><span class="muted small" id="designCount"></span></div>
+        <div id="designGrid" class="design-grid"></div>
+      </section>
+      <section id="bundlesSec" class="hidden"><div id="bundles"></div></section>
+      <section class="fonts-sec card">
+        <div class="sec-title">
+          <div><h2>الخطوط</h2><p class="muted small">الخطوط المتاحة في المحرر وللمستخدم. الخطوط الجديدة تُضاف من لوحة التحكم ← «الخطوط»، فتدخل في الغلاف وفي الكتاب معاً.</p></div>
+          <a class="btn" href="/admin/#fonts" data-ic="plus">إضافة خط</a>
+        </div>
+        <div id="fontList" class="font-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- المحرر -->
+  <div id="editView" class="edit-view hidden">
+    <header class="topbar">
+      <div class="row">
+        <button class="ibtn" id="backBtn" title="العودة إلى التصاميم" data-ic="back"></button>
+        <span class="chip kind-chip" id="kindChip"></span>
+        <input class="name-inp" id="nameInp" aria-label="اسم التصميم">
+        <span class="dirty" id="dirty"></span>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="design" data-ic="layers">التصميم</button>
+        <button role="tab" data-tab="links" data-ic="link">ربط الألوان</button>
+        <button role="tab" data-tab="settings" data-ic="settings">الإعدادات والصورة الخارجية</button>
+      </nav>
+      <div class="row">
+        <button class="ibtn" id="undoBtn" title="تراجع (Ctrl+Z)" data-ic="undo"></button>
+        <button class="ibtn" id="redoBtn" title="إعادة (Ctrl+Y)" data-ic="redo"></button>
+        <button class="btn sm" id="exportBtn" title="ينزّل ملفاً واحداً فيه الصور وإعدادات النصوص (الموضع والحجم والعرض والخط)؛ ضعه لاحقاً في «استيراد ملف غلاف» فيعود كما هو" data-ic="download">ملف الغلاف</button>
+        <a class="btn sm" id="previewBtn" target="_blank" data-ic="eye">معاينة كمستخدم</a>
+        <button class="btn sm primary" id="saveBtn" data-ic="save">حفظ</button>
+      </div>
+    </header>
+
+    <div class="pane" data-pane="design">
+      <aside class="layers-panel">
+        <div class="panel-h">
+          <h3>الطبقات</h3>
+          <div class="row">
+            <div class="menu-wrap">
+              <button class="btn sm" id="addLayerBtn" data-ic="plus">إضافة</button>
+              <div class="menu hidden" id="addMenu"></div>
+            </div>
+          </div>
+        </div>
+        <div class="filters" id="filters">
+          <button data-f="all" class="on">الكل</button>
+          <button data-f="cover"><span class="dot cover"></span> الخلفية</button>
+          <button data-f="slot"><span class="dot slot"></span> الخانة</button>
+        </div>
+        <ol class="layers" id="layers"></ol>
+        <div class="panel-f">
+          <button class="ibtn" id="upBtn" title="رفع الطبقة" data-ic="up"></button>
+          <button class="ibtn" id="downBtn" title="خفض الطبقة" data-ic="down"></button>
+          <button class="ibtn" id="dupBtn" title="تكرار الطبقة" data-ic="copy"></button>
+          <button class="ibtn" id="delBtn" title="حذف الطبقة" data-ic="trash"></button>
+          <span class="spacer"></span>
+          <label class="btn sm" title="ارفع عدة صور دفعة واحدة: ما طابق اسمه خانة موجودة دخلها، وما لم يطابق صار طبقة جديدة باسم الملف" data-ic="upload">صور<input type="file" id="bulkUpload" accept="image/*,.svg" multiple hidden></label>
+          <label class="btn sm" title="اختر مجلّداً كاملاً من الصور؛ تندرج كلها دفعة واحدة بأسماء ملفاتها" data-ic="image">مجلّد<input type="file" id="bulkDir" webkitdirectory directory multiple hidden></label>
+        </div>
+      </aside>
+
+      <section class="stage-wrap">
+        <div class="stage-tools">
+          <label class="sw small"><span>إظهار قسم الخانة</span><input type="checkbox" id="pvVolume" checked></label>
+          <label class="row small">رقم المجلد <input class="inp tiny" type="number" id="pvVolNum" min="1" max="999" value="1"></label>
+          <label class="sw small" title="يظهر خط متقطع على بعد هامش الأمان من الحواف: ما خرج عنه قد يُقصّ عند التجليد"><span>حدود هامش الأمان</span><input type="checkbox" id="pvSafe"></label>
+          <span class="row small spine-pv hidden" id="spinePv" title="جرّب التصميم بعرض كعب آخر (كتاب أسمك أو أرق): يُمطّ أو يُضكّ أو يُقصّ كما ضبطته">معاينة بعرض
+            <input type="range" id="pvSpine" min="0.3" max="8" step="0.1"> <output id="pvSpineOut"></output>
+            <button class="btn sm ghost" id="pvSpineReset" type="button">الطبيعي</button></span>
+          <span class="row small guide-tools" title="خطوط زرقاء تساعد على المحاذاة ولا تدخل في الغلاف: اسحب من المسطرة لتضع خطاً، واسحبه لتحرّكه، وأعده إلى المسطرة (أو انقره مرتين) لتحذفه. تلتصق بها العناصر حين تقترب منها (Alt يوقف الالتصاق)">
+            <label class="sw small"><span>خطوط الإرشاد</span><input type="checkbox" id="pvGuides" checked></label>
+            <button class="btn sm ghost" id="addGuideH" type="button" title="خط أفقي في منتصف الغلاف">+ أفقي</button>
+            <button class="btn sm ghost" id="addGuideV" type="button" title="خط عمودي في منتصف الغلاف">+ عمودي</button>
+            <button class="btn sm ghost" id="clearGuides" type="button" title="حذف كل خطوط الإرشاد في هذا التصميم">مسح الخطوط</button>
+          </span>
+          <span class="spacer"></span>
+          <button class="ibtn" id="zoomOut" title="تصغير">−</button>
+          <button class="btn sm ghost" id="zoomFit" data-ic="fit">ملاءمة</button>
+          <button class="ibtn" id="zoomIn" title="تكبير">+</button>
+        </div>
+        <div class="stage" id="stage">
+          <div class="canvas-box" id="canvasBox">
+            <canvas id="cv"></canvas>
+            <canvas class="ruler rh hidden" id="rulerH" title="اسحب منها خط إرشاد أفقياً"></canvas>
+            <canvas class="ruler rv hidden" id="rulerV" title="اسحب منها خط إرشاد عمودياً"></canvas>
+            <div class="overlay" id="overlay">
+              <div class="safe-guide hidden" id="safeGuide"></div>
+              <div class="guides hidden" id="guides"></div>
+              <div class="guide-v hidden" id="guideV"></div>
+              <div class="guide-h hidden" id="guideH"></div>
+              <div class="sel hidden" id="sel"></div>
+              <div class="guide-tip hidden" id="guideTip"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-hint muted small" id="stageHint">انقر عنصراً لتحديده، واسحبه لتحريكه. الأسهم للتحريك الدقيق (Shift ×١٠). اسحب من المسطرة خط إرشاد، وأعده إليها لتحذفه (Ctrl+؛ يظهرها ويخفيها، و Alt يوقف الالتصاق).</div>
+      </section>
+
+      <aside class="props-panel" id="props"></aside>
+    </div>
+
+    <div class="pane hidden" data-pane="links"><div class="links-wrap" id="linker"></div></div>
+    <div class="pane hidden" data-pane="settings"><div class="settings-wrap" id="settings"></div></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/shared/cover-core.js"></script>
+  <script src="/covers/icons.js"></script>
+  <script src="/covers/render.js"></script>
+  <script src="linker.js"></script>
+  <script src="bundles.js"></script>
+  <script src="/admin/panel-name.js" defer></script>
+  <script src="admin.js"></script>
+</body>
+</html>

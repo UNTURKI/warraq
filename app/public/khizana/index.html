@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="wq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الخزانة — ورّاق</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/wq.css">
+  <link rel="stylesheet" href="/khizana/khizana.css">
+  <link rel="stylesheet" href="/api/theme.css" id="themeCss">
+  <script src="/js/wq.js"></script>
+</head>
+<!-- الخزانة (في البرنامج وحده): ما على المنضدة وعند النسّاخ، وما أُخرج من الكتب مجلّداتٍ على رفوف خزانة خشبية -->
+<body class="kz">
+  <main class="kz-in">
+    <header class="kz-head">
+      <div class="kz-title">
+        <h1>الخزانة</h1>
+        <p class="sub" id="sub">ما أخرجتَه، وما على المنضدة</p>
+      </div>
+      <div class="kz-tools">
+        <form class="search" id="searchForm" role="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+          <label class="vh" for="q">ابحث</label>
+          <input id="q" type="search" placeholder="ابحث في «تراث» وفي خزانتك…" autocomplete="off" title="يُصفّي الرفوف وأنت تكتب، و Enter يبحث في «تراث» على المنضدة">
+          <span class="kbd" aria-hidden="true">Ctrl+K</span>
+        </form>
+        <button type="button" class="btn pri" id="newBtn" title="كتاب جديد على المنضدة">كتاب جديد <span class="kbd">Ctrl+N</span></button>
+      </div>
+    </header>
+
+    <section class="kz-sec" aria-labelledby="hDesk">
+      <h2 class="lbl" id="hDesk">على المنضدة</h2>
+      <div class="desk" id="desk"></div>
+    </section>
+
+    <section class="kz-sec" aria-labelledby="hShelf">
+      <div class="shelf-head">
+        <h2 class="lbl" id="hShelf">ما أخرجتَه</h2>
+        <div class="shelf-tools">
+          <div class="seg-mode" id="shelfMode" role="group" aria-label="ترتيب الرفوف">
+            <button type="button" data-mode="none" title="الكتب متجاورة بالترتيب الذي تختاره: اسحب الكعب إلى حيث شئت">بلا تقسيم</button>
+            <button type="button" data-mode="subject" title="بموضوع الكتاب في فهرس «تراث»: العقيدة، التفسير، الحديث…">بالموضوع</button>
+            <button type="button" data-mode="custom" title="مجموعات تسمّيها وتضع فيها ما تشاء">مجموعاتي</button>
+          </div>
+          <div class="seg-mode seg-label" id="labelStyle" role="group" aria-label="لافتة المجموعة" hidden>
+            <button type="button" data-label="plate" title="لوحة ذهبية صغيرة على إطار الرف (رفوف أقصر)"><i class="li-plate" aria-hidden="true"></i>لوحة</button>
+            <button type="button" data-label="card" title="بطاقة فهرسٍ كبيرة واضحة في حامل نحاسي (يرتفع لها الرف)"><i class="li-card" aria-hidden="true"></i>بطاقة</button>
+          </div>
+          <div class="seg-mode seg-look" id="spineLook" role="group" aria-label="شكل الكعوب" hidden>
+            <button type="button" data-look="real" title="كعب كل كتابٍ كما اختير له في الغلاف (كما يُطبع)، بنصّه بلا مطّ"><i class="lk-real" aria-hidden="true"></i>كعب الغلاف</button>
+            <button type="button" data-look="leather" title="الكعب الجلدي الافتراضي: أعصاب مذهّبة ورقعة عليها العنوان (ويُختار لكل كتابٍ وحده من لوحته)"><i class="lk-leather" aria-hidden="true"></i>جلدي</button>
+          </div>
+          <button type="button" class="tl" id="sortBtn" title="رتّب كتب هذه الخزانة مرةً واحدة: بالعنوان أو بالمؤلف أو بتاريخ الإخراج (ثم اسحب ما شئت إلى حيث شئت)">رتّب ▾</button>
+          <button type="button" class="tl" id="newGroup" hidden title="مجموعة جديدة في هذه الخزانة">＋ مجموعة</button>
+          <button type="button" class="tl" id="outDirBtn" title="فتح مجلد الكتب في مستكشف الملفات">مجلد الكتب</button>
+        </div>
+      </div>
+      <!-- الخزائن: لكل خزانة اسمٌ يختاره المستخدم، وأربعة رفوف -->
+      <nav class="cab-tabs" id="cabTabs" role="tablist" aria-label="الخزائن"></nav>
+      <div class="cabinet" id="cabinet">
+        <div class="crown" aria-hidden="true"><span class="plaque" id="plaque">خزانة ورّاق</span></div>
+        <div class="carcass" id="case" aria-label="رفوف الكتب المخرجة"></div>
+        <div class="plinth"><div class="pager" id="pager" hidden><button type="button" data-pg="-1" aria-label="الرفوف السابقة">›</button><span></span><button type="button" data-pg="1" aria-label="الرفوف التالية">‹</button></div></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="book-panel" id="panel" hidden aria-label="الكتاب"></aside>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script type="module" src="/khizana/khizana.js"></script>
+</body>
+</html>

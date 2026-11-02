@@ -3049,6 +3049,8 @@ async function openBookFile(bytes, path) {
   setKind(book.research ? 'research' : book.mutun ? 'mutun' : 'books', true);
   showBook(book, null);
   state.doc = { vols: new Map(Object.entries(b.volumes)), file: path || '', manifest: m };
+  // صورة الغلاف قبل الأسلوب: وضع «غلاف الملف» لا يثبت إلا وصورته حاضرة
+  state.fileCover = b.style.fileCover || '';
   applyProjectState({ ...b.style, edits: b.edits });
   state.fileCover = b.style.fileCover || '';
   renderOuter();

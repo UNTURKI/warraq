@@ -415,9 +415,7 @@ function main() {
     if (n === shownStage) return;
     shownStage = n;
     try {
-      const icon = n ? STAGE_ICON(n) : nightIcon ? ICON_NIGHT : ICON;
-      mainWin.setIcon(icon);
-      appDetails(mainWin, icon, n ? `.stage${n}${nightIcon ? 'n' : ''}` : nightIcon ? '.night' : '');
+      mainWin.setIcon(n ? STAGE_ICON(n) : nightIcon ? ICON_NIGHT : ICON);
     } catch {}
   }
   function setBusy(source, info) {
@@ -945,7 +943,7 @@ function main() {
       webPreferences: { ...webPrefs(), webviewTag: true },
     });
     wireWindow(mainWin);
-    appDetails(mainWin, nightIcon ? ICON_NIGHT : ICON, nightIcon ? '.night' : '');
+    appDetails(mainWin);
     if (lesson) lesson.wireHost(mainWin);
     mainWin.once('ready-to-show', () => {
       if (st.maximized) mainWin.maximize();
@@ -1029,12 +1027,12 @@ function main() {
    * أيقونة زرّ البرنامج في شريط المهام وما يُثبَّت فيه: من أيقونة ورّاق نفسها (appIconPath)، لا من الملف الذي يشغّله.
    * فحين يُشغَّل من مجلده (run-dev.bat، والملف Electron) لا يظهر شعار Electron (الإلكترونات التي تدور)، ولا بعد تثبيته في الشريط.
    */
-  function appDetails(win, icon = ICON, state = '') {
-    if (process.platform !== 'win32' || !win || STORE) return;
+  function appDetails(win) {
+    // للتشغيل من مجلد المشروع فقط: في البرنامج المثبَّت أيقونته في ملفه، وهذه الخاصية تثبّت زر شريط المهام فلا يتبع setIcon (السِّراج ومراحل الإخراج)
+    if (process.platform !== 'win32' || !win || STORE || app.isPackaged) return;
     try {
       const cmd = process.defaultApp ? `"${process.execPath}" "${path.resolve(process.argv[1] || '.')}"` : `"${process.execPath}"`;
-      // شريط المهام لا يعيد قراءة الأيقونة إلا إذا تغيّر معرّف النافذة (setIcon وحده لا يغيّر زرّه): فلكل حالٍ معرّفها (state)
-      win.setAppDetails({ appId: APP_ID + state, appIconPath: icon, appIconIndex: 0, relaunchCommand: cmd, relaunchDisplayName: 'ورّاق' });
+      win.setAppDetails({ appId: APP_ID, appIconPath: ICON, appIconIndex: 0, relaunchCommand: cmd, relaunchDisplayName: 'ورّاق' });
     } catch {}
   }
   /** قائمة القفز في شريط المهام: مهام سريعة، وآخر المشاريع */

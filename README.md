@@ -122,18 +122,35 @@
 
 ## الأغلفة
 
-خمسة تصاميم، لكل واحد غلاف أمامي وخلفي وكعب. والحزم الجاهزة (الورَّاق، الزُّمُرُّد، البُستَان) تختار الأغلفة الثلاثة والأسلوب دفعة واحدة، ويُكتب اسم الكتاب والمؤلف ورقم المجلد تلقائيًا.
+خمسة تصاميم جاهزة، لكل واحد غلاف أمامي وكعب وخلفي. تختار التصميم، فيكتب البرنامج اسم الكتاب والمؤلف ورقم المجلد في مواضعها، ويحسب عرض الكعب من عدد الصفحات ونوع الورق، ثم يخرج لك ملف **غلاف الطباعة** مفرودًا كما تراه هنا: الأمامي، فالكعب، فالخلفي.
 
-<table>
-<tr><th>التصميم</th><th>الأمامي</th><th>الخلفي</th><th>الكعب</th></tr>
-<tr><td align="center"><b>الورَّاق</b></td><td><img src="docs/images/covers/alwarraq-front.jpg" width="150"></td><td><img src="docs/images/covers/alwarraq-back.jpg" width="150"></td><td><img src="docs/images/covers/alwarraq-spine.jpg" width="150"></td></tr>
-<tr><td align="center"><b>الزُّمُرُّد</b></td><td><img src="docs/images/covers/zumurrud-front.jpg" width="150"></td><td><img src="docs/images/covers/zumurrud-back.jpg" width="150"></td><td><img src="docs/images/covers/zumurrud-spine.jpg" width="150"></td></tr>
-<tr><td align="center"><b>البُستَان</b></td><td><img src="docs/images/covers/bustan-front.jpg" width="150"></td><td><img src="docs/images/covers/bustan-back.jpg" width="150"></td><td><img src="docs/images/covers/bustan-spine.jpg" width="150"></td></tr>
-<tr><td align="center"><b>تَشكِيل</b></td><td><img src="docs/images/covers/tashkil-front.jpg" width="150"></td><td><img src="docs/images/covers/tashkil-back.jpg" width="150"></td><td><img src="docs/images/covers/tashkil-spine.jpg" width="150"></td></tr>
-<tr><td align="center"><b>رِوَاق</b></td><td><img src="docs/images/covers/riwaq-front.jpg" width="150"></td><td><img src="docs/images/covers/riwaq-back.jpg" width="150"></td><td><img src="docs/images/covers/riwaq-spine.jpg" width="150"></td></tr>
-</table>
+والصور أدناه مرسومة بمحرك البرنامج نفسه، بأسماء كتب للتمثيل.
 
-ومع «المجلِّد» تصمّم غلافك بنفسك: طبقات وصور وألوان وخطوط، وربط ألوان الأمامي بالخلفي والكعب.
+### الورَّاق
+
+![غلاف الورَّاق مفرودًا](docs/images/covers/alwarraq.jpg)
+
+### الزُّمُرُّد
+
+![غلاف الزمرد مفرودًا](docs/images/covers/zumurrud.jpg)
+
+### البُستَان
+
+![غلاف البستان مفرودًا](docs/images/covers/bustan.jpg)
+
+### تَشكِيل
+
+![غلاف تشكيل مفرودًا](docs/images/covers/tashkil.jpg)
+
+### رِوَاق
+
+![غلاف رواق مفرودًا](docs/images/covers/riwaq.jpg)
+
+### الحزم الجاهزة
+
+ثلاث حزم تختار الأغلفة الثلاثة والأسلوب المناسب لها دفعة واحدة: **الورَّاق** مع أسلوب المُذهَّب، و**الزُّمُرُّد** مع الزمرّدي، و**البُستَان** مع البستان. وألوان الأمامي مربوطة بالخلفي والكعب، فتتغير معًا في الحزم التي رُبطت فيها.
+
+ومع «المجلِّد» تصمّم غلافك بنفسك: طبقات وصور وألوان وخطوط.
 
 ![استوديو الأغلفة](docs/images/app/covers.png)
 
@@ -159,7 +176,9 @@
 
 ### ٣. ثبّت البرنامج
 
-اضغط **تثبيت**، وتقدر تغيّر مكان التثبيت قبلها. لا يحتاج صلاحيات المدير.
+سيطلب Windows **صلاحية المدير**: وافق عليها بالضغط على **Yes** (نعم)، فالمثبّت يحتاجها ليضع البرنامج في `Program Files` ويثبّت خطوطه لكل حسابات الجهاز. ثم اضغط **تثبيت**، وتقدر تغيّر مكان التثبيت قبلها.
+
+إذا كان الجهاز ليس باسمك، يحتاج التثبيت كلمة مرور حساب مدير. والبرنامج نفسه يعمل بعدها بصلاحياتك العادية.
 
 <table>
 <tr>

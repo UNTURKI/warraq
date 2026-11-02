@@ -1,7 +1,8 @@
 # Compiles the branded setup window and joins it with the NSIS installer into one file.
 #   build.ps1           full build: needs dist\Alwarraq-Core-<version>.exe and dist\win-unpacked
 #   build.ps1 -UiOnly   compiles the window only, into dist\setup-ui.exe
-param([switch]$UiOnly)
+#   build.ps1 -UiOnly -NoElevate   the same, without the administrator prompt, for testing the window
+param([switch]$UiOnly, [switch]$NoElevate)
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 $ui = $PSScriptRoot
@@ -11,8 +12,13 @@ $version = (Get-Content (Join-Path $root 'package.json') -Raw -Encoding UTF8 | C
 $csc = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 $exe = Join-Path $dist 'setup-ui.exe'
 $fonts = Join-Path $root 'app\public\fonts'
+$manifest = Join-Path $ui 'setup.manifest'
+if ($NoElevate) {
+  $manifest = Join-Path $dist 'setup-test.manifest'
+  (Get-Content (Join-Path $ui 'setup.manifest') -Raw).Replace('requireAdministrator', 'asInvoker') | Set-Content $manifest -Encoding UTF8
+}
 & $csc /nologo /target:winexe /optimize+ /codepage:65001 /out:$exe `
-  "/win32icon:$(Join-Path $root 'build\icon.ico')" "/win32manifest:$(Join-Path $ui 'setup.manifest')" `
+  "/win32icon:$(Join-Path $root 'build\icon.ico')" "/win32manifest:$manifest" `
   /r:System.Windows.Forms.dll /r:System.Drawing.dll `
   "/resource:$(Join-Path $fonts 'AdwaAssalaf-Bold.ttf'),AdwaAssalaf-Bold.ttf" `
   "/resource:$(Join-Path $fonts 'Amiri-Regular.ttf'),Amiri-Regular.ttf" `

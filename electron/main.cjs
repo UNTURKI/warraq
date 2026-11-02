@@ -39,7 +39,8 @@ const TITLEBAR = { height: 38, light: { color: '#F3EFE6', symbolColor: '#2A1D14'
 
 // نسخة المتجر: هويتها وروابطها وملفاتها من بيان الحزمة، ولا تُكتب في السجل
 const STORE = !!process.windowsStore;
-if (!STORE) app.setAppUserModelId('com.alwarraq.app');
+const APP_ID = 'com.alwarraq.desktop';
+if (!STORE) app.setAppUserModelId(APP_ID);
 // «مجلس الدرس»: المقطع يعمل حين يُطلب من أزرار البرنامج (لا ينتظر نقرةً في صفحته)
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 // روابط warraq:// (زرّا إشعار التمام: افتح المجلد، ضعه على الرَّحل) تصل إلى البرنامج نفسه
@@ -414,7 +415,9 @@ function main() {
     if (n === shownStage) return;
     shownStage = n;
     try {
-      mainWin.setIcon(n ? STAGE_ICON(n) : nightIcon ? ICON_NIGHT : ICON);
+      const icon = n ? STAGE_ICON(n) : nightIcon ? ICON_NIGHT : ICON;
+      mainWin.setIcon(icon);
+      appDetails(mainWin, icon, n ? `.stage${n}${nightIcon ? 'n' : ''}` : nightIcon ? '.night' : '');
     } catch {}
   }
   function setBusy(source, info) {
@@ -942,7 +945,7 @@ function main() {
       webPreferences: { ...webPrefs(), webviewTag: true },
     });
     wireWindow(mainWin);
-    appDetails(mainWin);
+    appDetails(mainWin, nightIcon ? ICON_NIGHT : ICON, nightIcon ? '.night' : '');
     if (lesson) lesson.wireHost(mainWin);
     mainWin.once('ready-to-show', () => {
       if (st.maximized) mainWin.maximize();
@@ -1026,11 +1029,12 @@ function main() {
    * أيقونة زرّ البرنامج في شريط المهام وما يُثبَّت فيه: من أيقونة ورّاق نفسها (appIconPath)، لا من الملف الذي يشغّله.
    * فحين يُشغَّل من مجلده (run-dev.bat، والملف Electron) لا يظهر شعار Electron (الإلكترونات التي تدور)، ولا بعد تثبيته في الشريط.
    */
-  function appDetails(win) {
+  function appDetails(win, icon = ICON, state = '') {
     if (process.platform !== 'win32' || !win || STORE) return;
     try {
       const cmd = process.defaultApp ? `"${process.execPath}" "${path.resolve(process.argv[1] || '.')}"` : `"${process.execPath}"`;
-      win.setAppDetails({ appId: 'com.alwarraq.app', appIconPath: ICON, appIconIndex: 0, relaunchCommand: cmd, relaunchDisplayName: 'ورّاق' });
+      // شريط المهام لا يعيد قراءة الأيقونة إلا إذا تغيّر معرّف النافذة (setIcon وحده لا يغيّر زرّه): فلكل حالٍ معرّفها (state)
+      win.setAppDetails({ appId: APP_ID + state, appIconPath: icon, appIconIndex: 0, relaunchCommand: cmd, relaunchDisplayName: 'ورّاق' });
     } catch {}
   }
   /** قائمة القفز في شريط المهام: مهام سريعة، وآخر المشاريع */

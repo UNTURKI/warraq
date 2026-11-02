@@ -22,6 +22,8 @@ export function algoBookType(title, cat = '') {
   if (hashiya && sharh) return 'sharh_and_hashiya';
   if (hashiya) return 'hashiya';
   if (sharh) return 'sharh';
+  // الكتب الجامعة (مجموع رسائل، ومجلات…): كتبٌ محقَّقة بحواشيها، لا متنٌ مجرد تسقط حواشيه
+  if (/(^| )(مجموع|مجموعه|رسائل)( |$)/.test(n) || /(^| )الجوامع( |$)/.test(normalizeArabic(cat))) return 'hashiya';
   return 'matn';
 }
 

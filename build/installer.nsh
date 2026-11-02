@@ -16,17 +16,25 @@
 !macroend
 
 !macro customInstall
-  CreateDirectory "$LOCALAPPDATA\Microsoft\Windows\Fonts"
-  CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\AdwaAssalaf-Regular.ttf" "$LOCALAPPDATA\Microsoft\Windows\Fonts\AdwaAssalaf-Regular.ttf"
-  CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\AdwaAssalaf-Bold.ttf" "$LOCALAPPDATA\Microsoft\Windows\Fonts\AdwaAssalaf-Bold.ttf"
-  WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Adwa Assalaf (TrueType)" "$LOCALAPPDATA\Microsoft\Windows\Fonts\AdwaAssalaf-Regular.ttf"
-  WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Adwa Assalaf Bold (TrueType)" "$LOCALAPPDATA\Microsoft\Windows\Fonts\AdwaAssalaf-Bold.ttf"
+  ; التثبيت بصلاحية المدير: الخطوط لكل حسابات الجهاز (ومجلد $LOCALAPPDATA هنا مجلد مشترك لا مجلد المستخدم)
+  SetRegView 64
+  CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\AdwaAssalaf-Regular.ttf" "$FONTS\AdwaAssalaf-Regular.ttf"
+  CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\AdwaAssalaf-Bold.ttf" "$FONTS\AdwaAssalaf-Bold.ttf"
+  WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Adwa Assalaf (TrueType)" "AdwaAssalaf-Regular.ttf"
+  WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Adwa Assalaf Bold (TrueType)" "AdwaAssalaf-Bold.ttf"
   ; أميري: خط التنضيد القياسي، فيظهر به ملف Word كما في PDF (يُنزَّل إلى public\fonts عند البناء)
   IfFileExists "$INSTDIR\resources\app\app\public\fonts\Amiri-Regular.ttf" 0 +5
-    CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\Amiri-Regular.ttf" "$LOCALAPPDATA\Microsoft\Windows\Fonts\Amiri-Regular.ttf"
-    CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\Amiri-Bold.ttf" "$LOCALAPPDATA\Microsoft\Windows\Fonts\Amiri-Bold.ttf"
-    WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Amiri (TrueType)" "$LOCALAPPDATA\Microsoft\Windows\Fonts\Amiri-Regular.ttf"
-    WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Amiri Bold (TrueType)" "$LOCALAPPDATA\Microsoft\Windows\Fonts\Amiri-Bold.ttf"
+    CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\Amiri-Regular.ttf" "$FONTS\Amiri-Regular.ttf"
+    CopyFiles /SILENT "$INSTDIR\resources\app\app\public\fonts\Amiri-Bold.ttf" "$FONTS\Amiri-Bold.ttf"
+    WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Amiri (TrueType)" "Amiri-Regular.ttf"
+    WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\Fonts" "Amiri Bold (TrueType)" "Amiri-Bold.ttf"
+  SetRegView lastused
+  ; تظهر الخطوط في الجلسة الحالية بلا إعادة تشغيل
+  System::Call 'gdi32::AddFontResource(t "$FONTS\AdwaAssalaf-Regular.ttf")'
+  System::Call 'gdi32::AddFontResource(t "$FONTS\AdwaAssalaf-Bold.ttf")'
+  System::Call 'gdi32::AddFontResource(t "$FONTS\Amiri-Regular.ttf")'
+  System::Call 'gdi32::AddFontResource(t "$FONTS\Amiri-Bold.ttf")'
+  SendMessage 0xFFFF 0x1D 0 0 /TIMEOUT=2000
 
   !insertmacro warraqVerb ".docx" "Alwarraq.Output" "أخرِجه بورّاق" "--output"
   !insertmacro warraqVerb ".docx" "Alwarraq.Queue" "أضفه إلى طابور النسّاخ" "--queue"

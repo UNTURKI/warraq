@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 [assembly: AssemblyTitle("Warraq Setup")]
 [assembly: AssemblyProduct("Warraq")]
@@ -102,7 +103,8 @@ class SetupForm : Form {
 
   [DllImport("gdi32.dll")] static extern IntPtr CreateRoundRectRgn(int a, int b, int c, int d, int e, int f);
 
-  public string Dir { set { dir = value; } }
+  public string Dir { set { dir = value; KeepOldCopies = true; } } // ‎--dir‎ لتجربة النافذة: لا يمسّ ما هو مثبّت
+  bool KeepOldCopies;
   public SetupForm() : this(false) { }
   SetupForm(bool offscreen) {
     Text = "تثبيت " + APP;
@@ -114,7 +116,7 @@ class SetupForm : Form {
     try { Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location); } catch { }
     using (Graphics g = CreateGraphics()) scale = g.DpiX / 96f;
     ClientSize = new Size((int)(W * scale), (int)(H * scale));
-    dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Alwarraq");
+    dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Alwarraq");
     LoadAssets();
     if (offscreen) return;
     Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, ClientSize.Width + 1, ClientSize.Height + 1, (int)(18 * scale), (int)(18 * scale)));
@@ -205,7 +207,7 @@ class SetupForm : Form {
 
   void Start() {
     if (payload == null) { Fail("ملف التثبيت ناقص. نزّله مرة أخرى."); return; }
-    foreach (Process p in Process.GetProcessesByName("Alwarraq")) {
+    if (!KeepOldCopies) foreach (Process p in Process.GetProcessesByName("Alwarraq")) {
       MessageBox.Show(this, "أغلق " + APP + " أولاً، ثم اضغط «موافق».", "تثبيت " + APP, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
       if (Process.GetProcessesByName("Alwarraq").Length > 0) return;
       break;
@@ -229,6 +231,7 @@ class SetupForm : Form {
       Directory.CreateDirectory(temp);
       string core = Path.Combine(temp, "core.exe");
       payload.ExtractTo(core, delegate(double p) { target = (float)(p * 0.15); });
+      RemovePerUserCopy();
       ProcessStartInfo si = new ProcessStartInfo(core, "/S /D=" + dir); // ‎/D‎ آخرها وبلا علامات تنصيص، ولو في المسار مسافات
       si.UseShellExecute = false;
       si.CreateNoWindow = true;
@@ -250,6 +253,30 @@ class SetupForm : Form {
       try { Directory.Delete(temp, true); } catch { }
     }
   }
+  /** نسخة قديمة مثبّتة لهذا الحساب وحده تُزال (وبيانات المستخدم في مجلد آخر فتبقى)، فلا يظهر البرنامج مرتين */
+  void RemovePerUserCopy() {
+    if (KeepOldCopies) return;
+    using (RegistryKey root = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall")) {
+      if (root == null) return;
+      foreach (string name in root.GetSubKeyNames()) {
+        string old;
+        using (RegistryKey k = root.OpenSubKey(name)) {
+          string title = k == null ? null : k.GetValue("DisplayName") as string;
+          if (title != APP && title != "الورّاق" && title != "Alwarraq") continue;
+          old = k.GetValue("InstallLocation") as string;
+        }
+        if (string.IsNullOrEmpty(old) || old.TrimEnd('\\').Equals(dir.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)) continue;
+        string un = Path.Combine(old, "Uninstall Alwarraq.exe");
+        if (!File.Exists(un)) continue;
+        ProcessStartInfo si = new ProcessStartInfo(un, "/S");
+        si.UseShellExecute = false;
+        si.CreateNoWindow = true;
+        using (Process p = Process.Start(si)) p.WaitForExit(120000);
+        // المزيل ينسخ نفسه ويكمل في الخلفية
+        for (int i = 0; i < 120 && File.Exists(Path.Combine(old, "Alwarraq.exe")); i++) Thread.Sleep(500);
+      }
+    }
+  }
   static long DirSize(string d) {
     long n = 0;
     try { foreach (string f in Directory.GetFiles(d, "*", SearchOption.AllDirectories)) { try { n += new FileInfo(f).Length; } catch { } } } catch { }
@@ -257,7 +284,8 @@ class SetupForm : Form {
   }
   void Fail(string m) { error = m; Go(Stage.Failed); }
   void RunApp() {
-    try { Process.Start(new ProcessStartInfo(Path.Combine(dir, "Alwarraq.exe")) { UseShellExecute = true, WorkingDirectory = dir }); } catch (Exception e) { Fail("تعذّر تشغيل البرنامج: " + e.Message); return; }
+    // عبر المستكشف: يعمل البرنامج بصلاحية المستخدم العادية، لا بصلاحية المدير التي طلبها المثبّت
+    try { Process.Start(new ProcessStartInfo("explorer.exe", "\"" + Path.Combine(dir, "Alwarraq.exe") + "\"") { UseShellExecute = false }); } catch (Exception e) { Fail("تعذّر تشغيل البرنامج: " + e.Message); return; }
     Close();
   }
 

@@ -217,8 +217,9 @@ export function makeTurath(o = {}) {
     const hit = fileCache.get(+id);
     if (hit && Date.now() - hit.at < 30 * 60e3) return hit.promise;
     const promise = (async () => {
-      const j = decodeBookFile((await diskCache.read(FILES, id)) || (await downloadFile(id)));
+      const j = await rawFile(id);
       if (!j || !Array.isArray(j.pages) || !j.pages.length) throw new Error('ملف الكتاب بلا صفحات');
+      await resolveRefs(id, j.pages);
       return {
         meta: j.meta || null,
         idx: { ...(j.indexes || {}), ...(j.indexes_generated || {}) },
@@ -230,6 +231,31 @@ export function makeTurath(o = {}) {
     if (fileCache.size > 3) fileCache.delete(fileCache.keys().next().value);
     promise.catch(() => { if (fileCache.get(+id)?.promise === promise) fileCache.delete(+id); });
     return promise;
+  }
+  const rawFile = async (id) => decodeBookFile((await diskCache.read(FILES, id)) || (await downloadFile(id)));
+  /** صفحات الكتب الجامعة («مجموع رسائل»): كل إحالة تُستبدل بنص صفحتها من كتابها، وكتابٌ تعذّر يُفشل الملف كله فلا يخرج ناقصاً */
+  async function resolveRefs(id, pages) {
+    const want = new Map(); // رقم الكتاب ← مواضع الإحالات إليه
+    pages.forEach((p, i) => {
+      const r = parsePageRef(p && p.text);
+      if (!r) return;
+      if (!want.has(r.book)) want.set(r.book, []);
+      want.get(r.book).push([i, r.pos]);
+    });
+    if (!want.size) return;
+    const queue = [...want.keys()];
+    const worker = async () => {
+      for (let b = queue.shift(); b !== undefined; b = queue.shift()) {
+        const f = await rawFile(b);
+        for (const [i, pos] of want.get(b)) {
+          const t = f.pages && f.pages[pos - 1];
+          if (!t) throw new Error(`إحالة إلى صفحة غير موجودة: ${b}-${pos}`);
+          pages[i].text = t.text || '';
+        }
+      }
+    };
+    await Promise.all(Array.from({ length: Math.min(4, queue.length) }, worker));
+    tlog(`الكتاب ${id}: حُلّت إحالات صفحاته إلى ${want.size} كتاباً`);
   }
   async function downloadFile(id) {
     // books-v3 هو المنشور اليوم (books القديم يردّ 404)؛ ويُجرَّب القديم إن غاب الجديد
@@ -310,7 +336,9 @@ export function makeTurath(o = {}) {
       if (got && got[0]) return got[0];
     }
     const j = await getJson('/page', { book_id: bookId, pg });
-    return { page_id: +pg, text: j.text || '', meta: safeJson(j.meta) };
+    const ref = parsePageRef(j.text);
+    const text = ref ? (await getJson('/page', { book_id: ref.book, pg: ref.pos })).text : j.text;
+    return { page_id: +pg, text: text || '', meta: safeJson(j.meta) };
   }
 
   /** اقتراحات فورية أثناء الكتابة: من فهرس العناوين فقط */
@@ -395,6 +423,12 @@ export function groupVolumes(bounds, pageMap, totalPages) {
     used.add(key);
     return { vol: key, start: g.start, end: g.end, pages: g.end - g.start + 1, parts: g.parts.length > 1 ? g.parts : [] };
   });
+}
+
+/** إحالة صفحةٍ إلى كتاب آخر في «تراث»: نصها «~رقم الكتاب-موضع الصفحة في ملفه» (‎~١٥١١١١-٢٧‎) ← { book, pos } */
+export function parsePageRef(text) {
+  const m = /^\s*~([0-9٠-٩]+)-([0-9٠-٩]+)\s*$/.exec(String(text ?? ''));
+  return m ? { book: +toLatinDigits(m[1]), pos: +toLatinDigits(m[2]) } : null;
 }
 
 /* ------------------------------------------------------------------

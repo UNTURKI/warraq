@@ -45,6 +45,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Release failed' }
 
 # 4) what GitHub holds must be what was built
 $local = (Get-FileHash -LiteralPath $asset -Algorithm SHA256).Hash.ToLower()
-$remote = & $gh api "repos/UNTURKI/warraq/releases/tags/v$Version" --jq '.assets[] | select(.name=="Alwarraq-Setup.exe") | .digest'
+$rel = (& $gh api "repos/UNTURKI/warraq/releases/tags/v$Version") -join "`n" | ConvertFrom-Json
+$remote = ($rel.assets | Where-Object { $_.name -eq 'Alwarraq-Setup.exe' }).digest
 if ($remote -ne "sha256:$local") { throw "Uploaded file does not match: $remote vs $local" }
 Write-Host "Published v$Version  sha256:$local"

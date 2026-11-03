@@ -48,6 +48,7 @@
 !macro customUnInstall
   ; ربط ملفات «ورق» الذي يكتبه البرنامج نفسه عند تشغيله
   DeleteRegKey HKCU "Software\Classes\Alwarraq.Book"
+  DeleteRegKey HKCU "Software\Classes\AppUserModelId\com.alwarraq.window"
   DeleteRegKey HKCU "Software\Classes\SystemFileAssociations\.docx\shell\Alwarraq.Output"
   DeleteRegKey HKCU "Software\Classes\SystemFileAssociations\.docx\shell\Alwarraq.Queue"
   DeleteRegKey HKCU "Software\Classes\SystemFileAssociations\.pdf\shell\Alwarraq.Rahl"

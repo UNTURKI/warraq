@@ -39,7 +39,11 @@ const TITLEBAR = { height: 38, light: { color: '#F3EFE6', symbolColor: '#2A1D14'
 
 // نسخة المتجر: هويتها وروابطها وملفاتها من بيان الحزمة، ولا تُكتب في السجل
 const STORE = !!process.windowsStore;
-const APP_ID = 'com.alwarraq.desktop';
+const { setupUpdater } = require('./updater.cjs');
+let updater = null;
+// معرّف زر شريط المهام: يخالف عمداً معرّف المثبّت (appId في package.json، وعليه اختصار قائمة ابدأ):
+// بذلك المعرّف يجمد ويندوز أيقونة الزر فلا تتبع setIcon (السِّراج ومراحل الإخراج)
+const APP_ID = 'com.alwarraq.window';
 if (!STORE) app.setAppUserModelId(APP_ID);
 // «مجلس الدرس»: المقطع يعمل حين يُطلب من أزرار البرنامج (لا ينتظر نقرةً في صفحته)
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
@@ -466,6 +470,7 @@ function main() {
     n.on('click', () => toDoor(door || 'khizana'));
     n.on('close', () => notes.delete(n));
     n.show();
+    setTimeout(dropAutoShortcut, 5000);
     // يومض زر البرنامج في شريط المهام إن كانت نافذته مصغّرة أو في الخلف
     if (mainWin && away) mainWin.flashFrame(true);
   }
@@ -584,6 +589,7 @@ function main() {
           },
           { label: 'جولة البداية', click: () => toShell('onboard') },
           { type: 'separator' },
+          ...(updater ? [{ label: 'التحقق من التحديثات', click: () => updater.check({ manual: true }) }] : []),
           { label: 'عن ورّاق', click: () => WINDOWS.about() },
         ],
       },
@@ -737,6 +743,7 @@ function main() {
     // العمل في الخلفية والإشعار
     ipcMain.on('warraq:progress', (e, arg) => fromUs(e) && setBusy(arg && arg.source === 'scribes' ? 'scribes' : 'bench', arg && arg.info));
     ipcMain.handle('warraq:notify', guard((n) => notify(n || {})));
+    ipcMain.handle('warraq:check-update', guard(() => (updater ? updater.check({ manual: true }) : { state: 'store' })));
     // التفريغ المباشر: جلسةٌ واحدة لكل نافذة (app/lib/stt.js)، والصوت يصل من «مجلس الدرس»
     const sttSessions = new Map(); // webContents.id ← الجلسة
     let sttSeq = 0;
@@ -1032,7 +1039,7 @@ function main() {
     if (process.platform !== 'win32' || !win || STORE || app.isPackaged) return;
     try {
       const cmd = process.defaultApp ? `"${process.execPath}" "${path.resolve(process.argv[1] || '.')}"` : `"${process.execPath}"`;
-      win.setAppDetails({ appId: APP_ID, appIconPath: ICON, appIconIndex: 0, relaunchCommand: cmd, relaunchDisplayName: 'ورّاق' });
+      win.setAppDetails({ appId: APP_ID + '.dev', appIconPath: ICON, appIconIndex: 0, relaunchCommand: cmd, relaunchDisplayName: 'ورّاق' });
     } catch {}
   }
   /** قائمة القفز في شريط المهام: مهام سريعة، وآخر المشاريع */
@@ -1171,6 +1178,23 @@ function main() {
    * ملفات «ورق» (‎.waraq‎، وملفات ‎.warraq‎ القديمة) تُربط بالبرنامج وأيقونتها لحساب المستخدم، في كل تشغيلٍ تغيّر فيه مكان البرنامج أو إصداره:
    * يعمل ولو شُغّل البرنامج من مجلده دون مثبّت، ويُصلح ما أفسده برنامج آخر، ثم يُنبَّه المستكشف فيعيد رسم الأيقونات.
    */
+  /** الإشعارات: معرّف الزر لا يطابق اختصاراً، فيُسجَّل باسم البرنامج وأيقونته حتى يقبله ويندوز */
+  function registerToastId() {
+    if (process.platform !== 'win32' || STORE) return;
+    const { execFile } = require('node:child_process');
+    const k = 'HKCU\\Software\\Classes\\AppUserModelId\\' + APP_ID;
+    execFile('reg', ['add', k, '/v', 'DisplayName', '/t', 'REG_SZ', '/d', 'ورّاق', '/f'], { windowsHide: true }, () => {});
+    execFile('reg', ['add', k, '/v', 'IconUri', '/t', 'REG_SZ', '/d', ICON_PNG, '/f'], { windowsHide: true }, () => {});
+    dropAutoShortcut();
+  }
+  /** Electron ينشئ مع الإشعار اختصاراً باسم الملف (Alwarraq) بمعرّف الزر، فيتكرر البرنامج في قائمة ابدأ: يُحذف اختصاره هو وحده */
+  function dropAutoShortcut() {
+    if (process.platform !== 'win32' || STORE || !app.isPackaged) return;
+    const lnk = path.join(app.getPath('appData'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', path.basename(process.execPath, '.exe') + '.lnk');
+    try {
+      if (shell.readShortcutLink(lnk).appUserModelId === APP_ID) fs.unlinkSync(lnk);
+    } catch {}
+  }
   function registerFileType() {
     if (process.platform !== 'win32' || STORE) return;
     const { execFile } = require('node:child_process');
@@ -1223,6 +1247,9 @@ function main() {
 
   app.whenReady().then(() => {
     registerFileType();
+    registerToastId();
+    updater = STORE || !app.isPackaged ? null : setupUpdater({ app, net, dialog, shell, getWin: () => mainWin, isBusy: () => busy.size > 0, prefs: () => store.prefs() });
+    if (updater) updater.start();
     lesson = setupLesson({ app, session, ipcMain, dialog, shell, Menu, clipboard: require('electron').clipboard, guard, getWin: () => mainWin, log: (...a) => console.log('[lesson]', ...a) });
     buildMenu();
     wireBridge();

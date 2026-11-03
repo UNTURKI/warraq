@@ -61,6 +61,8 @@ contextBridge.exposeInMainWorld('warraqDesktop', {
   titlebar: (dark) => ipcRenderer.send('warraq:titlebar', !!dark),
   /** «أصلح البرنامج»: يسأل ثم يعيده إلى حاله الطبيعي (بلا مسّ المحفوظ) */
   repair: () => ipcRenderer.send('warraq:repair'),
+  /** «تحقّق الآن»: يسأل عن إصدار جديد، ويخبر المستخدم بالنتيجة */
+  checkUpdate: () => invoke('warraq:check-update'),
   /** نوافذ البرنامج: settings · about · identity */
   openWindow: (name) => invoke('warraq:window', name),
   /** أوامر قائمة البرنامج (كتاب جديد، أرسل ملاحظة، باب…) */

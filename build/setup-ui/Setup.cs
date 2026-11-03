@@ -31,6 +31,7 @@ static class Program {
       if (!first) return 0;
       SetupForm form = new SetupForm();
       if (args.Length == 2 && args[0] == "--dir") form.Dir = args[1];
+      if (args.Length == 2 && args[0] == "--update") form.UpdateIn(args[1]);
       Application.Run(form);
     }
     return 0;
@@ -105,6 +106,12 @@ class SetupForm : Form {
 
   public string Dir { set { dir = value; KeepOldCopies = true; } } // ‎--dir‎ لتجربة النافذة: لا يمسّ ما هو مثبّت
   bool KeepOldCopies;
+  // ‎--update‎ من البرنامج نفسه: في مجلده الحالي، بلا سؤال، ويعود البرنامج بعد التثبيت
+  bool updating;
+  public void UpdateIn(string d) {
+    dir = d; updating = true;
+    Shown += delegate { Start(); };
+  }
   public SetupForm() : this(false) { }
   SetupForm(bool offscreen) {
     Text = "تثبيت " + APP;
@@ -207,6 +214,8 @@ class SetupForm : Form {
 
   void Start() {
     if (payload == null) { Fail("ملف التثبيت ناقص. نزّله مرة أخرى."); return; }
+    // التحديث: البرنامج يُغلق نفسه بعد تشغيل المثبّت، فيُنتظر قليلاً
+    if (updating) for (int i = 0; i < 40 && Process.GetProcessesByName("Alwarraq").Length > 0; i++) Thread.Sleep(500);
     if (!KeepOldCopies) foreach (Process p in Process.GetProcessesByName("Alwarraq")) {
       MessageBox.Show(this, "أغلق " + APP + " أولاً، ثم اضغط «موافق».", "تثبيت " + APP, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign);
       if (Process.GetProcessesByName("Alwarraq").Length > 0) return;
@@ -245,7 +254,7 @@ class SetupForm : Form {
       if (!File.Exists(Path.Combine(dir, "Alwarraq.exe"))) throw new Exception("لم يكتمل نسخ الملفات");
       target = 1;
       Thread.Sleep(900);
-      BeginInvoke((Action)delegate { for (int i = 0; i < 5; i++) if (litAt[i] == 0) litAt[i] = Now(); Go(Stage.Done); });
+      BeginInvoke((Action)delegate { for (int i = 0; i < 5; i++) if (litAt[i] == 0) litAt[i] = Now(); Go(Stage.Done); if (updating) RunApp(); });
     } catch (Exception e) {
       string msg = e.Message;
       BeginInvoke((Action)delegate { Fail("تعذّر التثبيت: " + msg); });
@@ -440,7 +449,7 @@ class SetupForm : Form {
       using (Pen p = new Pen(A(hoverChange ? Rubric : Line, fade), 1f)) g.DrawLine(p, left, 314, right, 314);
       Text2(g, "تغيير", display, 16, FontStyle.Bold, rub, new RectangleF(left, 286, 54, 26), StringAlignment.Center, true);
       Text2(g, dir, new FontFamily("Segoe UI"), 13, FontStyle.Regular, ink, new RectangleF(left + 60, 288, wid - 60, 24), StringAlignment.Center, false);
-      Text2(g, "الإصدار " + Ar("1.0.0"), body, 14, FontStyle.Regular, muted, new RectangleF(left, H - 74, 120, 30), StringAlignment.Center, true);
+      Text2(g, "الإصدار " + Ar(SetupVersion.V), body, 14, FontStyle.Regular, muted, new RectangleF(left, H - 74, 120, 30), StringAlignment.Center, true);
     } else if (stage == Stage.Installing) {
       double p = Clamp(shown);
       int idx = Math.Min(4, (int)(p * 5));

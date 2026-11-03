@@ -83,6 +83,7 @@
   $('#tab-general').innerHTML = `<h2 class="sd-h">عام</h2>
     ${row('السِّراج', `<div class="sd-seg" id="sdLamp" role="group" aria-label="السِّراج"><button type="button" data-v="sys">يتبع ويندوز</button><button type="button" data-v="0">نهاري</button><button type="button" data-v="1">ليلي</button></div>`, 'الوضع الليلي: ذهبٌ على لازورد، كالمصاحف المذهّبة. ويُبدَّل من زرّه في الشريط الجانبي.')}
     ${row('جولة البداية', `<button type="button" class="btn" id="sdOnboard">أعِد جولة البداية</button>`, 'الشاشات التي تظهر أول مرة: المظهر، وترتيب الخزانة، ومكان الحفظ، والتنبيه.')}
+    ${row('التحديثات', `<button type="button" class="btn" id="sdUpdate">تحقّق الآن</button>${tog('sdAutoUpd', 'تحقّق من وجود إصدار جديد عند التشغيل')}`, 'يُنزَّل الإصدار الجديد بإذنك، وتبقى كتبك وإعداداتك كما هي.')}
     ${row('عن ورّاق', `<button type="button" class="btn" id="sdAbout">عن ورّاق</button> <span class="sd-ver" id="sdVer"></span>`)}`;
 
   $('#tab-scribes').innerHTML = `<h2 class="sd-h">النسّاخ</h2>
@@ -140,6 +141,7 @@
     if (document.activeElement !== $('#sdFolder')) $('#sdFolder').value = p.folderPattern || '';
     $('#sdAwake').checked = p.keepAwake !== false;
     $('#sdNotify').checked = p.notify !== false;
+    $('#sdAutoUpd').checked = p.autoUpdate !== false;
   }
   document.addEventListener('click', (e) => {
     const t = e.target.closest('button');
@@ -153,6 +155,7 @@
     }
     if (t.id === 'sdOnboard') return desk.openWindow('onboard');
     if (t.id === 'sdAbout') return desk.openWindow('about');
+    if (t.id === 'sdUpdate') return desk.checkUpdate().catch(() => {});
     if (t.id === 'sdOutChange') return desk.chooseOutDir().then(load);
     if (t.id === 'sdOutOpen' && info) return desk.showFolder(info.outDir).catch(() => {});
     if (t.id === 'sdDataOpen' && info) return desk.showFolder(info.dataDir).catch(() => {});
@@ -176,6 +179,7 @@
     if (t.id === 'sdFolder') save({ folderPattern: t.value.trim() });
     if (t.id === 'sdAwake') save({ keepAwake: t.checked });
     if (t.id === 'sdNotify') save({ notify: t.checked });
+    if (t.id === 'sdAutoUpd') save({ autoUpdate: t.checked });
   });
   paintNight();
   load();

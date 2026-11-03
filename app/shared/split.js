@@ -25,6 +25,32 @@ export function printedVolOf(pageMap, pageId) {
   return volOf(pageMap && pageMap[pageId - 1]);
 }
 /**
+ * عدد صفحات الطبعة من..إلى: «تراث» قد يقطع الصفحة المطبوعة مدخلاتٍ متتالية بالرقم نفسه
+ * (البخاري ١٦٨١: ١١٢٠٨ مدخلاً لـ١٥٩٥ صفحة)، فتُعدّ المتتالية صفحةً واحدة. وبلا ترقيم: عدد المدخلات.
+ */
+export function countPrinted(pageMap, start, end) {
+  if (!Array.isArray(pageMap) || pageMap.length < end) return end - start + 1;
+  let n = 0, prev = '';
+  for (let i = start - 1; i < end; i++) {
+    const k = pageMap[i] == null ? '' : toLatinDigits(String(pageMap[i])).replace(/\s+/g, '');
+    if (!k || k !== prev) n++;
+    prev = k;
+  }
+  return n;
+}
+/** رقم تسلسل الصفحة بعدّ صفحات الطبعة ← أول مدخلٍ لها (عكس countPrinted(pageMap, 1, id)) */
+export function entryOfPrinted(pageMap, n) {
+  if (!Array.isArray(pageMap) || !pageMap.length) return n;
+  let lo = 1, hi = pageMap.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (countPrinted(pageMap, 1, mid) < n) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
+/**
  * مجلدات الطبعة من ترقيم الصفحات: [{ vol, start, end }] — صفحاتٌ بلا رقم مجلد تلحق بما قبلها
  * (وما قبل أول رقم يلحق بالمجلد الأول). لا شيء إن لم يكن فيه إلا مجلدٌ واحد.
  */
@@ -171,7 +197,7 @@ export function volumesFrom(book, starts, { keys = null, cutAtHeads = true } = {
       vol: keys && keys[k] ? String(keys[k]) : String(k + 1),
       start,
       end,
-      pages: end - start + 1,
+      pages: countPrinted(book.pageMap, start, end),
       parts: [],
       split: true,
       ...(h ? { head: { title: h.title, lvl: h.lvl, i: h.i } } : {}),

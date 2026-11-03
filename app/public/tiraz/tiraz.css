@@ -12,6 +12,7 @@ body.tz { font-size: 14px; line-height: 1.6; }
 .tz-tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; font: 700 14px var(--ui); border-radius: 7px; padding: 8px 15px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); cursor: pointer; white-space: nowrap; transition: border-color .2s, background-color .2s, box-shadow .2s; }
+.wq a.btn:not(.pri) { color: var(--ink); }
 .btn:hover { border-color: var(--gold); }
 .btn.pri { background: var(--btn); border-color: var(--btn); color: var(--on-rubric); }
 .btn.pri:hover { background: var(--btn-d); box-shadow: 0 10px 20px -14px color-mix(in srgb, var(--btn) 90%, transparent); }

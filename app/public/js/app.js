@@ -12,13 +12,15 @@ import { applyEdits, sigOf, opId } from '/shared/edits.js';
 import { packBook, unpackBook, isBookFile } from '/shared/book-file.js';
 import { toArabicDigits as ar, toLatinDigits, volumeLabel, escapeHtml as esc, normalizeArabic } from '/shared/arabic.js';
 import { makeZip } from '/shared/zip.js';
-import { splitVolumes, cleanSplit, printedRuns, topHeads, startsByCount, headAt, printedPage, printedVolOf, MAX_SPLIT } from '/shared/split.js';
+import { splitVolumes, cleanSplit, printedRuns, topHeads, startsByCount, headAt, printedPage, printedVolOf, countPrinted, entryOfPrinted, MAX_SPLIT } from '/shared/split.js';
 import { initMyStyles, loadMyStyles, deleteMyStyle, downloadCard, takePick, userStylePayload, readCardFile, installMyCard } from '/js/my-styles.js';
 import { orderVolumes, setTitle, volNumberOf } from '/shared/volset.js';
 import { pageGeom } from '/shared/margin.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
+// صفحات الكتاب كما طُبع (totalPages مدخلات ملفه، وبها يُجلب)
+const bookPages = (b) => b.printedPages || b.totalPages || 0;
 
 /* ---- برنامج سطح المكتب: الإخراج يُحفظ في مجلد الكتاب مباشرة (المستندات\الورّاق\اسم الكتاب) بدل التنزيل والملف المضغوط ---- */
 const DESK = window.warraqDesktop || null;
@@ -1278,8 +1280,9 @@ function bookOfParts() {
       id: 'set-' + first.id,
       name: t.name,
       cover: { ...first.cover, title: t.name, author },
-      volumes: parts.map((p, i) => ({ vol: String(p.vol), start: 1, end: p.book.totalPages, pages: p.book.totalPages, parts: [], part: i })),
+      volumes: parts.map((p, i) => ({ vol: String(p.vol), start: 1, end: p.book.totalPages, pages: bookPages(p.book), parts: [], part: i })),
       totalPages: parts.reduce((a, p) => a + p.book.totalPages, 0),
+      printedPages: parts.reduce((a, p) => a + bookPages(p.book), 0),
       stats: { ...first.stats, headings: sumS('headings'), notes: sumS('notes'), verses: sumS('verses'), typedNotes: sumS('typedNotes'), imagesSkipped: sumS('imagesSkipped') },
       word: first.word ? { ...first.word, set: parts.length, images: sumW('images'), tables: sumW('tables') } : null,
       set: true,
@@ -1302,7 +1305,7 @@ function renderParts() {
   $('#partsBox').hidden = !ps.length;
   if (!ps.length) return;
   $('#partsList').innerHTML = ps
-    .map((p, i) => `<li><i class="d"></i><b>${ps.length > 1 ? esc(volumeLabel(String(p.vol))) : 'الكتاب'}</b><span title="${esc(p.kind === 'mine' ? p.file.name : p.book.name)}">${esc(p.kind === 'mine' ? p.file.name.replace(/\.(docx|pdf)$/i, '') : p.book.name)}</span><small>${N(p.book.totalPages, 'صفحة')}</small><button type="button" class="tbtn" data-del="${i}" title="حذف هذا الكتاب من الاختيار">حذف</button></li>`)
+    .map((p, i) => `<li><i class="d"></i><b>${ps.length > 1 ? esc(volumeLabel(String(p.vol))) : 'الكتاب'}</b><span title="${esc(p.kind === 'mine' ? p.file.name : p.book.name)}">${esc(p.kind === 'mine' ? p.file.name.replace(/\.(docx|pdf)$/i, '') : p.book.name)}</span><small>${N(bookPages(p.book), 'صفحة')}</small><button type="button" class="tbtn" data-del="${i}" title="حذف هذا الكتاب من الاختيار">حذف</button></li>`)
     .join('');
   $('#partsNote').textContent = ps.length > 1 ? 'كل كتاب مجلدٌ في كتاب واحد، ويخرج كل مجلد بملفه.' : 'أضف إليه كتاباً آخر فيصيران مجلدين في كتاب واحد.';
 }
@@ -1594,7 +1597,7 @@ function renderSplit() {
   const top = topHeads(book);
   const heads = top.list.length; // الباب الأول وما قبله مجلدٌ واحد
   const mode = state.split ? state.split.mode : 'none';
-  const n = state.split && state.split.mode === 'count' ? state.split.n : Math.max(2, Math.min(MAX_SPLIT, runs.length || Math.round((book.totalPages || 0) / 500) || 2));
+  const n = state.split && state.split.mode === 'count' ? state.split.n : Math.max(2, Math.min(MAX_SPLIT, runs.length || Math.round(bookPages(book) / 500) || 2));
   const opt = (m, name, sub, on = true, extra = '') => `<div class="sp-opt${mode === m ? ' on' : ''}"><button type="button" role="radio" data-split="${m}" aria-checked="${mode === m}" ${on ? '' : 'disabled'}><b>${name}</b><small>${sub}</small></button>${extra}</div>`;
   $('#splitModes').innerHTML = [
     opt('none', 'كما في المصدر', orig.length > 1 ? N(orig.length, 'مجلد') : 'مجلدٌ واحد'),
@@ -1609,6 +1612,8 @@ function renderSplit() {
   plan.hidden = mode === 'none';
   if (plan.hidden) return;
   const total = book.totalPages || 0;
+  // خانات البدء بعدّ صفحات الطبعة، لا بمدخلات الملف
+  const seq = (pg) => countPrinted(book.pageMap, 1, pg);
   const pp = (pg) => {
     const v = printedVolOf(book.pageMap, pg), p = printedPage(book.pageMap, pg);
     return p ? ` <span class="pp" title="رقمها في الطبعة">${v ? ar(v) + '/' : ''}${ar(p)}</span>` : '';
@@ -1619,7 +1624,7 @@ function renderSplit() {
       const end = last ? total : vols[k + 1].start - (vols[k + 1].head ? 0 : 1);
       const mid = k > 0 && !v.head && headAt(book, v.start) == null;
       return `<li data-k="${k}"><b>${esc(volumeLabel(v.vol))}</b>
-        <span class="sp-r">من ص <input type="number" min="1" max="${total}" value="${v.start}" data-start="${k}" ${k === 0 ? 'disabled' : ''} aria-label="صفحة بدايته">${pp(v.start)} إلى ص ${ar(end)}${pp(end)}</span>
+        <span class="sp-r">من ص <input type="number" min="1" max="${seq(total)}" value="${seq(v.start)}" data-start="${k}" ${k === 0 ? 'disabled' : ''} aria-label="صفحة بدايته">${pp(v.start)} إلى ص ${ar(seq(end))}${pp(end)}</span>
         <small>${N(v.pages, 'صفحة')}</small>
         <em class="${mid ? 'warn' : ''}" title="${esc(v.first || '')}">${mid ? 'لا يبدأ ببابٍ أو فصل' : v.first ? 'يبدأ بـ«' + esc(v.first) + '»' : ''}</em>
         ${k ? `<button type="button" class="sp-x" data-merge="${k}" title="اجمعه إلى ما قبله" aria-label="اجمعه إلى ما قبله">×</button>` : '<span></span>'}</li>`;
@@ -1671,7 +1676,7 @@ $('#splitModes').addEventListener('click', (e) => {
   const m = b.dataset.split;
   if (m === 'none') return applySplit(null);
   if (m === 'count') return applySplit({ mode: 'count', n: +$('#splitN').value || 2 });
-  if (m === 'custom') return applySplit({ mode: 'custom', starts: state.split ? splitStarts() : startsByCount(splitBook(), Math.max(2, Math.round((state.book.totalPages || 0) / 600) || 2)).starts });
+  if (m === 'custom') return applySplit({ mode: 'custom', starts: state.split ? splitStarts() : startsByCount(splitBook(), Math.max(2, Math.round(bookPages(state.book) / 600) || 2)).starts });
   applySplit({ mode: m });
 });
 $('#splitModes').addEventListener('change', (e) => {
@@ -1681,7 +1686,7 @@ $('#splitList').addEventListener('change', (e) => {
   const inp = e.target.closest('[data-start]');
   if (!inp) return;
   const starts = splitStarts();
-  starts[+inp.dataset.start] = Math.max(2, Math.min(state.book.totalPages, Math.round(+inp.value) || 2));
+  starts[+inp.dataset.start] = Math.max(2, Math.min(state.book.totalPages, entryOfPrinted(state.book.pageMap, Math.round(+inp.value) || 2)));
   applySplit({ mode: 'custom', starts });
 });
 $('#splitList').addEventListener('click', (e) => {
@@ -3143,10 +3148,15 @@ function updateZipLabel() {
 
 function onWorker(m, s) {
   if (m.type === 'progress') {
-    updateStats(m.overallDone, m.current, m.overallTotal);
+    // الجلب بمدخلات الملف، والعرض بصفحات الطبعة
+    const sum = state.totals ? state.totals.total : 0;
+    const scale = (n) => (sum && sum < m.overallTotal ? Math.round((n * sum) / m.overallTotal) : n);
+    updateStats(scale(m.overallDone), state.book.set ? m.current : countPrinted(state.book.pageMap, 1, m.current), scale(m.overallTotal));
+    const own = (state.book.volumes.find((x) => String(x.vol) === String(m.vol)) || {}).pages;
+    const of = own && own < m.total ? own : m.total;
     const pct = Math.round((m.done / m.total) * 100);
     setLive('run', m.overallDone >= m.overallTotal ? 'يُنضَّد ما جُلب' : `يُجلب: ${volumeLabel(m.vol)}`);
-    setRow(m.vol, `يُجلب: صفحة ${arN(m.done)} من ${arN(m.total)}${m.failed ? ` <span class="badge">تعذّر ${ar(m.failed)}</span>` : ''}`, '', pct);
+    setRow(m.vol, `يُجلب: صفحة ${arN(Math.round((m.done * of) / m.total))} من ${arN(of)}${m.failed ? ` <span class="badge">تعذّر ${ar(m.failed)}</span>` : ''}`, '', pct);
   } else if (m.type === 'parsing') {
     setRow(m.vol, '<span class="spin"><i></i><i></i><i></i></span> تُحلَّل بنيته: متن وشرح وحواشٍ وأبواب', '', 100);
   } else if (m.type === 'volume') {

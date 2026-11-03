@@ -17,14 +17,17 @@ if ($NoElevate) {
   $manifest = Join-Path $dist 'setup-test.manifest'
   (Get-Content (Join-Path $ui 'setup.manifest') -Raw).Replace('requireAdministrator', 'asInvoker') | Set-Content $manifest -Encoding UTF8
 }
+$verCs = Join-Path $dist 'setup-version.cs'
+Set-Content $verCs "static class SetupVersion { public const string V = `"$version`"; }" -Encoding UTF8
 & $csc /nologo /target:winexe /optimize+ /codepage:65001 /out:$exe `
   "/win32icon:$(Join-Path $root 'build\icon.ico')" "/win32manifest:$manifest" `
   /r:System.Windows.Forms.dll /r:System.Drawing.dll `
   "/resource:$(Join-Path $fonts 'AdwaAssalaf-Bold.ttf'),AdwaAssalaf-Bold.ttf" `
   "/resource:$(Join-Path $fonts 'Amiri-Regular.ttf'),Amiri-Regular.ttf" `
   "/resource:$(Join-Path $root 'electron\waraq-word.png'),waraq-word.png" `
-  (Join-Path $ui 'Setup.cs')
+  (Join-Path $ui 'Setup.cs') $verCs
 if ($LASTEXITCODE -ne 0) { throw 'csc failed' }
+Remove-Item $verCs
 if ($UiOnly) { return }
 
 $core = Join-Path $dist "Alwarraq-Core-$version.exe"

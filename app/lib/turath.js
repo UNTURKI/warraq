@@ -2,6 +2,7 @@
 // يُنشأ عميل لكل مصدر (makeTurath): «تراث» نفسه افتراضياً، أو أي API يتكلم الصيغة نفسها يضيفه المالك.
 import { matchScore, toLatinDigits } from '../shared/arabic.js';
 import { parseCover } from '../shared/parser.js';
+import { countPrinted } from '../shared/split.js';
 import { catalogFor } from './catalog.js';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
@@ -177,7 +178,9 @@ export function makeTurath(o = {}) {
       info: meta.info || '',
       cover: parseCover(meta, authorName),
       volumes,
-      totalPages: totalPages || volumes.reduce((a, v) => a + v.pages, 0),
+      // totalPages مدخلات الملف (بها يُجلب)، و printedPages صفحات الطبعة (وهي ما يُعرض)
+      totalPages: totalPages || volumes.reduce((a, v) => a + v.end - v.start + 1, 0),
+      printedPages: volumes.reduce((a, v) => a + v.pages, 0),
       // ترقيم الصفحات المطبوع («المجلد,الصفحة»): منه يُعرف تقسيم الطبعة إن جُمعت مجلداتها في مجلدٍ واحد
       pageMap: Array.isArray(idx.page_map) && idx.page_map.length <= 60000 ? idx.page_map.map((x) => (x == null ? '' : String(x).slice(0, 16))) : [],
       book: { meta: { id: meta.id, name: meta.name, info: meta.info }, indexes: { headings: idx.headings || [] } },
@@ -197,6 +200,7 @@ export function makeTurath(o = {}) {
     if (data.totalPages !== f.pages.length) {
       data.totalPages = f.pages.length;
       data.volumes = groupVolumes(pageIdBounds(f.idx.volume_bounds, f.idx.print_pg_to_pg), f.idx.page_map, f.pages.length);
+      data.printedPages = data.volumes.reduce((a, v) => a + v.pages, 0);
     }
     data.fromFile = true;
     return data;
@@ -390,7 +394,7 @@ export function groupVolumes(bounds, pageMap, totalPages) {
     .map(([vol, [start, end]]) => ({ vol, start: +start, end: +end }))
     .filter((p) => p.start && p.end >= p.start)
     .sort((x, y) => x.start - y.start);
-  if (!parts.length) return totalPages ? [{ vol: '1', label: null, start: 1, end: totalPages, pages: totalPages, parts: [] }] : [];
+  if (!parts.length) return totalPages ? [{ vol: '1', label: null, start: 1, end: totalPages, pages: countPrinted(pageMap, 1, totalPages), parts: [] }] : [];
   // تغطية الصفحات الساقطة: قبل أول مجلد، وبين المجلدات، وبعد آخرها
   parts[0].start = 1;
   for (let i = 1; i < parts.length; i++) if (parts[i].start > parts[i - 1].end + 1) parts[i - 1].end = parts[i].start - 1;
@@ -403,10 +407,17 @@ export function groupVolumes(bounds, pageMap, totalPages) {
     const prevEnd = g ? printedPage(pageMap, g.end) : NaN;
     const pv = printedVol(pageMap, p.start);
     const gv = g ? printedVol(pageMap, g.end) : null;
+    // رقما مجلدين مختلفان في الطبعة: مجلدان وإن اتصل ترقيمهما («مجموع رسائل ابن رجب»: جـ ١ و٢)
+    const num = (x) => (x !== null && /^\s*[0-9٠-٩]+\s*$/.test(x) ? +toLatinDigits(x) : null);
+    const twoVols = num(pv) !== null && num(gv) !== null && num(pv) !== num(gv);
+    // «مقدمة جـ ٣» جزءٌ من المجلد الثالث وإن كان لها ترقيمها
+    const ownIntro = g && g.parts.length === 1 && /^\s*مقدم/.test(g.parts[0]) && num(p.vol) !== null && +(toLatinDigits(g.parts[0]).match(/\d+/) || [NaN])[0] === num(p.vol);
     const continues =
       g &&
-      ((pv !== null && gv !== null && pv === gv) || // نفس رقم المجلد المطبوع
-        (Number.isFinite(ps) && Number.isFinite(prevEnd) && ps > 3 && ps >= prevEnd && ps - prevEnd <= 12)); // ترقيم متصل
+      (ownIntro ||
+        (!twoVols &&
+          ((pv !== null && gv !== null && pv === gv) || // نفس رقم المجلد المطبوع
+            (Number.isFinite(ps) && Number.isFinite(prevEnd) && ps > 3 && ps >= prevEnd && ps - prevEnd <= 12)))); // ترقيم متصل
     if (continues) {
       g.end = p.end;
       g.parts.push(p.vol);
@@ -421,7 +432,7 @@ export function groupVolumes(bounds, pageMap, totalPages) {
     let key = num ? toLatinDigits(num).trim() : named || (groups.length === 1 ? '1' : String(i + 1));
     while (used.has(key)) key = String(+key + 1 || i + 1);
     used.add(key);
-    return { vol: key, start: g.start, end: g.end, pages: g.end - g.start + 1, parts: g.parts.length > 1 ? g.parts : [] };
+    return { vol: key, start: g.start, end: g.end, pages: countPrinted(pageMap, g.start, g.end), parts: g.parts.length > 1 ? g.parts : [] };
   });
 }
 

@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/UNTURKI/warraq/releases/latest/download/Alwarraq-Setup-1.0.0.exe"><b>⬇ تنزيل ورَّاق لنظام Windows</b></a>
+  <a href="https://github.com/UNTURKI/warraq/releases/latest/download/Alwarraq-Setup.exe"><b>⬇ تنزيل ورَّاق لنظام Windows</b></a>
   &nbsp;·&nbsp; <a href="#التثبيت-خطوة-بخطوة">خطوات التثبيت</a>
   &nbsp;·&nbsp; <a href="#المميزات">المميزات</a>
   &nbsp;·&nbsp; <a href="#الأساليب">الأساليب</a>
@@ -160,8 +160,9 @@
 
 ### ١. نزّل الملف
 
-- الطريق المباشر: [اضغط هنا لتنزيل `Alwarraq-Setup-1.0.0.exe`](https://github.com/UNTURKI/warraq/releases/latest/download/Alwarraq-Setup-1.0.0.exe) (نحو 280 م.ب).
-- أو من صفحة [الإصدارات](https://github.com/UNTURKI/warraq/releases/latest): انزل إلى قسم **Assets** واضغط على الملف `Alwarraq-Setup-1.0.0.exe`.
+- الطريق المباشر: [اضغط هنا لتنزيل `Alwarraq-Setup.exe`](https://github.com/UNTURKI/warraq/releases/latest/download/Alwarraq-Setup.exe) (نحو 280 م.ب).
+- أو من صفحة [الإصدارات](https://github.com/UNTURKI/warraq/releases/latest): انزل إلى قسم **Assets** واضغط على الملف `Alwarraq-Setup.exe`.
+- **التحديث:** من الإصدار 1.0.1 فأحدث، يخبرك البرنامج عند التشغيل إذا صدر إصدار جديد، فينزّله ويثبّته بإذنك، وتبقى كتبك وإعداداتك كما هي. وتتحقق بنفسك من **الإعدادات ← التحديثات**.
 
 > **لا تنزّل** «Source code»، فهو الكود المصدري وليس البرنامج.
 
@@ -212,6 +213,7 @@
 |---|---|
 | `run-dev.bat` | تشغيل البرنامج للتطوير |
 | `build-setup.bat` | بناء المثبّت `dist/Alwarraq-Setup-<version>.exe` |
+| `publish-update.ps1` | نشر إصدار جديد: يبني المثبّت ويرفعه، فيعرضه البرنامج على مستخدميه |
 | `build-store.bat` | بناء حزمة متجر مايكروسوفت |
 
 مبني على Electron، والتفاصيل التقنية الكاملة في [اقرأني.md](اقرأني.md).

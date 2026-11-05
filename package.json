@@ -14,7 +14,8 @@
     "start": "electron .",
     "fonts": "node app/scripts/fetch-fonts.mjs",
     "dist": "node app/scripts/fetch-fonts.mjs && electron-builder --win --x64",
-    "store": "node app/scripts/fetch-fonts.mjs && electron-builder --win appx --x64"
+    "store": "node app/scripts/fetch-fonts.mjs && electron-builder --win appx --x64",
+    "dist:mac": "node app/scripts/fetch-fonts.mjs && electron-builder --mac --arm64 --x64"
   },
   "devDependencies": {
     "electron": "44.7.2",
@@ -51,6 +52,12 @@
       ],
       "icon": "build/icon.ico",
       "executableName": "Alwarraq"
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "icon": "electron/icon.png",
+      "category": "public.app-category.productivity",
+      "artifactName": "Alwarraq-${version}-mac-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,

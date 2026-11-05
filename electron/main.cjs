@@ -44,7 +44,7 @@ let updater = null;
 // معرّف زر شريط المهام: يخالف عمداً معرّف المثبّت (appId في package.json، وعليه اختصار قائمة ابدأ):
 // بذلك المعرّف يجمد ويندوز أيقونة الزر فلا تتبع setIcon (السِّراج ومراحل الإخراج)
 const APP_ID = 'com.alwarraq.window';
-if (!STORE) app.setAppUserModelId(APP_ID);
+if (process.platform === 'win32' && !STORE) app.setAppUserModelId(APP_ID);
 // «مجلس الدرس»: المقطع يعمل حين يُطلب من أزرار البرنامج (لا ينتظر نقرةً في صفحته)
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 // روابط warraq:// (زرّا إشعار التمام: افتح المجلد، ضعه على الرَّحل) تصل إلى البرنامج نفسه
@@ -332,6 +332,23 @@ function main() {
   // ما يُطلب قبل أن يجهز الهيكل يُحفظ حتى يجهز
   const pending = [];
   let shellReady = false;
+  const fileArgs = (file) => [...process.argv.slice(0, app.isPackaged ? 1 : 2), file];
+  const macFiles = [];
+  const macLinks = [];
+  app.on('open-file', (event, file) => {
+    event.preventDefault();
+    if (!app.isReady()) macFiles.push(file);
+    else {
+      if (!mainWin) createWindow();
+      handleArgs(fileArgs(file));
+    }
+  });
+  app.on('open-url', (event, url) => {
+    event.preventDefault();
+    if (!shellReady) macLinks.push(url);
+    else openLink(url);
+    if (app.isReady() && !mainWin) createWindow();
+  });
   function openJob(job) {
     if (!shellReady || !mainWin) return void pending.push(job);
     // «أضفه إلى طابور النسّاخ»: يُخرج في الخلفية دون أن تُفتح النافذة
@@ -594,6 +611,25 @@ function main() {
         ],
       },
     ];
+    if (process.platform === 'darwin') {
+      template.unshift({
+        label: app.name,
+        submenu: [
+          { label: 'عن ورّاق', click: () => WINDOWS.about() },
+          { type: 'separator' },
+          { label: 'الإعدادات', accelerator: 'Command+,', click: () => WINDOWS.settings() },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'hideOthers' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit', label: 'خروج' },
+        ],
+      });
+      template.push({ role: 'windowMenu' });
+    }
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   }
 
@@ -866,6 +902,7 @@ function main() {
       if (!fromUs(e)) return;
       shellReady = true;
       for (const job of pending.splice(0)) openJob(job);
+      for (const url of macLinks.splice(0)) openLink(url);
     });
     ipcMain.handle(
       'warraq:window',
@@ -882,7 +919,7 @@ function main() {
         const b = body && typeof body === 'object' ? body : {};
         const message = String(b.message || '').trim().slice(0, 4000);
         if (message.length < 3) return { ok: false, error: 'اكتب رسالتك' };
-        const info = `البرنامج ${app.getVersion()} · Windows ${os.release()}`;
+        const info = `البرنامج ${app.getVersion()} · ${process.platform} ${os.release()}`;
         const item = {
           type: FEEDBACK_TYPES[b.type] ? b.type : 'other',
           message,
@@ -931,6 +968,7 @@ function main() {
   }
 
   async function createWindow() {
+    shellReady = false;
     const st = readState();
     mainWin = new BrowserWindow({
       width: st.width || 1360,
@@ -944,8 +982,8 @@ function main() {
       icon: nightIcon ? ICON_NIGHT : ICON,
       backgroundColor: bg(),
       autoHideMenuBar: true,
-      titleBarStyle: 'hidden',
-      titleBarOverlay: { ...(lampOn() ? TITLEBAR.dark : TITLEBAR.light), height: TITLEBAR.height },
+      titleBarStyle: process.platform === 'darwin' ? 'default' : 'hidden',
+      ...(process.platform === 'darwin' ? {} : { titleBarOverlay: { ...(lampOn() ? TITLEBAR.dark : TITLEBAR.light), height: TITLEBAR.height } }),
       // الهيكل وحده يحمل صفحة الدرس (webview) بجانب الكتاب، بقيودها في lesson.cjs
       webPreferences: { ...webPrefs(), webviewTag: true },
     });
@@ -997,13 +1035,14 @@ function main() {
     mainWin.on('close', () => saveState(mainWin));
     mainWin.on('closed', () => {
       mainWin = null;
+      shellReady = false;
       // إغلاق النافذة الرئيسية يُغلق البرنامج كله (ومعه نوافذ الإعدادات والرحل)
       for (const w of BrowserWindow.getAllWindows()) if (!w.isDestroyed()) w.destroy();
     });
     const started = Date.now();
     await mainWin.loadFile(path.join(__dirname, 'splash.html'), { hash: lampOn() ? 'lamp1' : 'lamp0' }); // السِّراج كما تُرك (بلا سكربت: :target)
     try {
-      await startServer();
+      if (!port) await startServer();
     } catch (e) {
       dialog.showErrorBox('ورّاق', 'تعذّر تشغيل البرنامج:\n' + (e && e.message ? e.message : e));
       app.quit();
@@ -1054,7 +1093,13 @@ function main() {
       ]);
     } catch {}
   }
-  app.on('window-all-closed', () => app.quit());
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
+  });
+  app.on('activate', () => {
+    if (!mainWin) createWindow();
+    else mainWin.show();
+  });
   app.on('will-quit', () => mods.close());
 
   /** الوضع الآمن: المودات كلها موقوفة، والواجهة تُعاد (من القائمة أو Ctrl+Alt+Shift+M، ولو أفسد مودٌ الواجهة) */
@@ -1259,5 +1304,6 @@ function main() {
     jumpList();
     createWindow();
     handleArgs(process.argv);
+    for (const file of macFiles.splice(0)) handleArgs(fileArgs(file));
   });
 }

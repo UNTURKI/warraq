@@ -26,6 +26,14 @@ const sha256 = (file) =>
   });
 
 function setupUpdater({ app, net, dialog, shell, getWin, isBusy, prefs }) {
+  // shortcut: non-Windows updates are manual, add signed native updates before enabling automatic installation.
+  if (process.platform !== 'win32') return {
+    check: async () => {
+      await shell.openExternal(RELEASES);
+      return { state: 'manual' };
+    },
+    start() {},
+  };
   const DIR = path.join(app.getPath('userData'), 'updates');
   let running = false;
 

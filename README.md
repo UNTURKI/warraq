@@ -224,6 +224,8 @@
 
 مبني على Electron، والتفاصيل التقنية الكاملة في [اقرأني.md](اقرأني.md).
 
+دعم macOS تجريبي: [التشغيل والبناء والقيود](docs/macos.md).
+
 ## التواصل
 
 - البريد: [faqeeh.university@gmail.com](mailto:faqeeh.university@gmail.com)
